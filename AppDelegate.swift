@@ -10,21 +10,17 @@ import UIKit
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
+    var window: UIWindow?
 
-  var window: UIWindow?
+    func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
+        let rootViewController = RootViewController()
 
-  func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
-    let rootViewController = RootViewController()
+        let window = UIWindow(frame: UIScreen.mainScreen().bounds)
+        window.rootViewController = rootViewController
+        self.window = window
 
-    let window = UIWindow(frame: UIScreen.mainScreen().bounds)
-    window.rootViewController = rootViewController
-    self.window = window
+        window.makeKeyAndVisible()
 
-    window.makeKeyAndVisible()
-
-    return true
-  }
-
-
+        return true
+    }
 }
-
