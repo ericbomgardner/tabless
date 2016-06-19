@@ -98,7 +98,7 @@ class RootViewController: UIViewController, UITextFieldDelegate, WKNavigationDel
     }
 
     var urlString: String
-    if text.containsString("www.") || text.containsString(".com") || text.containsString(".net") {
+    if text.isWebURL() {
       urlString = "https://\(text)"
     } else if let searchQuery = text.stringByAddingPercentEncodingWithAllowedCharacters(NSCharacterSet.URLQueryAllowedCharacterSet()) {
       urlString = "https://www.google.com/search?q=\(searchQuery)"
@@ -113,7 +113,7 @@ class RootViewController: UIViewController, UITextFieldDelegate, WKNavigationDel
 
     self.tView.hidden = false
     UIView.animateWithDuration(0.35) {
-      self.setUpForSearch()
+      self.reset()
     }
 
     return true
@@ -148,7 +148,7 @@ class RootViewController: UIViewController, UITextFieldDelegate, WKNavigationDel
 
   // MARK: Private (Moving Views)
 
-  func setUpForSearch() {
+  private func setUpForSearch() {
     let screenBounds = UIScreen.mainScreen().bounds
 
     searchView.frame = CGRect(x: 12, y: (screenBounds.height / 2) - 40, width: screenBounds.width - 24, height: 40)
@@ -197,5 +197,12 @@ class RootViewController: UIViewController, UITextFieldDelegate, WKNavigationDel
         })
       }
     }
+  }
+}
+
+extension String {
+
+  func isWebURL() -> Bool {
+    return hasPrefix("www.") || containsString(".com") || containsString(".net")
   }
 }
