@@ -74,16 +74,8 @@ class RootViewController: UIViewController, UITextFieldDelegate, WKNavigationDel
   }
 
   deinit {
-    NSNotificationCenter.defaultCenter().removeObserver(self,
-                                                        name:UIApplicationWillResignActiveNotification,
-                                                        object:nil)
-
-    NSNotificationCenter.defaultCenter().removeObserver(self,
-                                                        name:UIApplicationWillEnterForegroundNotification,
-                                                        object:nil)
     removeLoadingKVO()
   }
-
 
   // MARK: UITextFieldDelegate
 
