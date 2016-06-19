@@ -18,8 +18,6 @@ class RootViewController: UIViewController, UITextFieldDelegate, WKNavigationDel
 
   private var pauseTime: NSDate?
 
-  private var googleHomepagePreloadNavigation: WKNavigation?
-
   override func loadView() {
     setUpForSearch()
 
@@ -120,9 +118,8 @@ class RootViewController: UIViewController, UITextFieldDelegate, WKNavigationDel
   // MARK: UINavigationDelegate
 
   func webView(webView: WKWebView, didFinishNavigation navigation: WKNavigation!) {
-    if (navigation != googleHomepagePreloadNavigation) {
-      self.webView.hidden = false
-    }
+    self.webView.hidden = false
+    progressView.hidden = true
   }
 
   // MARK: KVO
