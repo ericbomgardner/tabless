@@ -25,6 +25,8 @@ class RootViewController: UIViewController, UITextFieldDelegate, WKNavigationDel
     tView.textColor = UIColor.lightGrayColor()
     tView.backgroundColor = UIColor.clearColor()
 
+    progressView.backgroundColor = UIColor.lightGrayColor()
+
     let containerView = UIView(frame: UIScreen.mainScreen().bounds)
     containerView.backgroundColor = UIColor.whiteColor()
 
@@ -81,8 +83,10 @@ class RootViewController: UIViewController, UITextFieldDelegate, WKNavigationDel
     textField.resignFirstResponder()
 
     self.tView.hidden = true
-    UIView.animateWithDuration(0.2) {
+    UIView.animateWithDuration(0.2, animations: { 
       self.setUpForWeb()
+    }) { _ in
+      self.progressView.hidden = false
     }
 
     return false
@@ -157,19 +161,15 @@ class RootViewController: UIViewController, UITextFieldDelegate, WKNavigationDel
     tView.frame = CGRect(x: (screenBounds.width / 2) - 24, y: 80, width: 48, height: 64)
     tView.font = UIFont.boldSystemFontOfSize(64)
 
-    progressView.backgroundColor = UIColor.lightGrayColor()
-    progressView.hidden = true
-
     webView.hidden = true
     webView.frame = CGRect(x: 0, y: 60, width: screenBounds.width, height: screenBounds.height - 60)
-    googleHomepagePreloadNavigation = webView.loadRequest(NSURLRequest(URL: NSURL(string: "https://www.google.com")!))
     webView.navigationDelegate = self
     webView.allowsBackForwardNavigationGestures = true
 
     searchView.becomeFirstResponder()
   }
 
-  func setUpForWeb() {
+  private func setUpForWeb() {
     let screenBounds = UIScreen.mainScreen().bounds
 
     searchView.frame = CGRect(x: 12, y: 20, width: screenBounds.width - 24, height: 40)
@@ -182,7 +182,7 @@ class RootViewController: UIViewController, UITextFieldDelegate, WKNavigationDel
     webView.frame = CGRect(x: 0, y: 60, width: screenBounds.width, height: screenBounds.height - 60)
   }
 
-  func updateProgressView(progress: Double) {
+  private func updateProgressView(progress: Double) {
     let loadedArea = CGRect(x: 0, y: 0, width: CGFloat(progress) * UIScreen.mainScreen().bounds.width, height: 60)
 
     UIView.animateWithDuration(0.5, delay: 0.0, options: .BeginFromCurrentState, animations: { 
