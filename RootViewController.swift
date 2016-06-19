@@ -138,7 +138,7 @@ class RootViewController: UIViewController, UITextFieldDelegate, WKNavigationDel
     }
 
     if let newValue = change?[NSKeyValueChangeNewKey] as? NSNumber {
-      updateProgressView(newValue.doubleValue)
+      updateProgressView(progress: newValue.doubleValue)
     }
   }
 
@@ -182,7 +182,7 @@ class RootViewController: UIViewController, UITextFieldDelegate, WKNavigationDel
     webView.frame = CGRect(x: 0, y: 60, width: screenBounds.width, height: screenBounds.height - 60)
   }
 
-  private func updateProgressView(progress: Double) {
+  private func updateProgressView(progress progress: Double) {
     let loadedArea = CGRect(x: 0, y: 0, width: CGFloat(progress) * UIScreen.mainScreen().bounds.width, height: 60)
 
     UIView.animateWithDuration(0.5, delay: 0.0, options: .BeginFromCurrentState, animations: { 
