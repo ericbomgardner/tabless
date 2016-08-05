@@ -9,22 +9,90 @@
 import UIKit
 
 class ProgressView: UIView {
-    var progress = 0.0
+    var progress = 0.0 {
+        didSet {
+            print("Progress: \(progress)")
+            if progress == oldValue {
+                return
+            }
+            update(from: oldValue, to: progress)
+        }
+    }
+
+    private let progressLayer = CAShapeLayer()
 
     override init(frame: CGRect) {
         super.init(frame: frame)
 
-        backgroundColor = UIColor.whiteColor()
+        translatesAutoresizingMaskIntoConstraints = false
+        userInteractionEnabled = false
+
+        backgroundColor = UIColor.clearColor()
+
+        progressLayer.position = CGPoint.zero
+        progressLayer.strokeEnd = 0.0
+        progressLayer.strokeColor = UIColor.lightGrayColor().CGColor
+
+        layer.addSublayer(progressLayer)
     }
     
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
 
-    override func drawRect(rect: CGRect) {
-        let loadedArea = CGRect(x: 0, y: 0, width: CGFloat(progress) * frame.size.width, height: frame.size.height)
-        let context = UIGraphicsGetCurrentContext()
-        CGContextSetRGBFillColor(context, 0.1, 0.1, 0.1, 0.05)
-        CGContextFillRect(context, loadedArea)
+    private func update(from oldValue: Double, to progress: Double) {
+        if progress == 0 || progress < oldValue {
+            CATransaction.setDisableActions(true)
+            progressLayer.strokeEnd = CGFloat(progress)
+            CATransaction.setDisableActions(false)
+        }
+
+        // Reset alpha to 1 (could have been fading/faded)
+        alpha = 1
+
+        if progress == 0 {
+            // No animation
+        } else if progress < oldValue {
+            animate(from: 0.0, to: progress)
+        } else if progress != 1 {
+            animate(from: oldValue, to: progress)
+        } else {
+            animate(from: oldValue, to: progress) {
+                self.fadeAndReset()
+            }
+        }
+    }
+
+    private func animate(from oldValue: Double, to progress: Double, completion: (()->())? = nil) {
+        // todo: don't have these called every time
+        let path = UIBezierPath()
+        path.moveToPoint(CGPoint(x: 0, y: bounds.midY))
+        path.addLineToPoint(CGPoint(x: bounds.maxX, y: bounds.midY))
+        progressLayer.path = path.CGPath
+        progressLayer.lineWidth = bounds.height
+
+        let animation = CABasicAnimation(keyPath: "strokeEnd")
+        animation.fromValue = oldValue
+        animation.toValue = progress
+        animation.duration = 0.3
+
+        CATransaction.setCompletionBlock(completion)
+        CATransaction.begin()
+        progressLayer.addAnimation(animation, forKey: nil)
+        CATransaction.commit()
+
+        CATransaction.setDisableActions(true)
+        progressLayer.strokeEnd = CGFloat(progress)
+        CATransaction.setDisableActions(false)
+    }
+
+    private func fadeAndReset() {
+        UIView.animateWithDuration(0.5, animations: {
+            self.alpha = 0
+        }, completion: { completed in
+            if completed && self.progress == 1.0 {
+                self.progress = 0.0
+            }
+        })
     }
 }
