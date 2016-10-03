@@ -9,7 +9,7 @@
 import UIKit
 import WebKit
 
-class RootViewController: UIViewController {
+class RootViewController: UIViewController, SearchViewDelegate {
 
     // MARK: Views
     private let searchView = SearchView()
@@ -24,21 +24,21 @@ class RootViewController: UIViewController {
     private var webViewConstraints = [NSLayoutConstraint]()
 
     // MARK: Saved state
-    private var pauseTime: NSDate?
+    private var pauseTime: Date?
 
     init() {
         super.init(nibName: nil, bundle: nil)
 
         searchView.searchDelegate = self
 
-        NSNotificationCenter.defaultCenter().addObserver(self,
+        NotificationCenter.default.addObserver(self,
                                                          selector:#selector(RootViewController.onPause),
-                                                         name:UIApplicationWillResignActiveNotification,
+                                                         name:NSNotification.Name.UIApplicationWillResignActive,
                                                          object:nil)
 
-        NSNotificationCenter.defaultCenter().addObserver(self,
+        NotificationCenter.default.addObserver(self,
                                                          selector:#selector(RootViewController.onResume),
-                                                         name:UIApplicationWillEnterForegroundNotification,
+                                                         name:NSNotification.Name.UIApplicationWillEnterForeground,
                                                          object:nil)
     }
     
@@ -48,30 +48,30 @@ class RootViewController: UIViewController {
 
     override func loadView() {
         tView.text = "T"
-        tView.textColor = UIColor.lightGrayColor()
-        tView.backgroundColor = UIColor.clearColor()
+        tView.textColor = UIColor.lightGray
+        tView.backgroundColor = UIColor.clear
 
-        view = UIView(frame: UIScreen.mainScreen().bounds)
-        view.backgroundColor = UIColor.whiteColor()
+        view = UIView(frame: UIScreen.main.bounds)
+        view.backgroundColor = UIColor.white
 
         view.addSubview(progressView)
         view.addSubview(tView)
         view.addSubview(searchView)
         view.addSubview(webView)
 
-        let statusBarHeight = UIApplication.sharedApplication().statusBarFrame.size.height
+        let statusBarHeight = UIApplication.shared.statusBarFrame.height
 
-        progressView.leadingAnchor.constraintEqualToAnchor(view.leadingAnchor).active = true
-        progressView.trailingAnchor.constraintEqualToAnchor(view.trailingAnchor).active = true
-        progressView.topAnchor.constraintEqualToAnchor(view.topAnchor).active = true
-        progressView.heightAnchor.constraintEqualToConstant(statusBarHeight + SearchView.height(for: .Web)).active = true
+        progressView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
+        progressView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
+        progressView.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
+        progressView.heightAnchor.constraint(equalToConstant: statusBarHeight + SearchView.height(for: .web)).isActive = true
 
-        searchView.leadingAnchor.constraintEqualToAnchor(view.readableContentGuide.leadingAnchor).active = true
-        searchView.trailingAnchor.constraintEqualToAnchor(view.readableContentGuide.trailingAnchor).active = true
-        searchYCenterConstraint = searchView.centerYAnchor.constraintEqualToAnchor(view.centerYAnchor)
-        searchYTopConstraint = searchView.topAnchor.constraintEqualToAnchor(view.topAnchor, constant: statusBarHeight)
-        searchHeightConstraint = searchView.heightAnchor.constraintEqualToConstant(SearchView.height(for: .Search))
-        searchHeightConstraint.active = true
+        searchView.leadingAnchor.constraint(equalTo: view.readableContentGuide.leadingAnchor).isActive = true
+        searchView.trailingAnchor.constraint(equalTo: view.readableContentGuide.trailingAnchor).isActive = true
+        searchYCenterConstraint = searchView.centerYAnchor.constraint(equalTo: view.centerYAnchor)
+        searchYTopConstraint = searchView.topAnchor.constraint(equalTo: view.topAnchor, constant: statusBarHeight)
+        searchHeightConstraint = searchView.heightAnchor.constraint(equalToConstant: SearchView.height(for: .search))
+        searchHeightConstraint.isActive = true
 
         setUpWebView()
     }
@@ -86,7 +86,7 @@ class RootViewController: UIViewController {
         clearWebViewConstraints()
         webView.removeFromSuperview()
 
-        tView.hidden = false
+        tView.isHidden = false
 
         webView = WKWebView()
         view.addSubview(webView)
@@ -96,11 +96,11 @@ class RootViewController: UIViewController {
     }
 
     func onPause() {
-        pauseTime = NSDate()
+        pauseTime = Date()
     }
 
     func onResume() {
-        if let pauseTime = pauseTime where NSDate().timeIntervalSinceDate(pauseTime) > 20 {
+        if let pauseTime = pauseTime, Date().timeIntervalSince(pauseTime) > 20 {
             reset()
         }
     }
@@ -112,11 +112,11 @@ class RootViewController: UIViewController {
     // MARK: KVO
 
     private func setUpLoadingKVO() {
-        webView.addObserver(self, forKeyPath: "estimatedProgress", options: .New, context: nil)
+        webView.addObserver(self, forKeyPath: "estimatedProgress", options: .new, context: nil)
     }
 
-    override func observeValueForKeyPath(keyPath: String?, ofObject object: AnyObject?, change: [String : AnyObject]?, context: UnsafeMutablePointer<Void>) {
-        guard let newValue = change?[NSKeyValueChangeNewKey] as? NSNumber where keyPath == "estimatedProgress" else {
+    override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
+        guard let newValue = change?[NSKeyValueChangeKey.newKey] as? NSNumber, keyPath == "estimatedProgress" else {
             return
         }
         progressView.progress = newValue.doubleValue
@@ -129,17 +129,17 @@ class RootViewController: UIViewController {
     // MARK: Private (Moving Views)
 
     private func setUpForSearch() {
-        let screenBounds = UIScreen.mainScreen().bounds
+        let screenBounds = UIScreen.main.bounds
 
-        searchView.configure(for: .Search)
-        searchYTopConstraint.active = false
-        searchYCenterConstraint.active = true
-        searchHeightConstraint.constant = SearchView.height(for: .Search)
+        searchView.configure(for: .search)
+        searchYTopConstraint.isActive = false
+        searchYCenterConstraint.isActive = true
+        searchHeightConstraint.constant = SearchView.height(for: .search)
 
         tView.frame = CGRect(x: (screenBounds.width / 2) - 24, y: 80, width: 48, height: 64)
-        tView.font = UIFont.boldSystemFontOfSize(64)
+        tView.font = UIFont.boldSystemFont(ofSize: 64)
 
-        webView.hidden = true
+        webView.isHidden = true
 
         searchView.becomeFirstResponder()
 
@@ -147,15 +147,15 @@ class RootViewController: UIViewController {
     }
 
     private func setUpForWeb() {
-        let screenBounds = UIScreen.mainScreen().bounds
+        let screenBounds = UIScreen.main.bounds
 
-        searchView.configure(for: .Web)
-        searchYCenterConstraint.active = false
-        searchYTopConstraint.active = true
-        searchHeightConstraint.constant = SearchView.height(for: .Web)
+        searchView.configure(for: .web)
+        searchYCenterConstraint.isActive = false
+        searchYTopConstraint.isActive = true
+        searchHeightConstraint.constant = SearchView.height(for: .web)
 
         tView.frame = CGRect(x: (screenBounds.width / 2) - 24, y: 26, width: 48, height: 32)
-        tView.font = UIFont.boldSystemFontOfSize(24)
+        tView.font = UIFont.boldSystemFont(ofSize: 24)
 
         view.layoutIfNeeded()
     }
@@ -173,53 +173,53 @@ class RootViewController: UIViewController {
     }
 
     func applyWebViewConstraints() {
-        webViewConstraints.append(webView.leadingAnchor.constraintEqualToAnchor(view.leadingAnchor))
-        webViewConstraints.append(webView.trailingAnchor.constraintEqualToAnchor(view.trailingAnchor))
-        webViewConstraints.append(webView.topAnchor.constraintEqualToAnchor(progressView.bottomAnchor))
-        webViewConstraints.append(webView.bottomAnchor.constraintEqualToAnchor(view.bottomAnchor))
+        webViewConstraints.append(webView.leadingAnchor.constraint(equalTo: view.leadingAnchor))
+        webViewConstraints.append(webView.trailingAnchor.constraint(equalTo: view.trailingAnchor))
+        webViewConstraints.append(webView.topAnchor.constraint(equalTo: progressView.bottomAnchor))
+        webViewConstraints.append(webView.bottomAnchor.constraint(equalTo: view.bottomAnchor))
         webViewConstraints.forEach { constraint in
-            constraint.active = true
+            constraint.isActive = true
         }
     }
 
     func clearWebViewConstraints() {
         webViewConstraints.forEach { constraint in
-            constraint.active = false
+            constraint.isActive = false
         }
         webViewConstraints.removeAll()
     }
-}
 
-extension RootViewController: SearchViewDelegate {
-    func searchSubmitted(text: String) {
-        self.tView.hidden = true
-        UIView.animateWithDuration(0.2, animations: {
+    // MARK: SearchViewDelegate
+
+    func searchSubmitted(_ text: String) {
+        self.tView.isHidden = true
+        UIView.animate(withDuration: 0.2, animations: {
             self.setUpForWeb()
-        }) { _ in
-            self.progressView.hidden = false
-        }
+        }, completion: { _ in
+            self.progressView.isHidden = false
+        }) 
 
         var urlString: String
         if text.isWebURL() {
             urlString = "https://\(text)"
-        } else if let searchQuery = text.stringByAddingPercentEncodingWithAllowedCharacters(NSCharacterSet.URLQueryAllowedCharacterSet()) {
+        } else if let searchQuery = text.addingPercentEncoding(withAllowedCharacters: CharacterSet.urlQueryAllowed) {
             urlString = "https://www.google.com/search?q=\(searchQuery)"
         } else {
             return
         }
-        webView.loadRequest(NSURLRequest(URL: NSURL(string: urlString)!))
+        webView.load(URLRequest(url: URL(string: urlString)!))
     }
 
     func searchCleared() {
-        UIView.animateWithDuration(0.35) {
+        UIView.animate(withDuration: 0.35, animations: {
             self.reset()
-        }
+        }) 
     }
 }
 
 extension RootViewController: WKNavigationDelegate {
-    func webView(webView: WKWebView, didFinishNavigation navigation: WKNavigation!) {
-        webView.hidden = false
+    func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
+        webView.isHidden = false
 //        progressView.hidden = true
     }
 }

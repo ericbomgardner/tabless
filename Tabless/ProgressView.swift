@@ -25,13 +25,13 @@ class ProgressView: UIView {
         super.init(frame: frame)
 
         translatesAutoresizingMaskIntoConstraints = false
-        userInteractionEnabled = false
+        isUserInteractionEnabled = false
 
-        backgroundColor = UIColor.clearColor()
+        backgroundColor = UIColor.clear
 
         progressLayer.position = CGPoint.zero
         progressLayer.strokeEnd = 0.0
-        progressLayer.strokeColor = UIColor.lightGrayColor().CGColor
+        progressLayer.strokeColor = UIColor.lightGray.cgColor
 
         layer.addSublayer(progressLayer)
     }
@@ -66,9 +66,9 @@ class ProgressView: UIView {
     private func animate(from oldValue: Double, to progress: Double, completion: (()->())? = nil) {
         // todo: don't have these called every time
         let path = UIBezierPath()
-        path.moveToPoint(CGPoint(x: 0, y: bounds.midY))
-        path.addLineToPoint(CGPoint(x: bounds.maxX, y: bounds.midY))
-        progressLayer.path = path.CGPath
+        path.move(to: CGPoint(x: 0, y: bounds.midY))
+        path.addLine(to: CGPoint(x: bounds.maxX, y: bounds.midY))
+        progressLayer.path = path.cgPath
         progressLayer.lineWidth = bounds.height
 
         let animation = CABasicAnimation(keyPath: "strokeEnd")
@@ -78,7 +78,7 @@ class ProgressView: UIView {
 
         CATransaction.setCompletionBlock(completion)
         CATransaction.begin()
-        progressLayer.addAnimation(animation, forKey: nil)
+        progressLayer.add(animation, forKey: nil)
         CATransaction.commit()
 
         CATransaction.setDisableActions(true)
@@ -87,7 +87,7 @@ class ProgressView: UIView {
     }
 
     private func fadeAndReset() {
-        UIView.animateWithDuration(0.5, animations: {
+        UIView.animate(withDuration: 0.5, animations: {
             self.alpha = 0
         }, completion: { completed in
             if completed && self.progress == 1.0 {

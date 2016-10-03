@@ -8,6 +8,6 @@
 
 extension String {
     func isWebURL() -> Bool {
-        return hasPrefix("www.") || containsString(".com") || containsString(".net") || containsString(".org")
+        return hasPrefix("www.") || contains(".com") || contains(".net") || contains(".org")
     }
 }

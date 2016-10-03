@@ -9,6 +9,6 @@
 import Foundation
 
 enum Activity {
-    case Search
-    case Web
+    case search
+    case web
 }

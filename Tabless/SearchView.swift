@@ -9,7 +9,7 @@
 import UIKit
 
 protocol SearchViewDelegate: class {
-    func searchSubmitted(text: String)
+    func searchSubmitted(_ text: String)
     func searchCleared()
 }
 
@@ -21,12 +21,12 @@ class SearchView: UITextField {
 
         translatesAutoresizingMaskIntoConstraints = false
 
-        returnKeyType = .Go
+        returnKeyType = .go
         placeholder = "Let's go."
-        clearButtonMode = UITextFieldViewMode.Always
+        clearButtonMode = UITextFieldViewMode.always
         delegate = self
 
-        configure(for: .Search)
+        configure(for: .search)
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -35,40 +35,40 @@ class SearchView: UITextField {
 
     class func height(for activity: Activity) -> CGFloat {
         switch activity {
-        case .Search:
+        case .search:
             return 60
-        case .Web:
+        case .web:
             return 40
         }
     }
 
     func configure(for activity: Activity) {
         switch activity {
-        case .Search:
+        case .search:
             text = ""
-            font = UIFont.systemFontOfSize(30)
-        case .Web:
-            font = UIFont.systemFontOfSize(14)
+            font = UIFont.systemFont(ofSize: 30)
+        case .web:
+            font = UIFont.systemFont(ofSize: 14)
         }
 
     }
 }
 
 extension SearchView: UITextFieldDelegate {
-    func textFieldShouldReturn(textField: UITextField) -> Bool {
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         if let _ = textField.text {
             textField.resignFirstResponder()
         }
         return false
     }
 
-    func textFieldDidEndEditing(textField: UITextField) {
+    func textFieldDidEndEditing(_ textField: UITextField) {
         if let text = textField.text {
             searchDelegate?.searchSubmitted(text)
         }
     }
 
-    func textFieldShouldClear(textField: UITextField) -> Bool {
+    func textFieldShouldClear(_ textField: UITextField) -> Bool {
         searchDelegate?.searchCleared()
         return true
     }
