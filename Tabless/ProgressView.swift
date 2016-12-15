@@ -11,7 +11,6 @@ import UIKit
 class ProgressView: UIView {
     var progress = 0.0 {
         didSet {
-            print("Progress: \(progress)")
             if progress == oldValue {
                 return
             }
