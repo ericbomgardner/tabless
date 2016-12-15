@@ -53,6 +53,9 @@ class RootViewController: UIViewController, SearchViewDelegate {
 
         view = UIView(frame: UIScreen.main.bounds)
         view.backgroundColor = UIColor.white
+        let backSwipeGestureRecognizer = UIScreenEdgePanGestureRecognizer(target: self, action: #selector(handleBackSwipe:))
+        backSwipeGestureRecognizer.edges = .left
+        view.addGestureRecognizer(backSwipeGestureRecognizer)
 
         view.addSubview(progressView)
         view.addSubview(tView)
@@ -214,6 +217,12 @@ class RootViewController: UIViewController, SearchViewDelegate {
         UIView.animate(withDuration: 0.35, animations: {
             self.reset()
         }) 
+    }
+
+    // MARK: UIScreenEdgePanGestureRecognizer callback
+
+    func handleBackSwipe(gestureRecognizer: UIScreenEdgePanGestureRecognizer) {
+        // TODO: Handle back swipe on first page to go back to search
     }
 }
 
