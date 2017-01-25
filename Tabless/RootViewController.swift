@@ -24,14 +24,14 @@ class RootViewController: UIViewController, SearchViewDelegate {
         searchView.searchDelegate = self
 
         NotificationCenter.default.addObserver(self,
-                                                         selector:#selector(RootViewController.onPause),
-                                                         name:NSNotification.Name.UIApplicationWillResignActive,
-                                                         object:nil)
+                                               selector:#selector(onPause),
+                                               name:NSNotification.Name.UIApplicationWillResignActive,
+                                               object:nil)
 
         NotificationCenter.default.addObserver(self,
-                                                         selector:#selector(RootViewController.onResume),
-                                                         name:NSNotification.Name.UIApplicationWillEnterForeground,
-                                                         object:nil)
+                                               selector:#selector(onResume),
+                                               name:NSNotification.Name.UIApplicationWillEnterForeground,
+                                               object:nil)
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -45,7 +45,7 @@ class RootViewController: UIViewController, SearchViewDelegate {
 
         view = UIView(frame: UIScreen.main.bounds)
         view.backgroundColor = UIColor.white
-        let backSwipeGestureRecognizer = UIScreenEdgePanGestureRecognizer(target: self, action: #selector(handleBackSwipe:))
+        let backSwipeGestureRecognizer = UIScreenEdgePanGestureRecognizer(target: self, action: #selector(handleBackSwipe))
         backSwipeGestureRecognizer.edges = .left
         view.addGestureRecognizer(backSwipeGestureRecognizer)
 
