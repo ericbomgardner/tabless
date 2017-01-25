@@ -1,11 +1,3 @@
-//
-//  AppDelegate.swift
-//  Tabless
-//
-//  Created by Eric Bomgardner on 11/9/15.
-//  Copyright © 2015 Eric Bomgardner. All rights reserved.
-//
-
 import UIKit
 
 @UIApplicationMain
