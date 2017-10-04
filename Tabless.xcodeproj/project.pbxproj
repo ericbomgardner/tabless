@@ -106,7 +106,7 @@
 					079596631BF1CFFE00F7078B = {
 						CreatedOnToolsVersion = 7.1;
 						DevelopmentTeam = 4NX3RJE9MB;
-						LastSwiftMigration = 0800;
+						LastSwiftMigration = 0900;
 						ProvisioningStyle = Automatic;
 					};
 				};
@@ -281,7 +281,8 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.ericbomgardner.Tabless;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
-				SWIFT_VERSION = 3.0;
+				SWIFT_SWIFT3_OBJC_INFERENCE = Default;
+				SWIFT_VERSION = 4.0;
 			};
 			name = Debug;
 		};
@@ -297,7 +298,8 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.ericbomgardner.Tabless;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
-				SWIFT_VERSION = 3.0;
+				SWIFT_SWIFT3_OBJC_INFERENCE = Default;
+				SWIFT_VERSION = 4.0;
 			};
 			name = Release;
 		};

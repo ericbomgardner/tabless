@@ -90,11 +90,11 @@ class RootViewController: UIViewController, SearchViewDelegate {
         setUpForSearch()
     }
 
-    func onPause() {
+    @objc func onPause() {
         pauseTime = Date()
     }
 
-    func onResume() {
+    @objc func onResume() {
         if let pauseTime = pauseTime, Date().timeIntervalSince(pauseTime) > 20 {
             reset()
         }
@@ -213,7 +213,7 @@ class RootViewController: UIViewController, SearchViewDelegate {
 
     // MARK: UIScreenEdgePanGestureRecognizer callback
 
-    func handleBackSwipe(gestureRecognizer: UIScreenEdgePanGestureRecognizer) {
+    @objc func handleBackSwipe(gestureRecognizer: UIScreenEdgePanGestureRecognizer) {
         // TODO: Handle back swipe on first page to go back to search
     }
 }
