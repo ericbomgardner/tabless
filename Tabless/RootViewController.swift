@@ -15,6 +15,10 @@ class RootViewController: UIViewController, SearchViewDelegate {
     private var searchHeightConstraint: NSLayoutConstraint!  // TODO: make this automatic
     private var webViewConstraints = [NSLayoutConstraint]()
 
+    // MARK: Constants
+    private let maxPauseInterval: TimeInterval = 20
+    private let searchURLBase = "https://www.google.com/search?q="
+
     // MARK: Saved state
     private var pauseTime: Date?
 
@@ -33,7 +37,7 @@ class RootViewController: UIViewController, SearchViewDelegate {
                                                name:NSNotification.Name.UIApplicationWillEnterForeground,
                                                object:nil)
     }
-    
+
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
@@ -100,7 +104,7 @@ class RootViewController: UIViewController, SearchViewDelegate {
     }
 
     @objc func onResume() {
-        if let pauseTime = pauseTime, Date().timeIntervalSince(pauseTime) > 20 {
+        if let pauseTime = pauseTime, Date().timeIntervalSince(pauseTime) > maxPauseInterval {
             reset()
         }
     }
@@ -162,7 +166,7 @@ class RootViewController: UIViewController, SearchViewDelegate {
 
     // MARK: Private (Web view setup)
 
-    func setUpWebView() {
+    private func setUpWebView() {
         webView.translatesAutoresizingMaskIntoConstraints = false
         webView.allowsBackForwardNavigationGestures = true
         webView.navigationDelegate = self
@@ -172,7 +176,7 @@ class RootViewController: UIViewController, SearchViewDelegate {
         setUpLoadingKVO()
     }
 
-    func applyWebViewConstraints() {
+    private func applyWebViewConstraints() {
         webViewConstraints.append(webView.leadingAnchor.constraint(equalTo: view.leadingAnchor))
         webViewConstraints.append(webView.trailingAnchor.constraint(equalTo: view.trailingAnchor))
         webViewConstraints.append(webView.topAnchor.constraint(equalTo: progressView.bottomAnchor))
@@ -182,7 +186,7 @@ class RootViewController: UIViewController, SearchViewDelegate {
         }
     }
 
-    func clearWebViewConstraints() {
+    private func clearWebViewConstraints() {
         webViewConstraints.forEach { constraint in
             constraint.isActive = false
         }
@@ -200,7 +204,7 @@ class RootViewController: UIViewController, SearchViewDelegate {
     // MARK: SearchViewDelegate
 
     func searchSubmitted(_ text: String) {
-        self.tView.isHidden = true
+        tView.isHidden = true
         UIView.animate(withDuration: 0.2, animations: {
             self.setUpForWeb()
         }, completion: { _ in
@@ -211,7 +215,7 @@ class RootViewController: UIViewController, SearchViewDelegate {
         if text.isWebURL() {
             urlString = "https://\(text)"
         } else if let searchQuery = text.addingPercentEncoding(withAllowedCharacters: CharacterSet.urlQueryAllowed) {
-            urlString = "https://www.google.com/search?q=\(searchQuery)"
+            urlString = "\(searchURLBase)\(searchQuery)"
         } else {
             return
         }
