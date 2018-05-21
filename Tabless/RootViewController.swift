@@ -5,7 +5,7 @@ class RootViewController: UIViewController, SearchViewDelegate, StateResettable 
     // MARK: Views
     private let searchView = SearchView()
     private let progressView = ProgressView()
-    private var webView = WKWebView()
+    private var webView: WKWebView!
     private let tView = UITextView()
 
     // MARK: Constraints
@@ -27,6 +27,8 @@ class RootViewController: UIViewController, SearchViewDelegate, StateResettable 
     init(stateClearer: StateClearer) {
         self.stateClearer = stateClearer
         super.init(nibName: nil, bundle: nil)
+
+        webView = createWebView()
 
         searchView.searchDelegate = self
         stateClearer.addStateClearRequest(for: self,
@@ -82,7 +84,7 @@ class RootViewController: UIViewController, SearchViewDelegate, StateResettable 
 
         tView.isHidden = false
 
-        webView = WKWebView()
+        webView = createWebView()
         view.addSubview(webView)
         setUpWebView()
 
@@ -150,6 +152,13 @@ class RootViewController: UIViewController, SearchViewDelegate, StateResettable 
     }
 
     // MARK: Private (Web view setup)
+
+    private func createWebView() -> WKWebView {
+        let configuration = WKWebViewConfiguration()
+        let webView = WKWebView(frame: CGRect.zero, configuration: configuration)
+        webView.scrollView.decelerationRate = UIScrollViewDecelerationRateNormal
+        return webView
+    }
 
     private func setUpWebView() {
         webView.translatesAutoresizingMaskIntoConstraints = false
