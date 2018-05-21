@@ -88,6 +88,11 @@ class RootViewController: UIViewController, SearchViewDelegate {
         setUpWebView()
 
         setUpForSearch()
+
+        clearWebViewData {
+            print("Data cleared")
+            // TODO: Handle asynchronicity of this?
+        }
     }
 
     @objc func onPause() {
@@ -182,6 +187,14 @@ class RootViewController: UIViewController, SearchViewDelegate {
             constraint.isActive = false
         }
         webViewConstraints.removeAll()
+    }
+
+    private func clearWebViewData(completion: @escaping () -> ()) {
+        let aLongTimeAgo = Date(timeIntervalSinceReferenceDate: 0)
+        WKWebsiteDataStore.default().removeData(ofTypes: WKWebsiteDataStore.allWebsiteDataTypes(),
+                                                modifiedSince: aLongTimeAgo) {
+            completion()
+        }
     }
 
     // MARK: SearchViewDelegate
