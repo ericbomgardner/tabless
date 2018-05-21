@@ -14,6 +14,7 @@
 		079596681BF1CFFE00F7078B /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 079596671BF1CFFE00F7078B /* AppDelegate.swift */; };
 		0795966F1BF1CFFE00F7078B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0795966E1BF1CFFE00F7078B /* Assets.xcassets */; };
 		079596721BF1CFFE00F7078B /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 079596701BF1CFFE00F7078B /* LaunchScreen.storyboard */; };
+		07EC81D020B289A70086E24C /* StateClearer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07EC81CF20B289A70086E24C /* StateClearer.swift */; };
 		07FA0E391CA3DD5300B9AF8F /* RootViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07FA0E381CA3DD5300B9AF8F /* RootViewController.swift */; };
 /* End PBXBuildFile section */
 
@@ -27,6 +28,7 @@
 		0795966E1BF1CFFE00F7078B /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		079596711BF1CFFE00F7078B /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		079596731BF1CFFE00F7078B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		07EC81CF20B289A70086E24C /* StateClearer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StateClearer.swift; sourceTree = "<group>"; };
 		07FA0E381CA3DD5300B9AF8F /* RootViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RootViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -68,6 +70,7 @@
 				0763D7091CA4FCFC001AD8E6 /* ProgressView.swift */,
 				07FA0E381CA3DD5300B9AF8F /* RootViewController.swift */,
 				07735EF71D546F870061E8D9 /* SearchView.swift */,
+				07EC81CF20B289A70086E24C /* StateClearer.swift */,
 				07735EF81D546F870061E8D9 /* String+WebURL.swift */,
 			);
 			path = Tabless;
@@ -149,6 +152,7 @@
 				07735EFA1D546F870061E8D9 /* SearchView.swift in Sources */,
 				07735EFB1D546F870061E8D9 /* String+WebURL.swift in Sources */,
 				07FA0E391CA3DD5300B9AF8F /* RootViewController.swift in Sources */,
+				07EC81D020B289A70086E24C /* StateClearer.swift in Sources */,
 				079596681BF1CFFE00F7078B /* AppDelegate.swift in Sources */,
 				07735EF91D546F870061E8D9 /* Activity.swift in Sources */,
 				0763D70A1CA4FCFC001AD8E6 /* ProgressView.swift in Sources */,
@@ -215,7 +219,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
@@ -264,7 +268,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
 				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
@@ -281,6 +285,7 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEVELOPMENT_TEAM = 4NX3RJE9MB;
 				INFOPLIST_FILE = Tabless/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.ericbomgardner.Tabless;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -298,6 +303,7 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEVELOPMENT_TEAM = 4NX3RJE9MB;
 				INFOPLIST_FILE = Tabless/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.ericbomgardner.Tabless;
 				PRODUCT_NAME = "$(TARGET_NAME)";

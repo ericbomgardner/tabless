@@ -1,8 +1,7 @@
 import UIKit
 import WebKit
 
-class RootViewController: UIViewController, SearchViewDelegate {
-
+class RootViewController: UIViewController, SearchViewDelegate, StateResettable {
     // MARK: Views
     private let searchView = SearchView()
     private let progressView = ProgressView()
@@ -22,20 +21,16 @@ class RootViewController: UIViewController, SearchViewDelegate {
     // MARK: Saved state
     private var pauseTime: Date?
 
-    init() {
+    // MARK: Dependencies
+    private let stateClearer: StateClearer
+
+    init(stateClearer: StateClearer) {
+        self.stateClearer = stateClearer
         super.init(nibName: nil, bundle: nil)
 
         searchView.searchDelegate = self
-
-        NotificationCenter.default.addObserver(self,
-                                               selector:#selector(onPause),
-                                               name:NSNotification.Name.UIApplicationWillResignActive,
-                                               object:nil)
-
-        NotificationCenter.default.addObserver(self,
-                                               selector:#selector(onResume),
-                                               name:NSNotification.Name.UIApplicationWillEnterForeground,
-                                               object:nil)
+        stateClearer.addStateClearRequest(for: self,
+                                          after: maxPauseInterval)
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -96,16 +91,6 @@ class RootViewController: UIViewController, SearchViewDelegate {
         clearWebViewData {
             print("Data cleared")
             // TODO: Handle asynchronicity of this?
-        }
-    }
-
-    @objc func onPause() {
-        pauseTime = Date()
-    }
-
-    @objc func onResume() {
-        if let pauseTime = pauseTime, Date().timeIntervalSince(pauseTime) > maxPauseInterval {
-            reset()
         }
     }
 
