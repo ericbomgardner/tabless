@@ -22,4 +22,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func applicationDidEnterBackground(_ application: UIApplication) {
         stateClearer.beginClearTimer()
     }
+
+    func applicationDidBecomeActive(_ application: UIApplication) {
+        stateClearer.cancelPendingStateClears()
+    }
 }
