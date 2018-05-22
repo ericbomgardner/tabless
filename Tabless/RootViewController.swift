@@ -82,6 +82,8 @@ class RootViewController: UIViewController, SearchViewDelegate, StateResettable 
         clearWebViewConstraints()
         webView.removeFromSuperview()
 
+        progressView.progress = 0
+
         tView.isHidden = false
 
         webView = createWebView()
