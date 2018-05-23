@@ -16,7 +16,6 @@ class RootViewController: UIViewController, SearchViewDelegate, StateResettable 
 
     // MARK: Constants
     private let maxPauseInterval: TimeInterval = 20
-    private let searchURLBase = "https://www.google.com/search?q="
 
     // MARK: Saved state
     private var pauseTime: Date?
@@ -207,15 +206,9 @@ class RootViewController: UIViewController, SearchViewDelegate, StateResettable 
             self.progressView.isHidden = false
         }) 
 
-        var urlString: String
-        if text.isWebURL() {
-            urlString = "https://\(text)"
-        } else if let searchQuery = text.addingPercentEncoding(withAllowedCharacters: CharacterSet.urlQueryAllowed) {
-            urlString = "\(searchURLBase)\(searchQuery)"
-        } else {
-            return
+        if let url = URLBuilder.createURL(text) {
+            webView.load(URLRequest(url: url))
         }
-        webView.load(URLRequest(url: URL(string: urlString)!))
     }
 
     func searchCleared() {
