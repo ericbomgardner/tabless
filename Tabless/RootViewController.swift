@@ -234,7 +234,6 @@ class RootViewController: UIViewController, SearchViewDelegate, StateResettable 
 extension RootViewController: WKNavigationDelegate {
     func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
         webView.isHidden = false
-//        progressView.hidden = true
     }
 }
 
