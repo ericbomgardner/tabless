@@ -166,6 +166,7 @@ class RootViewController: UIViewController, SearchViewDelegate, StateResettable 
     private func setUpWebView() {
         webView.translatesAutoresizingMaskIntoConstraints = false
         webView.allowsBackForwardNavigationGestures = true
+        webView.navigationDelegate = self
 
         applyWebViewConstraints()
 
@@ -222,6 +223,20 @@ class RootViewController: UIViewController, SearchViewDelegate, StateResettable 
 
     @objc func handleBackSwipe(gestureRecognizer: UIScreenEdgePanGestureRecognizer) {
         // TODO: Handle back swipe on first page to go back to search
+    }
+}
+
+extension RootViewController: WKNavigationDelegate {
+    func webView(_ webView: WKWebView,
+                 decidePolicyFor navigationAction: WKNavigationAction,
+                 decisionHandler: @escaping (WKNavigationActionPolicy) -> Void) {
+        // Prevent universal links from opening in apps -- Tabless is meant to
+        // be a quick-in, quick-out, historyless experience. Having a video or
+        // shopping app that preserves history open when a link is tapped doesn't
+        // feel good.
+        let disableUniversalLinkingPolicy =
+            WKNavigationActionPolicy(rawValue: WKNavigationActionPolicy.allow.rawValue + 2)!
+        decisionHandler(disableUniversalLinkingPolicy)
     }
 }
 
