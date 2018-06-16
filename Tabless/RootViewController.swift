@@ -149,6 +149,8 @@ class RootViewController: UIViewController, SearchViewDelegate, StateResettable 
         tView.frame = CGRect(x: (screenBounds.width / 2) - 24, y: 26, width: 48, height: 32)
         tView.font = UIFont.boldSystemFont(ofSize: 24)
 
+        webView.isHidden = false
+
         view.layoutIfNeeded()
     }
 
@@ -164,7 +166,6 @@ class RootViewController: UIViewController, SearchViewDelegate, StateResettable 
     private func setUpWebView() {
         webView.translatesAutoresizingMaskIntoConstraints = false
         webView.allowsBackForwardNavigationGestures = true
-        webView.navigationDelegate = self
 
         applyWebViewConstraints()
 
@@ -221,12 +222,6 @@ class RootViewController: UIViewController, SearchViewDelegate, StateResettable 
 
     @objc func handleBackSwipe(gestureRecognizer: UIScreenEdgePanGestureRecognizer) {
         // TODO: Handle back swipe on first page to go back to search
-    }
-}
-
-extension RootViewController: WKNavigationDelegate {
-    func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
-        webView.isHidden = false
     }
 }
 
