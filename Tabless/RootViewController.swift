@@ -3,16 +3,19 @@ import WebKit
 
 class RootViewController: UIViewController, SearchViewDelegate, StateResettable {
     // MARK: Views
-    private let searchView = SearchView()
+    let searchView = SearchView()
+    var searchViewSnapshotView = UIImageView()
     private let progressView = ProgressView()
-    private var webView: WKWebView!
+    var webView: WKWebView!
     private let tView = UITextView()
 
     // MARK: Constraints
+    var searchLeadingConstraint: NSLayoutConstraint!
+    var searchTrailingConstraint: NSLayoutConstraint!
     private var searchYCenterConstraint: NSLayoutConstraint!
     private var searchYTopConstraint: NSLayoutConstraint!
     private var searchHeightConstraint: NSLayoutConstraint!  // TODO: make this automatic
-    private var webViewConstraints = [NSLayoutConstraint]()
+    var webViewConstraints = [NSLayoutConstraint]()
 
     // MARK: Constants
     private let maxPauseInterval: TimeInterval = 20
@@ -61,8 +64,10 @@ class RootViewController: UIViewController, SearchViewDelegate, StateResettable 
         progressView.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
         progressView.heightAnchor.constraint(equalToConstant: statusBarHeight + SearchView.height(for: .web)).isActive = true
 
-        searchView.leadingAnchor.constraint(equalTo: view.readableContentGuide.leadingAnchor).isActive = true
-        searchView.trailingAnchor.constraint(equalTo: view.readableContentGuide.trailingAnchor).isActive = true
+        searchLeadingConstraint = searchView.leadingAnchor.constraint(equalTo: view.readableContentGuide.leadingAnchor)
+        searchLeadingConstraint.isActive = true
+        searchTrailingConstraint = searchView.trailingAnchor.constraint(equalTo: view.readableContentGuide.trailingAnchor)
+        searchTrailingConstraint.isActive = true
         searchYCenterConstraint = searchView.centerYAnchor.constraint(equalTo: view.centerYAnchor)
         searchYTopConstraint = searchView.topAnchor.constraint(equalTo: view.topAnchor, constant: statusBarHeight)
         searchHeightConstraint = searchView.heightAnchor.constraint(equalToConstant: SearchView.height(for: .search))
@@ -73,6 +78,14 @@ class RootViewController: UIViewController, SearchViewDelegate, StateResettable 
 
     override func viewDidLoad() {
         setUpForSearch()
+
+        searchViewSnapshotView.image = view.toSnapshot()
+        searchViewSnapshotView.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(searchViewSnapshotView)
+        view.sendSubview(toBack: searchViewSnapshotView)
+        searchViewSnapshotView.pinEdgesToSuperviewEdges()
+
+        searchViewSnapshotView.isHidden = true
     }
 
     func reset() {
@@ -175,7 +188,7 @@ class RootViewController: UIViewController, SearchViewDelegate, StateResettable 
 
     private func applyWebViewConstraints() {
         webViewConstraints.append(webView.leadingAnchor.constraint(equalTo: view.leadingAnchor))
-        webViewConstraints.append(webView.trailingAnchor.constraint(equalTo: view.trailingAnchor))
+        webViewConstraints.append(webView.widthAnchor.constraint(equalTo: view.widthAnchor))
         webViewConstraints.append(webView.topAnchor.constraint(equalTo: progressView.bottomAnchor))
         webViewConstraints.append(webView.bottomAnchor.constraint(equalTo: view.bottomAnchor))
         webViewConstraints.forEach { constraint in
@@ -217,12 +230,6 @@ class RootViewController: UIViewController, SearchViewDelegate, StateResettable 
         UIView.animate(withDuration: 0.35, animations: {
             self.reset()
         }) 
-    }
-
-    // MARK: UIScreenEdgePanGestureRecognizer callback
-
-    @objc func handleBackSwipe(gestureRecognizer: UIScreenEdgePanGestureRecognizer) {
-        // TODO: Handle back swipe on first page to go back to search
     }
 }
 
