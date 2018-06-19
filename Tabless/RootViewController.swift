@@ -79,13 +79,10 @@ class RootViewController: UIViewController, SearchViewDelegate, StateResettable 
     override func viewDidLoad() {
         setUpForSearch()
 
-        searchViewSnapshotView.image = view.toSnapshot()
-        searchViewSnapshotView.translatesAutoresizingMaskIntoConstraints = false
-        view.addSubview(searchViewSnapshotView)
-        view.sendSubview(toBack: searchViewSnapshotView)
-        searchViewSnapshotView.pinEdgesToSuperviewEdges()
-
-        searchViewSnapshotView.isHidden = true
+        // Delay snapshotting to avoid preventing keyboard entrance
+        DispatchQueue.main.async {
+            self.setUpSearchViewSnapshotView()
+        }
     }
 
     func reset() {
@@ -209,6 +206,18 @@ class RootViewController: UIViewController, SearchViewDelegate, StateResettable 
                                                 modifiedSince: aLongTimeAgo) {
             completion()
         }
+    }
+
+    // MARK: Search view snapshot view setup
+
+    private func setUpSearchViewSnapshotView() {
+        searchViewSnapshotView.image = view.toSnapshot()
+        searchViewSnapshotView.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(searchViewSnapshotView)
+        view.sendSubview(toBack: searchViewSnapshotView)
+        searchViewSnapshotView.pinEdgesToSuperviewEdges()
+
+        searchViewSnapshotView.isHidden = true
     }
 
     // MARK: SearchViewDelegate
