@@ -300,10 +300,3 @@ extension RootViewController: WKNavigationDelegate {
         decisionHandler(disableUniversalLinkingPolicy)
     }
 }
-
-/// Debugging code (for view hierarchy debugger)
-/// TODO: REMOVE THIS!
-extension UITextView {
-    func _firstBaselineOffsetFromTop() {}
-    func _baselineOffsetFromBottom() {}
-}
