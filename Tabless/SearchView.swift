@@ -8,6 +8,8 @@ protocol SearchViewDelegate: class {
 class SearchView: UITextField {
     weak var searchDelegate: SearchViewDelegate?
 
+    private var activity: Activity?
+
     init() {
         super.init(frame: CGRect.zero)
 
@@ -25,12 +27,12 @@ class SearchView: UITextField {
         fatalError("init(coder:) has not been implemented")
     }
 
-    class func height(for activity: Activity) -> CGFloat {
+    func height(for activity: Activity) -> CGFloat {
         switch activity {
         case .search:
-            return 60
+            return traitCollection.isLarge ? 80 : 60
         case .web:
-            return 40
+            return traitCollection.isLarge ? 60 : 40
         }
     }
 
@@ -38,11 +40,16 @@ class SearchView: UITextField {
         switch activity {
         case .search:
             text = ""
-            font = UIFont.systemFont(ofSize: 30)
+            font = UIFont.systemFont(ofSize: traitCollection.isLarge ? 40 : 30)
         case .web:
-            font = UIFont.systemFont(ofSize: 14)
+            font = UIFont.systemFont(ofSize: traitCollection.isLarge ? 20 : 14)
         }
+    }
 
+    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        if let activity = activity {
+            configure(for: activity)
+        }
     }
 }
 

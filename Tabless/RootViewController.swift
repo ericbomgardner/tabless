@@ -2,6 +2,14 @@ import UIKit
 import WebKit
 
 class RootViewController: UIViewController, SearchViewDelegate, StateResettable {
+    private var currentActivity: Activity {
+        if webView.isHidden {
+            return .search
+        } else {
+            return .web
+        }
+    }
+
     // MARK: Views
     let searchView = SearchView()
     var searchViewSnapshotView = UIImageView()
@@ -62,7 +70,7 @@ class RootViewController: UIViewController, SearchViewDelegate, StateResettable 
         progressView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
         progressView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
         progressView.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
-        progressView.heightAnchor.constraint(equalToConstant: statusBarHeight + SearchView.height(for: .web)).isActive = true
+        progressView.heightAnchor.constraint(equalToConstant: statusBarHeight + searchView.height(for: .web)).isActive = true
 
         searchLeadingConstraint = searchView.leadingAnchor.constraint(equalTo: view.readableContentGuide.leadingAnchor)
         searchLeadingConstraint.isActive = true
@@ -70,7 +78,7 @@ class RootViewController: UIViewController, SearchViewDelegate, StateResettable 
         searchTrailingConstraint.isActive = true
         searchYCenterConstraint = searchView.centerYAnchor.constraint(equalTo: view.centerYAnchor)
         searchYTopConstraint = searchView.topAnchor.constraint(equalTo: view.topAnchor, constant: statusBarHeight)
-        searchHeightConstraint = searchView.heightAnchor.constraint(equalToConstant: SearchView.height(for: .search))
+        searchHeightConstraint = searchView.heightAnchor.constraint(equalToConstant: searchView.height(for: .search))
         searchHeightConstraint.isActive = true
 
         setUpWebView()
@@ -136,10 +144,14 @@ class RootViewController: UIViewController, SearchViewDelegate, StateResettable 
         searchView.configure(for: .search)
         searchYTopConstraint.isActive = false
         searchYCenterConstraint.isActive = true
-        searchHeightConstraint.constant = SearchView.height(for: .search)
+        searchHeightConstraint.constant = searchView.height(for: .search)
 
-        tView.frame = CGRect(x: (screenBounds.width / 2) - 24, y: 80, width: 48, height: 64)
-        tView.font = UIFont.boldSystemFont(ofSize: 64)
+        let tViewSize: CGFloat = traitCollection.isLarge ? 80 : 64
+        tView.frame = CGRect(x: (screenBounds.width / 2) - 24,
+                             y: 80,
+                             width: tViewSize,
+                             height: tViewSize)
+        tView.font = UIFont.boldSystemFont(ofSize: tViewSize)
 
         webView.isHidden = true
 
@@ -154,10 +166,14 @@ class RootViewController: UIViewController, SearchViewDelegate, StateResettable 
         searchView.configure(for: .web)
         searchYCenterConstraint.isActive = false
         searchYTopConstraint.isActive = true
-        searchHeightConstraint.constant = SearchView.height(for: .web)
+        searchHeightConstraint.constant = searchView.height(for: .web)
 
-        tView.frame = CGRect(x: (screenBounds.width / 2) - 24, y: 26, width: 48, height: 32)
-        tView.font = UIFont.boldSystemFont(ofSize: 24)
+        let tViewSize: CGFloat = traitCollection.isLarge ? 30 : 24
+        tView.frame = CGRect(x: (screenBounds.width / 2) - 24,
+                             y: 26,
+                             width: tViewSize,
+                             height: tViewSize)
+        tView.font = UIFont.boldSystemFont(ofSize: tViewSize)
 
         webView.isHidden = false
 
@@ -220,6 +236,10 @@ class RootViewController: UIViewController, SearchViewDelegate, StateResettable 
         searchViewSnapshotView.isHidden = true
     }
 
+    private func retakeSearchViewSnaphot() {
+        searchViewSnapshotView.image = view.toSnapshot()
+    }
+
     // MARK: SearchViewDelegate
 
     func searchSubmitted(_ text: String) {
@@ -239,6 +259,31 @@ class RootViewController: UIViewController, SearchViewDelegate, StateResettable 
         UIView.animate(withDuration: 0.35, animations: {
             self.reset()
         }) 
+    }
+
+    // MARK: Sizing
+
+    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        switch currentActivity {
+        case .search:
+            setUpForSearch()
+        case .web:
+            setUpForWeb()
+        }
+    }
+
+    override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
+        super.viewWillTransition(to: size, with: coordinator)
+        coordinator.animate(alongsideTransition: { _ in
+            switch self.currentActivity {
+            case .search:
+                self.setUpForSearch()
+            case .web:
+                self.setUpForWeb()
+            }
+        }, completion: { _ in
+            // TODO: Retake search view snapshot
+        })
     }
 }
 
