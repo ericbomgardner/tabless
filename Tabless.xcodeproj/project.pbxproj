@@ -14,6 +14,7 @@
 		0779F91520D4B1E800FC90DE /* RootViewController+BackSwipe.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0779F91420D4B1E800FC90DE /* RootViewController+BackSwipe.swift */; };
 		0779F91720D4B2F900FC90DE /* UIView+Snapshot.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0779F91620D4B2F900FC90DE /* UIView+Snapshot.swift */; };
 		0779F91920D4D48000FC90DE /* UIView+Autolayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0779F91820D4D48000FC90DE /* UIView+Autolayout.swift */; };
+		077B16E1210D3E8C00FF5079 /* RootViewController+LongPress.swift in Sources */ = {isa = PBXBuildFile; fileRef = 077B16E0210D3E8C00FF5079 /* RootViewController+LongPress.swift */; };
 		079596681BF1CFFE00F7078B /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 079596671BF1CFFE00F7078B /* AppDelegate.swift */; };
 		0795966F1BF1CFFE00F7078B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0795966E1BF1CFFE00F7078B /* Assets.xcassets */; };
 		079596721BF1CFFE00F7078B /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 079596701BF1CFFE00F7078B /* LaunchScreen.storyboard */; };
@@ -29,6 +30,7 @@
 		0779F91420D4B1E800FC90DE /* RootViewController+BackSwipe.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "RootViewController+BackSwipe.swift"; sourceTree = "<group>"; };
 		0779F91620D4B2F900FC90DE /* UIView+Snapshot.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Snapshot.swift"; sourceTree = "<group>"; };
 		0779F91820D4D48000FC90DE /* UIView+Autolayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Autolayout.swift"; sourceTree = "<group>"; };
+		077B16E0210D3E8C00FF5079 /* RootViewController+LongPress.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "RootViewController+LongPress.swift"; sourceTree = "<group>"; };
 		079596641BF1CFFE00F7078B /* Tabless.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Tabless.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		079596671BF1CFFE00F7078B /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		0795966E1BF1CFFE00F7078B /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -76,6 +78,7 @@
 				0763D7091CA4FCFC001AD8E6 /* ProgressView.swift */,
 				07FA0E381CA3DD5300B9AF8F /* RootViewController.swift */,
 				0779F91420D4B1E800FC90DE /* RootViewController+BackSwipe.swift */,
+				077B16E0210D3E8C00FF5079 /* RootViewController+LongPress.swift */,
 				07735EF71D546F870061E8D9 /* SearchView.swift */,
 				07EC81CF20B289A70086E24C /* StateClearer.swift */,
 				0779F91820D4D48000FC90DE /* UIView+Autolayout.swift */,
@@ -168,6 +171,7 @@
 				0779F91920D4D48000FC90DE /* UIView+Autolayout.swift in Sources */,
 				07735EF91D546F870061E8D9 /* Activity.swift in Sources */,
 				0763D70A1CA4FCFC001AD8E6 /* ProgressView.swift in Sources */,
+				077B16E1210D3E8C00FF5079 /* RootViewController+LongPress.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
