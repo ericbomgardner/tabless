@@ -3,7 +3,7 @@ import UIKit
 extension RootViewController {
 
     private var leadingWebViewConstraint: NSLayoutConstraint? {
-        return webViewConstraints.first { constraint -> Bool in
+        return mainView.webViewConstraints.first { constraint -> Bool in
             return constraint.firstAttribute == NSLayoutAttribute.leading
         }
     }
@@ -14,29 +14,43 @@ extension RootViewController {
         let progress = viewXTranslation / view.bounds.width
 
         let relevantConstraints = [
-            searchLeadingConstraint,
-            searchTrailingConstraint,
+            mainView.searchLeadingConstraint,
+            mainView.searchTrailingConstraint,
             leadingWebViewConstraint
         ]
 
         switch gestureRecognizer.state {
         case .began:
-            searchViewSnapshotView.isHidden = false
+            backSwipeSnapshotView.isHidden = false
         case .changed:
             relevantConstraints.forEach { $0?.constant = viewXTranslation }
-            searchViewSnapshotView.alpha = 0.4 + 0.6 * progress
+            backSwipeSnapshotView.alpha = 0.4 + 0.6 * progress
         case .cancelled:
             relevantConstraints.forEach { $0?.constant = 0 }
-            searchViewSnapshotView.isHidden = true
+            backSwipeSnapshotView.isHidden = true
         case .ended:
             if progress > 0.5 {
                 // TODO: animate out webview instead of disappearing
                 reset()
             }
             relevantConstraints.forEach { $0?.constant = 0 }
-            searchViewSnapshotView.isHidden = true
+            backSwipeSnapshotView.isHidden = true
         default:
             return
         }
+    }
+
+    func setUpBackSwipeSnapshotView() {
+        backSwipeSnapshotView.image = view.toSnapshot()
+        backSwipeSnapshotView.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(backSwipeSnapshotView)
+        view.sendSubview(toBack: backSwipeSnapshotView)
+        backSwipeSnapshotView.pinEdgesToSuperviewEdges()
+
+        backSwipeSnapshotView.isHidden = true
+    }
+
+    private func retakeSearchViewSnaphot() {
+        backSwipeSnapshotView.image = view.toSnapshot()
     }
 }
