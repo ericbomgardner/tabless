@@ -53,16 +53,11 @@ class SearchView: UITextField {
 
 extension SearchView: UITextFieldDelegate {
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        if let _ = textField.text {
-            textField.resignFirstResponder()
-        }
-        return false
-    }
-
-    func textFieldDidEndEditing(_ textField: UITextField) {
         if let text = textField.text {
+            textField.resignFirstResponder()
             searchDelegate?.searchSubmitted(text)
         }
+        return false
     }
 
     func textFieldShouldClear(_ textField: UITextField) -> Bool {
