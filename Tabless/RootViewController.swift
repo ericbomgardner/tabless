@@ -73,7 +73,6 @@ class RootViewController: UIViewController, SearchViewDelegate, StateResettable 
     // MARK: SearchViewDelegate
 
     func searchSubmitted(_ text: String) {
-        mainView.tView.isHidden = true
         UIView.animate(withDuration: 0.2, animations: {
             self.mainView.currentActivity = .web
         }, completion: { _ in

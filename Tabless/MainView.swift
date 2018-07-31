@@ -74,7 +74,6 @@ class MainView: UIView {
     func reset() {
         webView.stopLoading()
         progressView.progress = 0
-        tView.isHidden = false
 
         // Re-create web view to reset back stack
         recreateWebView()
@@ -99,8 +98,7 @@ class MainView: UIView {
         searchYCenterConstraint.isActive = true
         searchHeightConstraint.constant = searchView.height(for: .search)
 
-        let tViewSize: CGFloat = traitCollection.isLarge ? 80 : 64
-        tView.font = UIFont.boldSystemFont(ofSize: tViewSize)
+        tView.isHidden = false
         tViewTopConstraint.constant = 80
 
         webView.isHidden = true
@@ -116,8 +114,7 @@ class MainView: UIView {
         searchYTopConstraint.isActive = true
         searchHeightConstraint.constant = searchView.height(for: .web)
 
-        let tViewSize: CGFloat = traitCollection.isLarge ? 30 : 24
-        tView.font = UIFont.boldSystemFont(ofSize: tViewSize)
+        tView.isHidden = true
         tViewTopConstraint.constant = 26
 
         webView.isHidden = false
@@ -164,6 +161,9 @@ class MainView: UIView {
     // MARK: Sizing
 
     override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        let tViewTextSize: CGFloat = traitCollection.isLarge ? 80 : 64
+        tView.font = UIFont.boldSystemFont(ofSize: tViewTextSize)
+
         setUpForCurrentActivity()
     }
 }
