@@ -12,8 +12,9 @@ class MainView: UIView {
     let searchView = SearchView()
     let progressView = ProgressView()
     var webView: WKWebView!
-    let tView = UITextView()
+    let tView = UILabel()
 
+    private var tViewTopConstraint: NSLayoutConstraint!
     var searchLeadingConstraint: NSLayoutConstraint!
     var searchTrailingConstraint: NSLayoutConstraint!
     private var searchYCenterConstraint: NSLayoutConstraint!
@@ -45,6 +46,11 @@ class MainView: UIView {
         progressView.trailingAnchor.constraint(equalTo: trailingAnchor).isActive = true
         progressView.topAnchor.constraint(equalTo: topAnchor).isActive = true
         progressView.heightAnchor.constraint(equalToConstant: statusBarHeight + searchView.height(for: .web)).isActive = true
+
+        tView.translatesAutoresizingMaskIntoConstraints = false
+        tViewTopConstraint = tView.topAnchor.constraint(equalTo: topAnchor, constant: 0)
+        tViewTopConstraint.isActive = true
+        tView.centerXAnchor.constraint(equalTo: centerXAnchor).isActive = true
 
         searchView.translatesAutoresizingMaskIntoConstraints = false
         searchLeadingConstraint = searchView.leadingAnchor.constraint(equalTo: readableContentGuide.leadingAnchor)
@@ -88,19 +94,14 @@ class MainView: UIView {
     }
 
     private func setUpForSearch() {
-        let screenBounds = UIScreen.main.bounds
-
         searchView.configure(for: .search)
         searchYTopConstraint.isActive = false
         searchYCenterConstraint.isActive = true
         searchHeightConstraint.constant = searchView.height(for: .search)
 
         let tViewSize: CGFloat = traitCollection.isLarge ? 80 : 64
-        tView.frame = CGRect(x: (screenBounds.width / 2) - 24,
-                             y: 80,
-                             width: tViewSize,
-                             height: tViewSize)
         tView.font = UIFont.boldSystemFont(ofSize: tViewSize)
+        tViewTopConstraint.constant = 80
 
         webView.isHidden = true
 
@@ -110,19 +111,14 @@ class MainView: UIView {
     }
 
     private func setUpForWeb() {
-        let screenBounds = UIScreen.main.bounds
-
         searchView.configure(for: .web)
         searchYCenterConstraint.isActive = false
         searchYTopConstraint.isActive = true
         searchHeightConstraint.constant = searchView.height(for: .web)
 
         let tViewSize: CGFloat = traitCollection.isLarge ? 30 : 24
-        tView.frame = CGRect(x: (screenBounds.width / 2) - 24,
-                             y: 26,
-                             width: tViewSize,
-                             height: tViewSize)
         tView.font = UIFont.boldSystemFont(ofSize: tViewSize)
+        tViewTopConstraint.constant = 26
 
         webView.isHidden = false
 
