@@ -15,7 +15,6 @@ class ProgressView: UIView {
     override init(frame: CGRect) {
         super.init(frame: frame)
 
-        translatesAutoresizingMaskIntoConstraints = false
         isUserInteractionEnabled = false
 
         backgroundColor = UIColor.clear

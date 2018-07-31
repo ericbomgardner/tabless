@@ -13,8 +13,6 @@ class SearchView: UITextField {
     init() {
         super.init(frame: CGRect.zero)
 
-        translatesAutoresizingMaskIntoConstraints = false
-
         returnKeyType = .go
         placeholder = "Let's go."
         clearButtonMode = UITextFieldViewMode.always

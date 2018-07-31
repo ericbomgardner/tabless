@@ -40,11 +40,13 @@ class MainView: UIView {
 
         let statusBarHeight = UIApplication.shared.statusBarFrame.height
 
+        progressView.translatesAutoresizingMaskIntoConstraints = false
         progressView.leadingAnchor.constraint(equalTo: leadingAnchor).isActive = true
         progressView.trailingAnchor.constraint(equalTo: trailingAnchor).isActive = true
         progressView.topAnchor.constraint(equalTo: topAnchor).isActive = true
         progressView.heightAnchor.constraint(equalToConstant: statusBarHeight + searchView.height(for: .web)).isActive = true
 
+        searchView.translatesAutoresizingMaskIntoConstraints = false
         searchLeadingConstraint = searchView.leadingAnchor.constraint(equalTo: readableContentGuide.leadingAnchor)
         searchLeadingConstraint.isActive = true
         searchTrailingConstraint = searchView.trailingAnchor.constraint(equalTo: readableContentGuide.trailingAnchor)
