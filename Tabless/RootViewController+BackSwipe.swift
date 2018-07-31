@@ -16,6 +16,8 @@ extension RootViewController {
         let relevantConstraints = [
             mainView.searchLeadingConstraint,
             mainView.searchTrailingConstraint,
+            mainView.progressViewLeadingConstraint,
+            mainView.progressViewTrailingConstraint,
             leadingWebViewConstraint
         ]
 

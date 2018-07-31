@@ -20,6 +20,8 @@ class MainView: UIView {
     private var searchYCenterConstraint: NSLayoutConstraint!
     private var searchYTopConstraint: NSLayoutConstraint!
     private var searchHeightConstraint: NSLayoutConstraint!  // TODO: make this automatic
+    var progressViewLeadingConstraint: NSLayoutConstraint!
+    var progressViewTrailingConstraint: NSLayoutConstraint!
     var webViewConstraints = [NSLayoutConstraint]()
 
     init(activity: Activity) {
@@ -42,8 +44,10 @@ class MainView: UIView {
         let statusBarHeight = UIApplication.shared.statusBarFrame.height
 
         progressView.translatesAutoresizingMaskIntoConstraints = false
-        progressView.leadingAnchor.constraint(equalTo: leadingAnchor).isActive = true
-        progressView.trailingAnchor.constraint(equalTo: trailingAnchor).isActive = true
+        progressViewLeadingConstraint = progressView.leadingAnchor.constraint(equalTo: leadingAnchor)
+        progressViewLeadingConstraint.isActive = true
+        progressViewTrailingConstraint = progressView.trailingAnchor.constraint(equalTo: trailingAnchor)
+        progressViewTrailingConstraint.isActive = true
         progressView.topAnchor.constraint(equalTo: topAnchor).isActive = true
         progressView.heightAnchor.constraint(equalToConstant: statusBarHeight + searchView.height(for: .web)).isActive = true
 
