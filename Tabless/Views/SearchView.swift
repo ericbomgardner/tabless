@@ -5,6 +5,11 @@ protocol SearchViewDelegate: class {
     func searchCleared()
 }
 
+enum Activity {
+    case search
+    case web
+}
+
 class SearchView: UITextField {
     weak var searchDelegate: SearchViewDelegate?
 

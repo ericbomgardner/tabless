@@ -1,7 +1,7 @@
 import UIKit
 import WebKit
 
-class MainView: UIView {
+class RootView: UIView {
 
     let searchView = SearchView()
     let tView = UILabel()

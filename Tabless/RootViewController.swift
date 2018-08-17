@@ -3,7 +3,7 @@ import WebKit
 
 class RootViewController: UIViewController, SearchViewDelegate, StateResettable {
 
-    var mainView: MainView!
+    var rootView: RootView!
     var webContainerView: WebContainerView?
 
     var webContainerViewLeadingConstraint: NSLayoutConstraint?
@@ -27,10 +27,10 @@ class RootViewController: UIViewController, SearchViewDelegate, StateResettable 
     }
 
     override func loadView() {
-        let mainView = MainView()
-        mainView.searchView.searchDelegate = self
+        let rootView = RootView()
+        rootView.searchView.searchDelegate = self
 
-        view = mainView
+        view = rootView
     }
 
     override func viewDidAppear(_ animated: Bool) {
