@@ -25,7 +25,7 @@ class ProgressView: UIView {
 
         layer.addSublayer(progressLayer)
     }
-    
+
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
@@ -53,7 +53,7 @@ class ProgressView: UIView {
         }
     }
 
-    private func animate(from oldValue: Double, to progress: Double, completion: (()->())? = nil) {
+    private func animate(from oldValue: Double, to progress: Double, completion: (() -> Void)? = nil) {
         // todo: don't have these called every time
         let path = UIBezierPath()
         path.move(to: CGPoint(x: 0, y: bounds.midY))

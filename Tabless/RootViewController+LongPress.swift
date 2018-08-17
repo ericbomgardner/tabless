@@ -33,9 +33,9 @@ extension RootViewController {
         {
             let openInSafariAction = UIAlertAction(title: "Open in Safari",
                                                    style: .default) { _ in
-                                                    UIApplication.shared.open(url,
-                                                                              options: [:],
-                                                                              completionHandler: nil)
+                UIApplication.shared.open(url,
+                                          options: [:],
+                                          completionHandler: nil)
             }
             customAlertController.addAction(openInSafariAction)
         }

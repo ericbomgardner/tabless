@@ -20,7 +20,7 @@ class SearchView: UITextField {
 
         configure(for: .search)
     }
-    
+
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }

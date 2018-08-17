@@ -39,7 +39,7 @@ class StateClearer {
             }
 
             let operationId = UUID().uuidString
-            let operationIdMatches: (StateClearingOperation) -> (Bool) = { operation -> Bool in
+            let operationIdMatches: (StateClearingOperation) -> Bool = { operation -> Bool in
                 operation.id == operationId
             }
             let completeOperation = { [weak self] in

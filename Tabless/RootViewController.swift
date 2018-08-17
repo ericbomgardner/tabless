@@ -73,7 +73,7 @@ class RootViewController: UIViewController, SearchViewDelegate, StateResettable 
         webContainerView?.webView.addObserver(self, forKeyPath: "estimatedProgress", options: .new, context: nil)
     }
 
-    override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
+    override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey: Any]?, context: UnsafeMutableRawPointer?) {
         guard let newValue = change?[NSKeyValueChangeKey.newKey] as? NSNumber,
             keyPath == "estimatedProgress" else
         {
@@ -117,11 +117,11 @@ class RootViewController: UIViewController, SearchViewDelegate, StateResettable 
         }
     }
 
-    private func clearWebViewData(completion: @escaping () -> ()) {
+    private func clearWebViewData(completion: @escaping () -> Void) {
         let aLongTimeAgo = Date(timeIntervalSinceReferenceDate: 0)
         WKWebsiteDataStore.default().removeData(ofTypes: WKWebsiteDataStore.allWebsiteDataTypes(),
                                                 modifiedSince: aLongTimeAgo) {
-                                                    completion()
+            completion()
         }
     }
 
