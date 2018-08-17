@@ -9,8 +9,8 @@ extension RootViewController {
 
         switch gestureRecognizer.state {
         case .changed:
-            webContainerViewLeadingConstraint?.constant = viewXTranslation
-//            backSwipeSnapshotView.alpha = 0.4 + 0.6 * progress
+            webContainerViewLeadingConstraint?.constant = max(viewXTranslation, 0)
+            // todo: add overlay view, start at mostly transparent and move to entirely at ended
         case .cancelled:
             webContainerViewLeadingConstraint?.constant = 0
         case .ended:
