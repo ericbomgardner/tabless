@@ -3,10 +3,11 @@ import WebKit
 
 class RootViewController: UIViewController, SearchViewDelegate, StateResettable {
 
-    var mainView: MainView {
-        return view as! MainView
-    }
-    var backSwipeSnapshotView = UIImageView()
+    var mainView: MainView!
+    var webContainerView: WebContainerView?
+
+    var webContainerViewLeadingConstraint: NSLayoutConstraint?
+    var webContainerViewTrailingConstraint: NSLayoutConstraint?
 
     private let maxPauseInterval: TimeInterval = 20
     private var pauseTime: Date?
@@ -26,35 +27,50 @@ class RootViewController: UIViewController, SearchViewDelegate, StateResettable 
     }
 
     override func loadView() {
-        view = MainView(activity: .search)
-
-        let backSwipeGestureRecognizer =
-            UIScreenEdgePanGestureRecognizer(target: self,
-                                             action: #selector(handleBackSwipe))
-        backSwipeGestureRecognizer.edges = .left
-        mainView.addGestureRecognizer(backSwipeGestureRecognizer)
-
+        let mainView = MainView()
         mainView.searchView.searchDelegate = self
-        mainView.webView.navigationDelegate = self
+
+        view = mainView
     }
 
-    override func viewDidLoad() {
-        setUpLoadingKVO()
-
-        // Delay snapshotting to avoid preventing keyboard entrance
-        DispatchQueue.main.async {
-            self.setUpBackSwipeSnapshotView()
-        }
+    override func viewDidAppear(_ animated: Bool) {
+        searchSubmitted("example")
     }
 
     deinit {
         removeLoadingKVO()
     }
 
+    // MARK: Transitioning
+
+    private func transitionToWebContainerView() {
+        let webContainerView = WebContainerView()
+        self.webContainerView = webContainerView
+        webContainerView.translatesAutoresizingMaskIntoConstraints = false
+        webContainerView.preservesSuperviewLayoutMargins = true
+        let backSwipeGestureRecognizer =
+            UIScreenEdgePanGestureRecognizer(target: self,
+                                             action: #selector(handleBackSwipe))
+        backSwipeGestureRecognizer.edges = .left
+        webContainerView.addGestureRecognizer(backSwipeGestureRecognizer)
+        webContainerView.webView.navigationDelegate = self
+        webContainerView.searchView.searchDelegate = self
+        view.addSubview(webContainerView)
+
+        let webContainerViewLeadingConstraint = webContainerView.leadingAnchor.constraint(equalTo: view.leadingAnchor)
+        webContainerViewLeadingConstraint.isActive = true
+        self.webContainerViewLeadingConstraint = webContainerViewLeadingConstraint
+        webContainerView.widthAnchor.constraint(equalTo: view.widthAnchor).isActive = true
+        webContainerView.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
+        webContainerView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
+
+        setUpLoadingKVO()
+    }
+
     // MARK: KVO
 
     private func setUpLoadingKVO() {
-        mainView.webView.addObserver(self, forKeyPath: "estimatedProgress", options: .new, context: nil)
+        webContainerView?.webView.addObserver(self, forKeyPath: "estimatedProgress", options: .new, context: nil)
     }
 
     override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
@@ -63,24 +79,21 @@ class RootViewController: UIViewController, SearchViewDelegate, StateResettable 
         {
             return
         }
-        mainView.progressView.progress = newValue.doubleValue
+        webContainerView?.progressView.progress = newValue.doubleValue
     }
 
     private func removeLoadingKVO() {
-        mainView.webView.removeObserver(self, forKeyPath: "estimatedProgress", context: nil)
+        webContainerView?.webView.removeObserver(self, forKeyPath: "estimatedProgress", context: nil)
     }
 
     // MARK: SearchViewDelegate
 
     func searchSubmitted(_ text: String) {
-        UIView.animate(withDuration: 0.2, animations: {
-            self.mainView.currentActivity = .web
-        }, completion: { _ in
-            self.mainView.progressView.isHidden = false
-        }) 
+        transitionToWebContainerView()
 
         if let url = URLBuilder.createURL(text) {
-            mainView.webView.load(URLRequest(url: url))
+            webContainerView?.searchView.text = text
+            webContainerView?.webView.load(URLRequest(url: url))
         }
     }
 
@@ -94,8 +107,9 @@ class RootViewController: UIViewController, SearchViewDelegate, StateResettable 
 
     func reset() {
         removeLoadingKVO()
-        mainView.reset()
-        setUpLoadingKVO()
+        webContainerViewLeadingConstraint = nil
+        webContainerView?.removeFromSuperview()
+        webContainerView = nil
 
         clearWebViewData {
             print("Data cleared")
@@ -116,10 +130,8 @@ class RootViewController: UIViewController, SearchViewDelegate, StateResettable 
     override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
         super.viewWillTransition(to: size, with: coordinator)
         coordinator.animate(alongsideTransition: { _ in
-            self.mainView.setUpForCurrentActivity()
-        }, completion: { _ in
-            // TODO: Retake search view snapshot
-        })
+            // TODO: Resize views
+        }, completion: nil)
     }
 }
 
