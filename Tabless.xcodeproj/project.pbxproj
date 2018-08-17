@@ -70,7 +70,6 @@
 		079596661BF1CFFE00F7078B /* Tabless */ = {
 			isa = PBXGroup;
 			children = (
-				07E559CF21266F440066110C /* Views */,
 				079596671BF1CFFE00F7078B /* AppDelegate.swift */,
 				0795966E1BF1CFFE00F7078B /* Assets.xcassets */,
 				079596701BF1CFFE00F7078B /* LaunchScreen.storyboard */,
@@ -78,9 +77,8 @@
 				07FA0E381CA3DD5300B9AF8F /* RootViewController.swift */,
 				0779F91420D4B1E800FC90DE /* RootViewController+BackSwipe.swift */,
 				077B16E0210D3E8C00FF5079 /* RootViewController+LongPress.swift */,
-				07EC81CF20B289A70086E24C /* StateClearer.swift */,
-				077B16E4210D954A00FF5079 /* UITraitCollection+Size.swift */,
-				0711BCB620B5248900D34255 /* URLBuilder.swift */,
+				07E559D0212672F30066110C /* Utilities */,
+				07E559CF21266F440066110C /* Views */,
 			);
 			path = Tabless;
 			sourceTree = "<group>";
@@ -94,6 +92,24 @@
 				07E559CC21102B650066110C /* WebContainerView.swift */,
 			);
 			path = Views;
+			sourceTree = "<group>";
+		};
+		07E559D0212672F30066110C /* Utilities */ = {
+			isa = PBXGroup;
+			children = (
+				07E559D1212673080066110C /* Extensions */,
+				07EC81CF20B289A70086E24C /* StateClearer.swift */,
+				0711BCB620B5248900D34255 /* URLBuilder.swift */,
+			);
+			path = Utilities;
+			sourceTree = "<group>";
+		};
+		07E559D1212673080066110C /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				077B16E4210D954A00FF5079 /* UITraitCollection+Size.swift */,
+			);
+			path = Extensions;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
