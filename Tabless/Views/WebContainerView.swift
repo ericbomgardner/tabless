@@ -26,12 +26,7 @@ class WebContainerView: UIView {
         searchView.translatesAutoresizingMaskIntoConstraints = false
         searchView.leadingAnchor.constraint(equalTo: readableContentGuide.leadingAnchor).isActive = true
         searchView.trailingAnchor.constraint(equalTo: readableContentGuide.trailingAnchor).isActive = true
-        if #available(iOS 11.0, *) {
-            searchView.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor).isActive = true
-        } else {
-            searchView.topAnchor.constraint(equalTo: topAnchor,
-                                            constant: UIApplication.shared.statusBarFrame.height).isActive = true
-        }
+        searchView.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor).isActive = true
         searchView.heightAnchor.constraint(equalToConstant: searchView.height(for: .web)).isActive = true
         searchView.configure(for: .web)
 
