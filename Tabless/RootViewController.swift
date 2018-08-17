@@ -12,6 +12,8 @@ class RootViewController: UIViewController, SearchViewDelegate, StateResettable 
     private let maxPauseInterval: TimeInterval = 20
     private var pauseTime: Date?
 
+    private var webViewProgressObservationToken: NSKeyValueObservation?
+
     private let stateClearer: StateClearer
 
     init(stateClearer: StateClearer) {
@@ -70,20 +72,17 @@ class RootViewController: UIViewController, SearchViewDelegate, StateResettable 
     // MARK: KVO
 
     private func setUpLoadingKVO() {
-        webContainerView?.webView.addObserver(self, forKeyPath: "estimatedProgress", options: .new, context: nil)
-    }
-
-    override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey: Any]?, context: UnsafeMutableRawPointer?) {
-        guard let newValue = change?[NSKeyValueChangeKey.newKey] as? NSNumber,
-            keyPath == "estimatedProgress" else
-        {
-            return
+        webViewProgressObservationToken = webContainerView?.webView.observe(\.estimatedProgress,
+                                                                            options: [.new])
+        { [weak self] _, change in
+            if let newValue = change.newValue {
+                self?.webContainerView?.progressView.progress = newValue
+            }
         }
-        webContainerView?.progressView.progress = newValue.doubleValue
     }
 
     private func removeLoadingKVO() {
-        webContainerView?.webView.removeObserver(self, forKeyPath: "estimatedProgress", context: nil)
+        webViewProgressObservationToken = nil
     }
 
     // MARK: SearchViewDelegate
