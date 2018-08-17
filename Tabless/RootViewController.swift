@@ -3,7 +3,9 @@ import WebKit
 
 class RootViewController: UIViewController, SearchViewDelegate, StateResettable {
 
-    var rootView: RootView!
+    var rootView: RootView! {
+        return view as! RootView
+    }
     var webContainerView: WebContainerView?
 
     var webContainerViewLeadingConstraint: NSLayoutConstraint?
@@ -35,8 +37,8 @@ class RootViewController: UIViewController, SearchViewDelegate, StateResettable 
         view = rootView
     }
 
-    override func viewDidAppear(_ animated: Bool) {
-        searchSubmitted("example")
+    override func viewWillAppear(_ animated: Bool) {
+        rootView.searchView.becomeFirstResponder()
     }
 
     deinit {
@@ -65,6 +67,8 @@ class RootViewController: UIViewController, SearchViewDelegate, StateResettable 
         webContainerView.widthAnchor.constraint(equalTo: view.widthAnchor).isActive = true
         webContainerView.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
         webContainerView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
+
+        rootView.searchView.text = ""
 
         setUpLoadingKVO()
     }
@@ -114,6 +118,7 @@ class RootViewController: UIViewController, SearchViewDelegate, StateResettable 
             print("Data cleared")
             // TODO: Handle asynchronicity of this?
         }
+        rootView.searchView.becomeFirstResponder()
     }
 
     private func clearWebViewData(completion: @escaping () -> Void) {

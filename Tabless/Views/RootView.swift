@@ -32,8 +32,6 @@ class RootView: UIView {
         searchView.heightAnchor.constraint(equalToConstant: searchView.height(for: .search)).isActive = true
 
         searchView.configure(for: .search)
-
-        searchView.becomeFirstResponder()
     }
 
     required init?(coder aDecoder: NSCoder) {
