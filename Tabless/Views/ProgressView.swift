@@ -52,14 +52,19 @@ class ProgressView: UIView {
         self.progress = progress
     }
 
-    private func animate(from oldValue: Double, to progress: Double, completion: (() -> Void)? = nil) {
-        // todo: don't have these called every time
+    override func layoutSubviews() {
+        super.layoutSubviews()
+
+        CATransaction.setDisableActions(true)
         let path = UIBezierPath()
         path.move(to: CGPoint(x: 0, y: bounds.midY))
         path.addLine(to: CGPoint(x: bounds.maxX, y: bounds.midY))
         progressLayer.path = path.cgPath
         progressLayer.lineWidth = bounds.height
+        CATransaction.setDisableActions(false)
+    }
 
+    private func animate(from oldValue: Double, to progress: Double, completion: (() -> Void)? = nil) {
         let animation = CABasicAnimation(keyPath: "strokeEnd")
         animation.fromValue = oldValue
         animation.toValue = progress

@@ -24,11 +24,8 @@ class WebContainerView: UIView {
         backgroundColor = UIColor.white
 
         addSubview(searchView)
-        searchView.alpha = 0.4
-        searchView.backgroundColor = .yellow
         addSubview(progressView)
         progressView.alpha = 0.3
-        progressView.backgroundColor = .cyan
         addSubview(webView)
         sendSubview(toBack: progressView)
 
