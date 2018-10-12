@@ -1,6 +1,7 @@
 import UIKit
 import WebKit
 
+/// Container for search, progress, and web views
 class WebContainerView: UIView {
 
     let searchView = SearchView()
@@ -13,13 +14,21 @@ class WebContainerView: UIView {
         return webView
     }()
 
+    struct SearchViewTextInset {
+        static let inset = 12
+    }
+
     init() {
         super.init(frame: .zero)
 
         backgroundColor = UIColor.white
 
         addSubview(searchView)
+        searchView.alpha = 0.4
+        searchView.backgroundColor = .yellow
         addSubview(progressView)
+        progressView.alpha = 0.3
+        progressView.backgroundColor = .cyan
         addSubview(webView)
         sendSubview(toBack: progressView)
 
@@ -45,11 +54,6 @@ class WebContainerView: UIView {
 
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
-    }
-
-    func reset() {
-        webView.stopLoading()
-        progressView.progress = 0
     }
 
     // MARK: Sizing

@@ -22,8 +22,6 @@ class SearchView: UITextField {
         placeholder = "Let's go."
         clearButtonMode = UITextFieldViewMode.always
         delegate = self
-
-        configure(for: .search)
     }
 
     required init?(coder aDecoder: NSCoder) {

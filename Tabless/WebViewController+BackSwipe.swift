@@ -1,6 +1,6 @@
 import UIKit
 
-extension RootViewController {
+extension WebViewController {
 
     // todo: add shadow to left side of relevant views
     @objc func handleBackSwipe(gestureRecognizer: UIScreenEdgePanGestureRecognizer) {

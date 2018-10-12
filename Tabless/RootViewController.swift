@@ -4,17 +4,11 @@ import WebKit
 class RootViewController: UIViewController, SearchViewDelegate, StateResettable {
 
     var rootView: RootView! {
-        return view as! RootView
+        return view as? RootView
     }
-    var webContainerView: WebContainerView?
-
-    var webContainerViewLeadingConstraint: NSLayoutConstraint?
-    var webContainerViewTrailingConstraint: NSLayoutConstraint?
 
     private let maxPauseInterval: TimeInterval = 20
     private var pauseTime: Date?
-
-    private var webViewProgressObservationToken: NSKeyValueObservation?
 
     private let stateClearer: StateClearer
 
@@ -41,63 +35,15 @@ class RootViewController: UIViewController, SearchViewDelegate, StateResettable 
         rootView.searchView.becomeFirstResponder()
     }
 
-    deinit {
-        removeLoadingKVO()
-    }
-
-    // MARK: Transitioning
-
-    private func transitionToWebContainerView() {
-        let webContainerView = WebContainerView()
-        self.webContainerView = webContainerView
-        webContainerView.translatesAutoresizingMaskIntoConstraints = false
-        webContainerView.preservesSuperviewLayoutMargins = true
-        let backSwipeGestureRecognizer =
-            UIScreenEdgePanGestureRecognizer(target: self,
-                                             action: #selector(handleBackSwipe))
-        backSwipeGestureRecognizer.edges = .left
-        webContainerView.addGestureRecognizer(backSwipeGestureRecognizer)
-        webContainerView.webView.navigationDelegate = self
-        webContainerView.searchView.searchDelegate = self
-        view.addSubview(webContainerView)
-
-        let webContainerViewLeadingConstraint = webContainerView.leadingAnchor.constraint(equalTo: view.leadingAnchor)
-        webContainerViewLeadingConstraint.isActive = true
-        self.webContainerViewLeadingConstraint = webContainerViewLeadingConstraint
-        webContainerView.widthAnchor.constraint(equalTo: view.widthAnchor).isActive = true
-        webContainerView.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
-        webContainerView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
-
-        rootView.searchView.text = ""
-
-        setUpLoadingKVO()
-    }
-
-    // MARK: KVO
-
-    private func setUpLoadingKVO() {
-        webViewProgressObservationToken = webContainerView?.webView.observe(\.estimatedProgress,
-                                                                            options: [.new])
-        { [weak self] _, change in
-            if let newValue = change.newValue {
-                self?.webContainerView?.progressView.progress = newValue
-            }
-        }
-    }
-
-    private func removeLoadingKVO() {
-        webViewProgressObservationToken = nil
-    }
-
     // MARK: SearchViewDelegate
 
     func searchSubmitted(_ text: String) {
-        transitionToWebContainerView()
-
-        if let url = URLBuilder.createURL(text) {
-            webContainerView?.searchView.text = text
-            webContainerView?.webView.load(URLRequest(url: url))
+        let webViewController = WebViewController(stateClearer: stateClearer)
+        present(webViewController, animated: false) {
+            webViewController.loadQuery(text)
         }
+
+        rootView.searchView.text = ""
     }
 
     func searchCleared() {
@@ -109,11 +55,6 @@ class RootViewController: UIViewController, SearchViewDelegate, StateResettable 
     // MARK: StateResettable
 
     func reset() {
-        removeLoadingKVO()
-        webContainerViewLeadingConstraint = nil
-        webContainerView?.removeFromSuperview()
-        webContainerView = nil
-
         clearWebViewData {
             print("Data cleared")
             // TODO: Handle asynchronicity of this?

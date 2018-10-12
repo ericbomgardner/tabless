@@ -1,14 +1,7 @@
 import UIKit
 
 class ProgressView: UIView {
-    var progress = 0.0 {
-        didSet {
-            if progress == oldValue {
-                return
-            }
-            update(from: oldValue, to: progress)
-        }
-    }
+    private var progress = 0.0
 
     private let progressLayer = CAShapeLayer()
 
@@ -30,27 +23,33 @@ class ProgressView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
 
-    private func update(from oldValue: Double, to progress: Double) {
-        if progress == 0 || progress < oldValue {
-            CATransaction.setDisableActions(true)
-            progressLayer.strokeEnd = CGFloat(progress)
-            CATransaction.setDisableActions(false)
+    func setProgress(_ progress: Double, animated: Bool = true) {
+        let oldValue = self.progress
+
+        if oldValue == progress {
+            return
         }
 
         // Reset alpha to 1 (could have been fading/faded)
         alpha = 1
 
-        if progress == 0 {
-            // No animation
-        } else if progress < oldValue {
-            animate(from: 0.0, to: progress)
-        } else if progress != 1 {
-            animate(from: oldValue, to: progress)
-        } else {
-            animate(from: oldValue, to: progress) {
-                self.fadeAndReset()
+        if animated {
+           if progress < oldValue {
+                animate(from: 0.0, to: progress)
+            } else if progress != 1 {
+                animate(from: oldValue, to: progress)
+            } else {
+                animate(from: oldValue, to: progress) {
+                    self.fadeAndReset()
+                }
             }
+        } else {
+            CATransaction.setDisableActions(true)
+            progressLayer.strokeEnd = CGFloat(progress)
+            CATransaction.setDisableActions(false)
         }
+
+        self.progress = progress
     }
 
     private func animate(from oldValue: Double, to progress: Double, completion: (() -> Void)? = nil) {
@@ -81,7 +80,7 @@ class ProgressView: UIView {
             self.alpha = 0
         }, completion: { completed in
             if completed && self.progress == 1.0 {
-                self.progress = 0.0
+                self.setProgress(0, animated: false)
             }
         })
     }
