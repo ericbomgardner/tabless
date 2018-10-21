@@ -1,12 +1,20 @@
 import UIKit
 import WebKit
 
-class WebViewController: UIViewController, SearchViewDelegate, StateResettable {
+protocol WebControllerStateResetDelegate: StateResettable {
+    func didRequestResetInWebController(_ webController: WebController)
+}
+
+class WebController: NSObject, SearchViewDelegate, StateResettable {
+
+    let view = UIView()
 
     var webContainerView: WebContainerView!
 
     var webContainerViewLeadingConstraint: NSLayoutConstraint?
     var webContainerViewTrailingConstraint: NSLayoutConstraint?
+
+    var delegate: WebControllerStateResetDelegate?
 
     // makes it clear loading has started before UIWebView reports back
     private static var initialProgress = 0.04
@@ -20,10 +28,12 @@ class WebViewController: UIViewController, SearchViewDelegate, StateResettable {
 
     init(stateClearer: StateClearer) {
         self.stateClearer = stateClearer
-        super.init(nibName: nil, bundle: nil)
+
+        super.init()
 
         stateClearer.addStateClearRequest(for: self,
                                           after: maxPauseInterval)
+        setUpView()
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -42,10 +52,8 @@ class WebViewController: UIViewController, SearchViewDelegate, StateResettable {
         webContainerView.webView.load(URLRequest(url: url))
     }
 
-    override func loadView() {
-        let view = UIView()
+    private func setUpView() {
         view.backgroundColor = .clear
-        self.view = view
 
         self.webContainerView = WebContainerView()
         webContainerView.translatesAutoresizingMaskIntoConstraints = false
@@ -77,7 +85,7 @@ class WebViewController: UIViewController, SearchViewDelegate, StateResettable {
         { [weak self] _, change in
             if let newValue = change.newValue {
                 self?.webContainerView.progressView.setProgress(
-                    WebViewController.initialProgress + newValue * (1 - WebViewController.initialProgress)
+                    WebController.initialProgress + newValue * (1 - WebController.initialProgress)
                 )
             }
         }
@@ -104,7 +112,7 @@ class WebViewController: UIViewController, SearchViewDelegate, StateResettable {
             print("Data cleared")
             // TODO: Handle asynchronicity of this?
         }
-        dismiss(animated: false, completion: nil)
+        delegate?.didRequestResetInWebController(self)
     }
 
     private func clearWebViewData(completion: @escaping () -> Void) {
@@ -114,18 +122,9 @@ class WebViewController: UIViewController, SearchViewDelegate, StateResettable {
                                                     completion()
         }
     }
-
-    // MARK: Sizing
-
-    override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
-        super.viewWillTransition(to: size, with: coordinator)
-        coordinator.animate(alongsideTransition: { _ in
-            // TODO: Resize views
-        }, completion: nil)
-    }
 }
 
-extension WebViewController: WKNavigationDelegate {
+extension WebController: WKNavigationDelegate {
     func webView(_ webView: WKWebView,
                  decidePolicyFor navigationAction: WKNavigationAction,
                  decisionHandler: @escaping (WKNavigationActionPolicy) -> Void) {

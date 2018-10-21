@@ -7,6 +7,8 @@ class RootViewController: UIViewController, SearchViewDelegate, StateResettable 
         return view as? RootView
     }
 
+    var webView: UIView? = nil
+
     private let maxPauseInterval: TimeInterval = 20
     private var pauseTime: Date?
 
@@ -38,12 +40,18 @@ class RootViewController: UIViewController, SearchViewDelegate, StateResettable 
     // MARK: SearchViewDelegate
 
     func searchSubmitted(_ text: String) {
-        let webViewController = WebViewController(stateClearer: stateClearer)
-        present(webViewController, animated: false) {
-            webViewController.loadQuery(text)
-        }
-
-        rootView.searchView.text = ""
+        let webController = WebController(stateClearer: stateClearer)
+        let webView = webController.view
+        webView.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(webView)
+        webView.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
+        webView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
+        webView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
+        webView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
+        self.webView = webView
+        webController.delegate = self
+        webController.loadQuery(text)
+        self.rootView.searchView.text = ""
     }
 
     func searchCleared() {
@@ -91,5 +99,12 @@ extension RootViewController: WKNavigationDelegate {
         let disableUniversalLinkingPolicy =
             WKNavigationActionPolicy(rawValue: WKNavigationActionPolicy.allow.rawValue + 2)!
         decisionHandler(disableUniversalLinkingPolicy)
+    }
+}
+
+extension RootViewController: WebControllerStateResetDelegate {
+    func didRequestResetInWebController(_ webController: WebController) {
+        webView?.removeFromSuperview()
+        rootView.searchView.becomeFirstResponder()
     }
 }

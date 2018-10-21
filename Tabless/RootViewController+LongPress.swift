@@ -1,6 +1,6 @@
 import UIKit
 
-extension WebViewController {
+extension RootViewController {
 
     override func present(_ viewControllerToPresent: UIViewController,
                           animated flag: Bool,
