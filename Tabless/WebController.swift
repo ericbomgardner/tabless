@@ -1,7 +1,7 @@
 import UIKit
 import WebKit
 
-protocol WebControllerStateResetDelegate: StateResettable {
+protocol WebControllerStateResetDelegate {
     func didRequestResetInWebController(_ webController: WebController)
 }
 
@@ -10,6 +10,8 @@ class WebController: NSObject, SearchViewDelegate, StateResettable {
     let view = UIView()
 
     var webContainerView: WebContainerView!
+
+    var opacityView = UIView()
 
     var webContainerViewLeadingConstraint: NSLayoutConstraint?
     var webContainerViewTrailingConstraint: NSLayoutConstraint?
@@ -54,6 +56,15 @@ class WebController: NSObject, SearchViewDelegate, StateResettable {
 
     private func setUpView() {
         view.backgroundColor = .clear
+
+        view.addSubview(opacityView)
+        opacityView.backgroundColor = .black
+        opacityView.translatesAutoresizingMaskIntoConstraints = false
+        opacityView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
+        opacityView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
+        opacityView.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
+        opacityView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
+        opacityView.alpha = 0.3
 
         self.webContainerView = WebContainerView()
         webContainerView.translatesAutoresizingMaskIntoConstraints = false
