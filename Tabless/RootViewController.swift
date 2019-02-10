@@ -1,7 +1,7 @@
 import UIKit
 import WebKit
 
-class RootViewController: UIViewController, SearchViewDelegate, StateResettable {
+class RootViewController: UIViewController, SearchViewDelegate {
 
     var rootView: RootView! {
         return view as? RootView
@@ -17,9 +17,6 @@ class RootViewController: UIViewController, SearchViewDelegate, StateResettable 
     init(stateClearer: StateClearer) {
         self.stateClearer = stateClearer
         super.init(nibName: nil, bundle: nil)
-
-        stateClearer.addStateClearRequest(for: self,
-                                          after: maxPauseInterval)
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -58,26 +55,8 @@ class RootViewController: UIViewController, SearchViewDelegate, StateResettable 
 
     func searchCleared() {
         UIView.animate(withDuration: 0.35, animations: {
-            self.reset()
+            self.rootView.searchView.becomeFirstResponder()
         })
-    }
-
-    // MARK: StateResettable
-
-    func reset() {
-        clearWebViewData {
-            print("Data cleared")
-            // TODO: Handle asynchronicity of this?
-        }
-        rootView.searchView.becomeFirstResponder()
-    }
-
-    private func clearWebViewData(completion: @escaping () -> Void) {
-        let aLongTimeAgo = Date(timeIntervalSinceReferenceDate: 0)
-        WKWebsiteDataStore.default().removeData(ofTypes: WKWebsiteDataStore.allWebsiteDataTypes(),
-                                                modifiedSince: aLongTimeAgo) {
-            completion()
-        }
     }
 
     // MARK: Sizing
@@ -87,20 +66,6 @@ class RootViewController: UIViewController, SearchViewDelegate, StateResettable 
         coordinator.animate(alongsideTransition: { _ in
             // TODO: Resize views
         }, completion: nil)
-    }
-}
-
-extension RootViewController: WKNavigationDelegate {
-    func webView(_ webView: WKWebView,
-                 decidePolicyFor navigationAction: WKNavigationAction,
-                 decisionHandler: @escaping (WKNavigationActionPolicy) -> Void) {
-        // Prevent universal links from opening in apps -- Tabless is meant to
-        // be a quick-in, quick-out, historyless experience. Having a video or
-        // shopping app that preserves history open when a link is tapped doesn't
-        // feel good.
-        let disableUniversalLinkingPolicy =
-            WKNavigationActionPolicy(rawValue: WKNavigationActionPolicy.allow.rawValue + 2)!
-        decisionHandler(disableUniversalLinkingPolicy)
     }
 }
 
