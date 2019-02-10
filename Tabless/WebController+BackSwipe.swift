@@ -18,6 +18,7 @@ extension WebController {
             webContainerViewLeadingConstraint?.constant = 0
             webContainerView?.isUserInteractionEnabled = true
         case .ended:
+            // TODO: allow gesture to complete via velocity
             if progress > 0.5 {
                 // TODO: animate out webview instead of disappearing
                 reset()
