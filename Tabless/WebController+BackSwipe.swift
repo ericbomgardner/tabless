@@ -14,7 +14,6 @@ extension WebController {
             webContainerView.layer.shadowRadius = 8 * (1 - progress)
             webContainerView.layer.shadowOpacity = Float(0.2 * (1 - progress))
             opacityView.alpha = 0.1 * (1 - progress)
-            // todo: add overlay view, start at mostly transparent and move to entirely at ended
         case .cancelled:
             webContainerViewLeadingConstraint?.constant = 0
             webContainerView?.isUserInteractionEnabled = true
