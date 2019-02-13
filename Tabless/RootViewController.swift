@@ -32,8 +32,25 @@ class RootViewController: UIViewController, SearchViewDelegate {
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        makeSearchViewFirstResponder()
+    }
 
-        rootView.searchView.becomeFirstResponder()
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        makeSearchViewFirstResponder()
+    }
+
+    private func makeSearchViewFirstResponder() {
+        if !rootView.searchView.isFirstResponder {
+            let firstTrySuccess = rootView.searchView.becomeFirstResponder()
+            if !firstTrySuccess {
+                DispatchQueue.main.async {
+                    if !self.rootView.searchView.isFirstResponder {
+                        self.rootView.searchView.becomeFirstResponder()
+                    }
+                }
+            }
+        }
     }
 
     // MARK: SearchViewDelegate
