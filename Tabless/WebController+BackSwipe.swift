@@ -2,7 +2,6 @@ import UIKit
 
 extension WebController {
 
-    // todo: add shadow to left side of relevant views
     @objc func handleBackSwipe(gestureRecognizer: UIScreenEdgePanGestureRecognizer) {
         let viewXTranslation = gestureRecognizer.translation(in: gestureRecognizer.view?.superview).x
         let progress = viewXTranslation / view.bounds.width
@@ -18,13 +17,25 @@ extension WebController {
             webContainerViewLeadingConstraint?.constant = 0
             webContainerView?.isUserInteractionEnabled = true
         case .ended:
-            // TODO: allow gesture to complete via velocity
-            if progress > 0.5 {
-                // TODO: animate out webview instead of disappearing
-                reset()
+            let viewXVelocity = gestureRecognizer.velocity(in: gestureRecognizer.view?.superview).x
+            if progress > 0.5 || (progress > 0.12 && viewXVelocity > 300) {
+                webContainerViewLeadingConstraint?.constant = view.bounds.width
+                UIView.animate(withDuration: 0.1,
+                               delay: 0,
+                               options: .beginFromCurrentState,
+                               animations: { self.webContainerView.superview?.layoutIfNeeded() },
+                               completion: { _ in self.reset() } )
+            } else {
+                webContainerViewLeadingConstraint?.constant = 0
+                webContainerView?.isUserInteractionEnabled = true
+                UIView.animate(withDuration: 0.2,
+                               delay: 0,
+                               usingSpringWithDamping: 3,
+                               initialSpringVelocity: 0.2,
+                               options: .beginFromCurrentState,
+                               animations: { self.webContainerView.superview?.layoutIfNeeded() },
+                               completion: nil)
             }
-            webContainerViewLeadingConstraint?.constant = 0
-            webContainerView?.isUserInteractionEnabled = true
         default:
             return
         }
