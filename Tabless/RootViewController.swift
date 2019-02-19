@@ -17,6 +17,10 @@ class RootViewController: UIViewController, SearchViewDelegate {
     init(stateClearer: StateClearer) {
         self.stateClearer = stateClearer
         super.init(nibName: nil, bundle: nil)
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(makeSearchViewFirstResponder),
+                                               name: .UIApplicationDidBecomeActive,
+                                               object: nil)
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -40,7 +44,7 @@ class RootViewController: UIViewController, SearchViewDelegate {
         makeSearchViewFirstResponder()
     }
 
-    private func makeSearchViewFirstResponder() {
+    @objc private func makeSearchViewFirstResponder() {
         if !rootView.searchView.isFirstResponder {
             let firstTrySuccess = rootView.searchView.becomeFirstResponder()
             if !firstTrySuccess {
