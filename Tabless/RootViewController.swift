@@ -45,6 +45,11 @@ class RootViewController: UIViewController, SearchViewDelegate {
     }
 
     @objc private func makeSearchViewFirstResponder() {
+        guard webView == nil else {
+            // Don't become first responder if web view is up
+            return
+        }
+
         if !rootView.searchView.isFirstResponder {
             let firstTrySuccess = rootView.searchView.becomeFirstResponder()
             if !firstTrySuccess {
@@ -93,6 +98,7 @@ class RootViewController: UIViewController, SearchViewDelegate {
 extension RootViewController: WebControllerStateResetDelegate {
     func didRequestResetInWebController(_ webController: WebController) {
         webView?.removeFromSuperview()
+        webView = nil
         rootView.searchView.becomeFirstResponder()
     }
 }
