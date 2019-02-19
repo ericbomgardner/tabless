@@ -23,7 +23,10 @@ extension WebController {
                 UIView.animate(withDuration: 0.1,
                                delay: 0,
                                options: .beginFromCurrentState,
-                               animations: { self.webContainerView.superview?.layoutIfNeeded() },
+                               animations: {
+                                self.webContainerView.superview?.layoutIfNeeded()
+                                self.opacityView.alpha = 0.0
+                               },
                                completion: { _ in self.reset() } )
             } else {
                 webContainerViewLeadingConstraint?.constant = 0
@@ -33,7 +36,10 @@ extension WebController {
                                usingSpringWithDamping: 3,
                                initialSpringVelocity: 0.2,
                                options: .beginFromCurrentState,
-                               animations: { self.webContainerView.superview?.layoutIfNeeded() },
+                               animations: {
+                                self.webContainerView.superview?.layoutIfNeeded()
+                                self.opacityView.alpha = 0.3
+                               },
                                completion: nil)
             }
         default:
