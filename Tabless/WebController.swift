@@ -81,7 +81,7 @@ class WebController: NSObject, SearchViewDelegate, StateResettable {
         forwardSwipeGestureRecognizer.edges = .right
         webContainerView.addGestureRecognizer(forwardSwipeGestureRecognizer)
         webContainerView.webView.navigationDelegate = self
-        webContainerView.webView.navigationDelegate = self
+        webContainerView.webView.uiDelegate = self
         webContainerView.searchView.searchDelegate = self
         view.addSubview(webContainerView)
 
@@ -173,5 +173,17 @@ extension WebController: WKNavigationDelegate {
         let disableUniversalLinkingPolicy =
             WKNavigationActionPolicy(rawValue: WKNavigationActionPolicy.allow.rawValue + 2)!
         decisionHandler(disableUniversalLinkingPolicy)
+    }
+}
+
+extension WebController: WKUIDelegate {
+    func webView(_ webView: WKWebView,
+                 createWebViewWith configuration: WKWebViewConfiguration,
+                 for navigationAction: WKNavigationAction,
+                 windowFeatures: WKWindowFeatures) -> WKWebView? {
+        if navigationAction.targetFrame == nil {
+            webView.load(navigationAction.request)
+        }
+        return nil
     }
 }
