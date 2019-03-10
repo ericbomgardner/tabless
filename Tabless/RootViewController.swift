@@ -7,7 +7,11 @@ class RootViewController: UIViewController, SearchViewDelegate {
         return view as? RootView
     }
 
-    var webView: UIView? = nil
+    var webView: UIView? {
+        return webController?.view
+    }
+
+    private var webController: WebController? = nil
 
     private let maxPauseInterval: TimeInterval = 20
     private var pauseTime: Date?
@@ -73,7 +77,7 @@ class RootViewController: UIViewController, SearchViewDelegate {
         webView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
         webView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
         webView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
-        self.webView = webView
+        self.webController = webController
         webController.delegate = self
         webController.loadQuery(text)
         self.rootView.searchView.text = ""
@@ -98,7 +102,7 @@ class RootViewController: UIViewController, SearchViewDelegate {
 extension RootViewController: WebControllerStateResetDelegate {
     func didRequestResetInWebController(_ webController: WebController) {
         webView?.removeFromSuperview()
-        webView = nil
+        self.webController = nil
         rootView.searchView.becomeFirstResponder()
     }
 }

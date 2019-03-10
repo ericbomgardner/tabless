@@ -4,9 +4,15 @@ protocol StateResettable: class {
     func reset()
 }
 
-private struct StateClearingRequest {
-    let stateResettable: StateResettable
+private class StateClearingRequest {
+    weak var stateResettable: StateResettable? = nil
     let retentionLength: TimeInterval
+
+    init(stateResettable: StateResettable?,
+         retentionLength: TimeInterval) {
+        self.stateResettable = stateResettable
+        self.retentionLength = retentionLength
+    }
 }
 
 private struct StateClearingOperation {
@@ -58,7 +64,7 @@ class StateClearer {
             let timer = Timer.scheduledTimer(withTimeInterval: request.retentionLength,
                                              repeats: false) { timer in
                 if timer.isValid {
-                    request.stateResettable.reset()
+                    request.stateResettable?.reset()
                 }
                 completeOperation()
             }
