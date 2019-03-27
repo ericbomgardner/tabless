@@ -149,6 +149,7 @@ class WebController: NSObject, SearchViewDelegate, StateResettable {
         clearWebViewData {
             print("Web view data cleared", to: &Logger.shared)
             // TODO: Handle asynchronicity of this?
+            AppDelegate.isKeyboardHidingDefinitelyBad = true
         }
         delegate?.didRequestResetInWebController(self)
     }

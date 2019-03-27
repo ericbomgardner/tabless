@@ -107,6 +107,7 @@ class RootViewController: UIViewController, SearchViewDelegate {
     // MARK: T view taps
 
     @objc private func didTapT() {
+        AppDelegate.isKeyboardHidingDefinitelyBad = false
         let navigationController = UINavigationController(rootViewController: LogViewController())
         present(navigationController, animated: true)
     }
@@ -157,6 +158,9 @@ extension RootViewController {
     }
     @objc private func keyboardWillHide(_ notification: Notification) {
         print("RVC: keyboardWillHide, fr: \(firstResponder)", to: &Logger.shared)
+        if AppDelegate.isKeyboardHidingDefinitelyBad {
+            fatalError("Keyboard hiding when it shouldn't!")
+        }
         print("RVC keyboardWillHide, notif: \(notification)", to: &Logger.shared)
         print("RVC keyboardWillHide, stack trace: \(Thread.callStackSymbols)", to: &Logger.shared)
 

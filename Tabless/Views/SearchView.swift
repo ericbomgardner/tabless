@@ -94,6 +94,7 @@ extension SearchView: UITextFieldDelegate {
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         if let text = textField.text {
             shouldPreventResigningFirstReponder = false
+            AppDelegate.isKeyboardHidingDefinitelyBad = false
             textField.resignFirstResponder()
             searchDelegate?.searchSubmitted(text)
         }
