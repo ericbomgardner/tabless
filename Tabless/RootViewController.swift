@@ -133,19 +133,19 @@ extension RootViewController {
     private func setUpKeyboardNotificationObservation() {
         NotificationCenter.default.addObserver(self,
                                                selector: #selector(keyboardDidHide),
-                                               name: .UIKeyboardDidHide,
+                                               name: UIResponder.keyboardDidHideNotification,
                                                object: nil)
         NotificationCenter.default.addObserver(self,
                                                selector: #selector(keyboardDidShow),
-                                               name: .UIKeyboardDidShow,
+                                               name: UIResponder.keyboardDidShowNotification,
                                                object: nil)
         NotificationCenter.default.addObserver(self,
                                                selector: #selector(keyboardWillHide(_:)),
-                                               name: .UIKeyboardWillHide,
+                                               name: UIResponder.keyboardWillHideNotification,
                                                object: nil)
         NotificationCenter.default.addObserver(self,
                                                selector: #selector(keyboardWillShow),
-                                               name: .UIKeyboardWillShow,
+                                               name: UIResponder.keyboardWillShowNotification,
                                                object: nil)
     }
 
