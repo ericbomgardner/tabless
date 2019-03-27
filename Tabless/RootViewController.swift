@@ -23,7 +23,7 @@ class RootViewController: UIViewController, SearchViewDelegate {
         super.init(nibName: nil, bundle: nil)
         NotificationCenter.default.addObserver(self,
                                                selector: #selector(makeSearchViewFirstResponder),
-                                               name: .UIApplicationDidBecomeActive,
+                                               name: UIApplication.didBecomeActiveNotification,
                                                object: nil)
     }
 

@@ -9,7 +9,7 @@ class WebContainerView: UIView {
     let webView: WKWebView = {
         let configuration = WKWebViewConfiguration()
         let webView = WKWebView(frame: CGRect.zero, configuration: configuration)
-        webView.scrollView.decelerationRate = UIScrollViewDecelerationRateNormal
+        webView.scrollView.decelerationRate = .normal
         webView.allowsBackForwardNavigationGestures = true
         return webView
     }()
@@ -27,7 +27,7 @@ class WebContainerView: UIView {
         addSubview(progressView)
         progressView.alpha = 0.3
         addSubview(webView)
-        sendSubview(toBack: progressView)
+        sendSubviewToBack(progressView)
 
         searchView.translatesAutoresizingMaskIntoConstraints = false
         searchView.leadingAnchor.constraint(equalTo: readableContentGuide.leadingAnchor).isActive = true

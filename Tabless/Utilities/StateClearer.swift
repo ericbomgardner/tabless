@@ -50,7 +50,7 @@ class StateClearer {
             }
             let completeOperation = { [weak self] in
                 guard let operations = self?.operations,
-                    let operationIndex = operations.index(where: operationIdMatches) else
+                    let operationIndex = operations.firstIndex(where: operationIdMatches) else
                 {
                     return
                 }

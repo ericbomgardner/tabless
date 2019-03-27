@@ -22,7 +22,7 @@ class SearchView: UITextField {
 
         returnKeyType = .go
         placeholder = "Let's go."
-        clearButtonMode = UITextFieldViewMode.always
+        clearButtonMode = .always
         delegate = self
     }
 
