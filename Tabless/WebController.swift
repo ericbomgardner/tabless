@@ -147,7 +147,7 @@ class WebController: NSObject, SearchViewDelegate, StateResettable {
 
     func reset() {
         clearWebViewData {
-            print("Data cleared")
+            print("Web view data cleared", to: &Logger.shared)
             // TODO: Handle asynchronicity of this?
         }
         delegate?.didRequestResetInWebController(self)

@@ -55,11 +55,38 @@ class SearchView: UITextField {
         }
     }
 
+    @discardableResult
+    override func becomeFirstResponder() -> Bool {
+        print("SV: attempting to become first responder", to: &Logger.shared)
+        let result = super.becomeFirstResponder()
+        print("SV: becomeFirstResponder result: \(result)", // "\n\(Thread.callStackSymbols)",
+            to: &Logger.shared)
+        return result
+    }
+
+    @discardableResult
+    override func resignFirstResponder() -> Bool {
+        let result = super.resignFirstResponder()
+        print("SV: resignFirstResponder result: \(result)", // "\n\(Thread.callStackSymbols)",
+            to: &Logger.shared)
+        return result
+    }
+
     override var canResignFirstResponder: Bool {
         if shouldPreventResigningFirstReponder {
+            print("SV: canResignFirstResponder checked: false (via var)",
+                  to: &Logger.shared)
             return false
         }
-        return super.canResignFirstResponder
+        let result = super.canResignFirstResponder
+        print("SV: canResignFirstResponder checked: \(result), isFirstResponder \(isFirstResponder)", to: &Logger.shared)
+        return result
+    }
+
+    override var canBecomeFirstResponder: Bool {
+        let canBecomeFirstResponder = super.canBecomeFirstResponder
+        print("SV: canBecomeFirstResponder checked: \(canBecomeFirstResponder)", to: &Logger.shared)
+        return canBecomeFirstResponder
     }
 }
 

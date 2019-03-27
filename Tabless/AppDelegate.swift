@@ -6,6 +6,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var stateClearer: StateClearer!
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
+        Logger.shared.clear()
+        print("applicationDidFinishLaunchingWithOptions", to: &Logger.shared)
+
         stateClearer = StateClearer(application: application)
 
         let rootViewController = RootViewController(stateClearer: stateClearer)
@@ -20,10 +23,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
 
     func applicationDidEnterBackground(_ application: UIApplication) {
+        print("applicationDidEnterBackground", to: &Logger.shared)
+
         stateClearer.beginClearTimer()
     }
 
     func applicationDidBecomeActive(_ application: UIApplication) {
+        print("applicationDidBecomeActive", to: &Logger.shared)
+
         stateClearer.cancelPendingStateClears()
     }
 }
