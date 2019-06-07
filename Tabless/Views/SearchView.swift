@@ -15,7 +15,7 @@ class SearchView: UITextField {
 
     private var activity: Activity?
 
-    private var shouldPreventResigningFirstReponder = true
+//    private var shouldPreventResigningFirstReponder = true
 
     init() {
         super.init(frame: CGRect.zero)
@@ -54,20 +54,20 @@ class SearchView: UITextField {
             configure(for: activity)
         }
     }
-
-    override var canResignFirstResponder: Bool {
-        if shouldPreventResigningFirstReponder {
-            return false
-        }
-        return super.canResignFirstResponder
-    }
+//
+//    override var canResignFirstResponder: Bool {
+//        if shouldPreventResigningFirstReponder {
+//            return false
+//        }
+//        return super.canResignFirstResponder
+//    }
 }
 
 extension SearchView: UITextFieldDelegate {
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         if let text = textField.text {
-            shouldPreventResigningFirstReponder = false
-            textField.resignFirstResponder()
+//            shouldPreventResigningFirstReponder = false
+//            textField.resignFirstResponder()
             searchDelegate?.searchSubmitted(text)
         }
         return false

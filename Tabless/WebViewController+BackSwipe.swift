@@ -1,6 +1,6 @@
 import UIKit
 
-extension WebController {
+extension WebViewController {
 
     @objc func handleBackSwipe(gestureRecognizer: UIScreenEdgePanGestureRecognizer) {
         let viewXTranslation = gestureRecognizer.translation(in: gestureRecognizer.view?.superview).x

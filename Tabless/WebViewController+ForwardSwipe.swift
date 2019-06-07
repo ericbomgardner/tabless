@@ -1,6 +1,6 @@
 import UIKit
 
-extension WebController {
+extension WebViewController {
 
     private var commitCutoff: CGFloat {
         return 0.5
