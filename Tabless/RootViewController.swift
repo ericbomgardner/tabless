@@ -12,9 +12,6 @@ class RootViewController: UIViewController, SearchViewDelegate {
     }
     private var webController: WebController? = nil
 
-    private let maxPauseInterval: TimeInterval = 20
-    private var pauseTime: Date?
-
     private let stateClearer: StateClearer
 
     init(stateClearer: StateClearer) {

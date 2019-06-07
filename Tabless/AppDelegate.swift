@@ -30,6 +30,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         stateClearer.beginClearTimer()
     }
 
+    func applicationWillEnterForeground(_ application: UIApplication) {
+        print("applicationWillEnterForeground", to: &Logger.shared)
+    }
+
     func applicationDidBecomeActive(_ application: UIApplication) {
         print("applicationDidBecomeActive", to: &Logger.shared)
 

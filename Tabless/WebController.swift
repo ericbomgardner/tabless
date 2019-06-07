@@ -22,8 +22,7 @@ class WebController: NSObject, SearchViewDelegate, StateResettable {
     // makes it clear loading has started before UIWebView reports back
     private static var initialProgress = 0.04
 
-    private let maxPauseInterval: TimeInterval = 20
-    private var pauseTime: Date?
+    private let maxPauseInterval: TimeInterval = 3
 
     private var webViewProgressObservationToken: NSKeyValueObservation?
 
