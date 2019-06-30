@@ -85,7 +85,7 @@ class RootViewController: UIViewController, SearchViewDelegate {
 
 extension RootViewController: WebViewControllerStateResetDelegate {
     func didRequestResetInWebViewController(_ webViewController: WebViewController) {
-        navigationController?.popViewController(animated: true)
+        dismiss(animated: true, completion: nil)
         rootView.searchView.becomeFirstResponder()
     }
 }
