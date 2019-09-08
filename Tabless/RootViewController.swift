@@ -7,15 +7,6 @@ class RootViewController: UIViewController, SearchViewDelegate {
         return view as? RootView
     }
 
-    var webView: UIView? {
-        return webController?.view
-    }
-
-    private var webController: WebController? = nil
-
-    private let maxPauseInterval: TimeInterval = 20
-    private var pauseTime: Date?
-
     private let stateClearer: StateClearer
 
     init(stateClearer: StateClearer) {
@@ -49,11 +40,6 @@ class RootViewController: UIViewController, SearchViewDelegate {
     }
 
     @objc private func makeSearchViewFirstResponder() {
-        guard webView == nil else {
-            // Don't become first responder if web view is up
-            return
-        }
-
         if !rootView.searchView.isFirstResponder {
             let firstTrySuccess = rootView.searchView.becomeFirstResponder()
             if !firstTrySuccess {
@@ -69,18 +55,12 @@ class RootViewController: UIViewController, SearchViewDelegate {
     // MARK: SearchViewDelegate
 
     func searchSubmitted(_ text: String) {
-        let webController = WebController(stateClearer: stateClearer)
-        let webView = webController.view
-        webView.translatesAutoresizingMaskIntoConstraints = false
-        view.addSubview(webView)
-        webView.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
-        webView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
-        webView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
-        webView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
-        self.webController = webController
-        webController.delegate = self
-        webController.loadQuery(text)
-        self.rootView.searchView.text = ""
+        let webViewController = WebViewController(stateClearer: stateClearer)
+        webViewController.delegate = self
+        webViewController.loadQuery(text)
+        navigationController?.pushViewController(webViewController, animated: false) {
+            self.rootView.searchView.text = ""
+        }
     }
 
     func searchCleared() {
@@ -99,10 +79,9 @@ class RootViewController: UIViewController, SearchViewDelegate {
     }
 }
 
-extension RootViewController: WebControllerStateResetDelegate {
-    func didRequestResetInWebController(_ webController: WebController) {
-        webView?.removeFromSuperview()
-        self.webController = nil
+extension RootViewController: WebViewControllerStateResetDelegate {
+    func didRequestResetInWebViewController(_ webViewController: WebViewController) {
+        navigationController?.popViewController(animated: false)
         rootView.searchView.becomeFirstResponder()
     }
 }
