@@ -15,7 +15,7 @@ class RootView: UIView {
         tView.textColor = UIColor.lightGray
         tView.backgroundColor = UIColor.clear
 
-        backgroundColor = UIColor.white
+        backgroundColor = UIColor(named: "Background")
 
         addSubview(tView)
         addSubview(searchView)

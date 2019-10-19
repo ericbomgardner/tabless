@@ -21,7 +21,7 @@ class WebContainerView: UIView {
     init() {
         super.init(frame: .zero)
 
-        backgroundColor = UIColor.white
+        backgroundColor = UIColor(named: "Background")
 
         addSubview(searchView)
         addSubview(progressView)
