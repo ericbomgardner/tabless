@@ -24,6 +24,7 @@ class RootView: UIView {
         tViewTopConstraint = tView.topAnchor.constraint(equalTo: topAnchor, constant: 80)
         tViewTopConstraint.isActive = true
         tView.centerXAnchor.constraint(equalTo: centerXAnchor).isActive = true
+        updateTextSize()
 
         searchView.translatesAutoresizingMaskIntoConstraints = false
         searchView.leadingAnchor.constraint(equalTo: readableContentGuide.leadingAnchor).isActive = true
@@ -38,11 +39,15 @@ class RootView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
 
+    private func updateTextSize() {
+        let tViewTextSize: CGFloat = traitCollection.isLarge ? 80 : 64
+        tView.font = UIFont.boldSystemFont(ofSize: tViewTextSize)
+    }
+
     // MARK: Sizing
 
     override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
-        let tViewTextSize: CGFloat = traitCollection.isLarge ? 80 : 64
-        tView.font = UIFont.boldSystemFont(ofSize: tViewTextSize)
+        updateTextSize()
 
         // TODO: Resize search view
     }
