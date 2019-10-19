@@ -333,6 +333,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CURRENT_PROJECT_VERSION = 7;
 				DEVELOPMENT_TEAM = 4NX3RJE9MB;
 				INFOPLIST_FILE = Tabless/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
@@ -351,6 +352,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CURRENT_PROJECT_VERSION = 7;
 				DEVELOPMENT_TEAM = 4NX3RJE9MB;
 				INFOPLIST_FILE = Tabless/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
