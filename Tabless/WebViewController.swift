@@ -1,13 +1,11 @@
 import UIKit
 import WebKit
 
-protocol WebControllerStateResetDelegate {
-    func didRequestResetInWebController(_ webController: WebController)
+protocol WebViewControllerStateResetDelegate {
+    func didRequestResetInWebViewController(_ webViewController: WebViewController)
 }
 
-class WebController: NSObject, SearchViewDelegate, StateResettable {
-
-    let view = UIView()
+class WebViewController: UIViewController, SearchViewDelegate, StateResettable {
 
     var webContainerView: WebContainerView!
 
@@ -17,22 +15,23 @@ class WebController: NSObject, SearchViewDelegate, StateResettable {
 
     var webContainerViewLeadingConstraint: NSLayoutConstraint?
 
-    var delegate: WebControllerStateResetDelegate?
+    var delegate: WebViewControllerStateResetDelegate?
 
     // makes it clear loading has started before UIWebView reports back
     private static var initialProgress = 0.04
 
-    private let maxPauseInterval: TimeInterval = 20
+    private let maxPauseInterval: TimeInterval = 5
     private var pauseTime: Date?
 
     private var webViewProgressObservationToken: NSKeyValueObservation?
+    private var webViewCanGoBackObservationToken: NSKeyValueObservation?
 
     private let stateClearer: StateClearer
 
     init(stateClearer: StateClearer) {
         self.stateClearer = stateClearer
 
-        super.init()
+        super.init(nibName: nil, bundle: nil)
 
         stateClearer.addStateClearRequest(for: self,
                                           after: maxPauseInterval)
@@ -70,11 +69,6 @@ class WebController: NSObject, SearchViewDelegate, StateResettable {
         self.webContainerView = WebContainerView()
         webContainerView.translatesAutoresizingMaskIntoConstraints = false
         webContainerView.preservesSuperviewLayoutMargins = true
-        let backSwipeGestureRecognizer =
-            UIScreenEdgePanGestureRecognizer(target: self,
-                                             action: #selector(handleBackSwipe))
-        backSwipeGestureRecognizer.edges = .left
-        webContainerView.addGestureRecognizer(backSwipeGestureRecognizer)
         let forwardSwipeGestureRecognizer =
             UIScreenEdgePanGestureRecognizer(target: self,
                                              action: #selector(handleForwardSwipe))
@@ -112,10 +106,27 @@ class WebController: NSObject, SearchViewDelegate, StateResettable {
         openInSafariLabel.widthAnchor.constraint(equalToConstant: 100).isActive = true
         openInSafariLabel.alpha = 0
 
+        setUpCanGoBackKVO()
         setUpLoadingKVO()
     }
 
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+
+        navigationController?.interactivePopGestureRecognizer?.delegate = self
+    }
+
     // MARK: KVO
+
+    private func setUpCanGoBackKVO() {
+        webViewCanGoBackObservationToken = webContainerView.webView.observe(\.canGoBack,
+                                                                            options: [.new])
+        { [weak self] _, change in
+            if let canGoBack = change.newValue {
+                self?.navigationController?.interactivePopGestureRecognizer?.isEnabled = !canGoBack
+            }
+        }
+    }
 
     private func setUpLoadingKVO() {
         webViewProgressObservationToken = webContainerView.webView.observe(\.estimatedProgress,
@@ -123,14 +134,10 @@ class WebController: NSObject, SearchViewDelegate, StateResettable {
         { [weak self] _, change in
             if let newValue = change.newValue {
                 self?.webContainerView.progressView.setProgress(
-                    WebController.initialProgress + newValue * (1 - WebController.initialProgress)
+                    WebViewController.initialProgress + newValue * (1 - WebViewController.initialProgress)
                 )
             }
         }
-    }
-
-    private func removeLoadingKVO() {
-        webViewProgressObservationToken = nil
     }
 
     // MARK: SearchViewDelegate
@@ -150,7 +157,7 @@ class WebController: NSObject, SearchViewDelegate, StateResettable {
             print("Data cleared")
             // TODO: Handle asynchronicity of this?
         }
-        delegate?.didRequestResetInWebController(self)
+        delegate?.didRequestResetInWebViewController(self)
     }
 
     private func clearWebViewData(completion: @escaping () -> Void) {
@@ -162,7 +169,7 @@ class WebController: NSObject, SearchViewDelegate, StateResettable {
     }
 }
 
-extension WebController: WKNavigationDelegate {
+extension WebViewController: WKNavigationDelegate {
     func webView(_ webView: WKWebView,
                  decidePolicyFor navigationAction: WKNavigationAction,
                  decisionHandler: @escaping (WKNavigationActionPolicy) -> Void) {
@@ -176,7 +183,7 @@ extension WebController: WKNavigationDelegate {
     }
 }
 
-extension WebController: WKUIDelegate {
+extension WebViewController: WKUIDelegate {
     func webView(_ webView: WKWebView,
                  createWebViewWith configuration: WKWebViewConfiguration,
                  for navigationAction: WKNavigationAction,

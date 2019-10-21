@@ -9,17 +9,18 @@
 /* Begin PBXBuildFile section */
 		0711BCB720B5248900D34255 /* URLBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0711BCB620B5248900D34255 /* URLBuilder.swift */; };
 		0763D70A1CA4FCFC001AD8E6 /* ProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0763D7091CA4FCFC001AD8E6 /* ProgressView.swift */; };
-		0772C1F922228A1900901613 /* WebController+ForwardSwipe.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0772C1F822228A1900901613 /* WebController+ForwardSwipe.swift */; };
+		0772C1F922228A1900901613 /* WebViewController+ForwardSwipe.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0772C1F822228A1900901613 /* WebViewController+ForwardSwipe.swift */; };
 		07735EFA1D546F870061E8D9 /* SearchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07735EF71D546F870061E8D9 /* SearchView.swift */; };
-		0779F91520D4B1E800FC90DE /* WebController+BackSwipe.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0779F91420D4B1E800FC90DE /* WebController+BackSwipe.swift */; };
 		077B16E1210D3E8C00FF5079 /* RootViewController+LongPress.swift in Sources */ = {isa = PBXBuildFile; fileRef = 077B16E0210D3E8C00FF5079 /* RootViewController+LongPress.swift */; };
 		077B16E5210D954A00FF5079 /* UITraitCollection+Size.swift in Sources */ = {isa = PBXBuildFile; fileRef = 077B16E4210D954A00FF5079 /* UITraitCollection+Size.swift */; };
 		077B16E7210DA99500FF5079 /* RootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 077B16E6210DA99500FF5079 /* RootView.swift */; };
+		0792CB9A22CC754200D415A4 /* WebViewController+BackwardSwipe.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0792CB9922CC754200D415A4 /* WebViewController+BackwardSwipe.swift */; };
 		079596681BF1CFFE00F7078B /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 079596671BF1CFFE00F7078B /* AppDelegate.swift */; };
 		0795966F1BF1CFFE00F7078B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0795966E1BF1CFFE00F7078B /* Assets.xcassets */; };
 		079596721BF1CFFE00F7078B /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 079596701BF1CFFE00F7078B /* LaunchScreen.storyboard */; };
+		07A7F76E22AAFDBA00F94A9E /* UINavigationController+Completion.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07A7F76D22AAFDBA00F94A9E /* UINavigationController+Completion.swift */; };
 		07E559CD21102B650066110C /* WebContainerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07E559CC21102B650066110C /* WebContainerView.swift */; };
-		07E559D32128BE150066110C /* WebController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07E559D22128BE150066110C /* WebController.swift */; };
+		07E559D32128BE150066110C /* WebViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07E559D22128BE150066110C /* WebViewController.swift */; };
 		07EC81D020B289A70086E24C /* StateClearer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07EC81CF20B289A70086E24C /* StateClearer.swift */; };
 		07FA0E391CA3DD5300B9AF8F /* RootViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07FA0E381CA3DD5300B9AF8F /* RootViewController.swift */; };
 /* End PBXBuildFile section */
@@ -27,19 +28,20 @@
 /* Begin PBXFileReference section */
 		0711BCB620B5248900D34255 /* URLBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLBuilder.swift; sourceTree = "<group>"; };
 		0763D7091CA4FCFC001AD8E6 /* ProgressView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProgressView.swift; sourceTree = "<group>"; };
-		0772C1F822228A1900901613 /* WebController+ForwardSwipe.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "WebController+ForwardSwipe.swift"; sourceTree = "<group>"; };
+		0772C1F822228A1900901613 /* WebViewController+ForwardSwipe.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "WebViewController+ForwardSwipe.swift"; sourceTree = "<group>"; };
 		07735EF71D546F870061E8D9 /* SearchView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchView.swift; sourceTree = "<group>"; };
-		0779F91420D4B1E800FC90DE /* WebController+BackSwipe.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "WebController+BackSwipe.swift"; sourceTree = "<group>"; };
 		077B16E0210D3E8C00FF5079 /* RootViewController+LongPress.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "RootViewController+LongPress.swift"; sourceTree = "<group>"; };
 		077B16E4210D954A00FF5079 /* UITraitCollection+Size.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITraitCollection+Size.swift"; sourceTree = "<group>"; };
 		077B16E6210DA99500FF5079 /* RootView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootView.swift; sourceTree = "<group>"; };
+		0792CB9922CC754200D415A4 /* WebViewController+BackwardSwipe.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "WebViewController+BackwardSwipe.swift"; sourceTree = "<group>"; };
 		079596641BF1CFFE00F7078B /* Tabless.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Tabless.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		079596671BF1CFFE00F7078B /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		0795966E1BF1CFFE00F7078B /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		079596711BF1CFFE00F7078B /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		079596731BF1CFFE00F7078B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		07A7F76D22AAFDBA00F94A9E /* UINavigationController+Completion.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UINavigationController+Completion.swift"; sourceTree = "<group>"; };
 		07E559CC21102B650066110C /* WebContainerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebContainerView.swift; sourceTree = "<group>"; };
-		07E559D22128BE150066110C /* WebController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebController.swift; sourceTree = "<group>"; };
+		07E559D22128BE150066110C /* WebViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebViewController.swift; sourceTree = "<group>"; };
 		07EC81CF20B289A70086E24C /* StateClearer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StateClearer.swift; sourceTree = "<group>"; };
 		07FA0E381CA3DD5300B9AF8F /* RootViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RootViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -81,10 +83,11 @@
 				07FA0E381CA3DD5300B9AF8F /* RootViewController.swift */,
 				07E559D0212672F30066110C /* Utilities */,
 				07E559CF21266F440066110C /* Views */,
-				07E559D22128BE150066110C /* WebController.swift */,
-				0779F91420D4B1E800FC90DE /* WebController+BackSwipe.swift */,
-				0772C1F822228A1900901613 /* WebController+ForwardSwipe.swift */,
+				07E559D22128BE150066110C /* WebViewController.swift */,
+				0792CB9922CC754200D415A4 /* WebViewController+BackwardSwipe.swift */,
+				0772C1F822228A1900901613 /* WebViewController+ForwardSwipe.swift */,
 				077B16E0210D3E8C00FF5079 /* RootViewController+LongPress.swift */,
+				07A7F76D22AAFDBA00F94A9E /* UINavigationController+Completion.swift */,
 			);
 			path = Tabless;
 			sourceTree = "<group>";
@@ -194,14 +197,15 @@
 				07735EFA1D546F870061E8D9 /* SearchView.swift in Sources */,
 				077B16E7210DA99500FF5079 /* RootView.swift in Sources */,
 				07FA0E391CA3DD5300B9AF8F /* RootViewController.swift in Sources */,
-				0772C1F922228A1900901613 /* WebController+ForwardSwipe.swift in Sources */,
+				0772C1F922228A1900901613 /* WebViewController+ForwardSwipe.swift in Sources */,
 				07E559CD21102B650066110C /* WebContainerView.swift in Sources */,
 				07EC81D020B289A70086E24C /* StateClearer.swift in Sources */,
 				079596681BF1CFFE00F7078B /* AppDelegate.swift in Sources */,
-				0779F91520D4B1E800FC90DE /* WebController+BackSwipe.swift in Sources */,
-				07E559D32128BE150066110C /* WebController.swift in Sources */,
+				07E559D32128BE150066110C /* WebViewController.swift in Sources */,
 				0711BCB720B5248900D34255 /* URLBuilder.swift in Sources */,
 				077B16E5210D954A00FF5079 /* UITraitCollection+Size.swift in Sources */,
+				07A7F76E22AAFDBA00F94A9E /* UINavigationController+Completion.swift in Sources */,
+				0792CB9A22CC754200D415A4 /* WebViewController+BackwardSwipe.swift in Sources */,
 				0763D70A1CA4FCFC001AD8E6 /* ProgressView.swift in Sources */,
 				077B16E1210D3E8C00FF5079 /* RootViewController+LongPress.swift in Sources */,
 			);

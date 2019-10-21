@@ -9,9 +9,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         stateClearer = StateClearer(application: application)
 
         let rootViewController = RootViewController(stateClearer: stateClearer)
-
+        let navigationController = UINavigationController(rootViewController: rootViewController)
+        navigationController.setNavigationBarHidden(true, animated: false)
+        
         let window = UIWindow(frame: UIScreen.main.bounds)
-        window.rootViewController = rootViewController
+        window.rootViewController = navigationController
         self.window = window
 
         window.makeKeyAndVisible()

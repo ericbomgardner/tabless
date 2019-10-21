@@ -1,6 +1,6 @@
 import UIKit
 
-extension WebController {
+extension WebViewController {
 
     private var commitCutoff: CGFloat {
         return 0.5
@@ -14,20 +14,20 @@ extension WebController {
         switch gestureRecognizer.state {
         case .changed:
             updateConstraintConstant(viewXTranslation: viewXTranslation)
-            webContainerView?.isUserInteractionEnabled = false
+            webContainerView.isUserInteractionEnabled = false
             webContainerView.layer.shadowRadius = 8 * (1 - progress)
             webContainerView.layer.shadowOpacity = Float(0.2 * (1 - progress))
             updateLabelAlpha(viewXTranslation: viewXTranslation)
         case .cancelled:
             webContainerViewLeadingConstraint?.constant = 0
-            webContainerView?.isUserInteractionEnabled = true
+            webContainerView.isUserInteractionEnabled = true
         case .ended:
             if progress > commitCutoff {
                 self.gestureCompleted()
             } else {
                 webContainerViewLeadingConstraint?.constant = 0
                 openInSafariLabel.alpha = 0
-                webContainerView?.isUserInteractionEnabled = true
+                webContainerView.isUserInteractionEnabled = true
                 UIView.animate(withDuration: 0.2,
                                delay: 0,
                                usingSpringWithDamping: 3,
@@ -60,7 +60,7 @@ extension WebController {
             UIApplication.shared.open(url, options: [:], completionHandler: { [weak self] _ in
                 self?.openInSafariLabel.alpha = 0
                 self?.webContainerViewLeadingConstraint?.constant = 0
-                self?.webContainerView?.isUserInteractionEnabled = true
+                self?.webContainerView.isUserInteractionEnabled = true
                 self?.webContainerView.superview?.layoutIfNeeded()
             })
         }
