@@ -68,6 +68,16 @@ class RootViewController: UIViewController, SearchViewDelegate {
 
     // MARK: SearchViewDelegate
 
+    func searchChanged(_ text: String) {
+        if text.isEmpty {
+            rootView.tView.state = .showingT
+        } else if URLBuilder.shouldTreatAsWebURL(text) {
+            rootView.tView.state = .showingWebIndicator
+        } else {
+            rootView.tView.state = .showingSearchIndicator
+        }
+    }
+
     func searchSubmitted(_ text: String) {
         let webController = WebController(stateClearer: stateClearer)
         let webView = webController.view
