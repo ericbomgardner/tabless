@@ -21,6 +21,7 @@ class SearchView: UITextField {
 
         returnKeyType = .go
         placeholder = "Let's go."
+        autocapitalizationType = .none
         clearButtonMode = .always
         delegate = self
 
