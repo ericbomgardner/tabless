@@ -1,7 +1,6 @@
 import UIKit
 
 protocol SearchViewDelegate: class {
-    func searchChanged(_ text: String)
     func searchSubmitted(_ text: String)
     func searchCleared()
 }
@@ -25,8 +24,6 @@ class SearchView: UITextField {
         clearButtonMode = .always
         keyboardType = .webSearch
         delegate = self
-
-        addTarget(self, action: #selector(textFieldDidChangeContents), for: .editingChanged)
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -56,10 +53,6 @@ class SearchView: UITextField {
         if let activity = activity {
             configure(for: activity)
         }
-    }
-
-    @objc private func textFieldDidChangeContents() {
-        searchDelegate?.searchChanged(text ?? "")
     }
 }
 

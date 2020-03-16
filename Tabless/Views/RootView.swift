@@ -4,12 +4,16 @@ import WebKit
 class RootView: UIView {
 
     let searchView = SearchView()
-    let tView = TView()
+    let tView = UILabel()
 
     private var tViewTopConstraint: NSLayoutConstraint!
 
     init() {
         super.init(frame: .zero)
+
+        tView.text = "T"
+        tView.textColor = UIColor.lightGray
+        tView.backgroundColor = UIColor.clear
 
         backgroundColor = UIColor(named: "Background")
 
@@ -37,7 +41,7 @@ class RootView: UIView {
 
     private func updateTextSize() {
         let tViewTextSize: CGFloat = traitCollection.isLarge ? 80 : 64
-        tView.tLabel.font = UIFont.boldSystemFont(ofSize: tViewTextSize)
+        tView.font = UIFont.boldSystemFont(ofSize: tViewTextSize)
     }
 
     // MARK: Sizing

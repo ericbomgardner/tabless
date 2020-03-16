@@ -134,10 +134,6 @@ class WebController: NSObject, SearchViewDelegate, StateResettable {
 
     // MARK: SearchViewDelegate
 
-    func searchChanged(_ text: String) {
-        // No-op
-    }
-
     func searchSubmitted(_ text: String) {
         loadQuery(text)
     }
