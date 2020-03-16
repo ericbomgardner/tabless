@@ -16,7 +16,11 @@ class TView: UIView {
 
     let tLabel: UILabel = {
         let label = UILabel()
+        #if DEBUG
+        label.text = "T."
+        #else
         label.text = "T"
+        #endif
         label.textColor = UIColor.lightGray
         return label
     }()
