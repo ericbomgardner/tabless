@@ -3,32 +3,47 @@ import Foundation
 struct URLBuilder {
     private static let searchURLBase = "https://www.google.com/search?q="
 
+    /// Whether input text should be treated as a web URL
+    static func shouldTreatAsWebURL(_ text: String) -> Bool {
+        return canTreatAsWebURL(text) && text.contains(".")
+    }
+
     /// If text looks like a URL, creates that URL
-    /// Otherwise, treats it like a search query
+    /// Otherwise, treats it like a search query and returns a search URL
     static func createURL(_ text: String) -> URL? {
-        let urlString: String
-        if text.isWebURL() {
-            if !text.hasPrefix("http") {
-                urlString = "https://\(text)"
-            } else {
-                urlString = text
-            }
-        } else if let searchQuery = text.addingPercentEncoding(withAllowedCharacters: CharacterSet.urlQueryAllowed) {
-            urlString = "\(searchURLBase)\(searchQuery)"
+        if shouldTreatAsWebURL(text) {
+            return createWebURL(text)
         } else {
-            return nil
+            return createSearchURL(text)
+        }
+    }
+
+    // MARK: Private
+
+    private static func createWebURL(_ text: String) -> URL? {
+        return asWebURL(text)
+    }
+
+    /// Whether a valid web URL can be created from the string
+    private static func canTreatAsWebURL(_ text: String) -> Bool {
+        return asWebURL(text) != nil
+    }
+
+    /// Representation of the string as a web URL
+    private static func asWebURL(_ text: String) -> URL? {
+        let urlString: String
+        if !text.hasPrefix("http") {
+            urlString = "https://\(text)"
+        } else {
+            urlString = text
         }
         return URL(string: urlString)
     }
-}
 
-private extension String {
-    /// Returns whether the string looks like a web URL
-    func isWebURL() -> Bool {
-        return hasPrefix("http")
-            || hasPrefix("www.")
-            || contains(".com")
-            || contains(".net")
-            || contains(".org")
+    private static func createSearchURL(_ text: String) -> URL? {
+        guard let searchQuery = text.addingPercentEncoding(withAllowedCharacters: CharacterSet.urlQueryAllowed) else {
+            return nil
+        }
+        return URL(string: "\(searchURLBase)\(searchQuery)")
     }
 }

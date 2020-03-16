@@ -20,9 +20,20 @@
 		079596721BF1CFFE00F7078B /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 079596701BF1CFFE00F7078B /* LaunchScreen.storyboard */; };
 		07E559CD21102B650066110C /* WebContainerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07E559CC21102B650066110C /* WebContainerView.swift */; };
 		07E559D32128BE150066110C /* WebController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07E559D22128BE150066110C /* WebController.swift */; };
+		07E729C7241EEACF0098917E /* URLBuilderTestCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07E729C6241EEACF0098917E /* URLBuilderTestCase.swift */; };
 		07EC81D020B289A70086E24C /* StateClearer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07EC81CF20B289A70086E24C /* StateClearer.swift */; };
 		07FA0E391CA3DD5300B9AF8F /* RootViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07FA0E381CA3DD5300B9AF8F /* RootViewController.swift */; };
 /* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		07E729C9241EEACF0098917E /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 0795965C1BF1CFFE00F7078B /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 079596631BF1CFFE00F7078B;
+			remoteInfo = Tabless;
+		};
+/* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
 		0711BCB620B5248900D34255 /* URLBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLBuilder.swift; sourceTree = "<group>"; };
@@ -40,12 +51,22 @@
 		079596731BF1CFFE00F7078B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		07E559CC21102B650066110C /* WebContainerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebContainerView.swift; sourceTree = "<group>"; };
 		07E559D22128BE150066110C /* WebController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebController.swift; sourceTree = "<group>"; };
+		07E729C4241EEACE0098917E /* TablessTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TablessTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		07E729C6241EEACF0098917E /* URLBuilderTestCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLBuilderTestCase.swift; sourceTree = "<group>"; };
+		07E729C8241EEACF0098917E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		07EC81CF20B289A70086E24C /* StateClearer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StateClearer.swift; sourceTree = "<group>"; };
 		07FA0E381CA3DD5300B9AF8F /* RootViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RootViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
 		079596611BF1CFFE00F7078B /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		07E729C1241EEACE0098917E /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -59,6 +80,7 @@
 			isa = PBXGroup;
 			children = (
 				079596661BF1CFFE00F7078B /* Tabless */,
+				07E729C5241EEACF0098917E /* TablessTests */,
 				079596651BF1CFFE00F7078B /* Products */,
 			);
 			sourceTree = "<group>";
@@ -67,6 +89,7 @@
 			isa = PBXGroup;
 			children = (
 				079596641BF1CFFE00F7078B /* Tabless.app */,
+				07E729C4241EEACE0098917E /* TablessTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -118,6 +141,15 @@
 			path = Extensions;
 			sourceTree = "<group>";
 		};
+		07E729C5241EEACF0098917E /* TablessTests */ = {
+			isa = PBXGroup;
+			children = (
+				07E729C6241EEACF0098917E /* URLBuilderTestCase.swift */,
+				07E729C8241EEACF0098917E /* Info.plist */,
+			);
+			path = TablessTests;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -138,13 +170,31 @@
 			productReference = 079596641BF1CFFE00F7078B /* Tabless.app */;
 			productType = "com.apple.product-type.application";
 		};
+		07E729C3241EEACE0098917E /* TablessTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 07E729CD241EEACF0098917E /* Build configuration list for PBXNativeTarget "TablessTests" */;
+			buildPhases = (
+				07E729C0241EEACE0098917E /* Sources */,
+				07E729C1241EEACE0098917E /* Frameworks */,
+				07E729C2241EEACE0098917E /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				07E729CA241EEACF0098917E /* PBXTargetDependency */,
+			);
+			name = TablessTests;
+			productName = TablessTests;
+			productReference = 07E729C4241EEACE0098917E /* TablessTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
 		0795965C1BF1CFFE00F7078B /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastSwiftUpdateCheck = 0710;
+				LastSwiftUpdateCheck = 1130;
 				LastUpgradeCheck = 1020;
 				ORGANIZATIONNAME = "Eric Bomgardner";
 				TargetAttributes = {
@@ -153,6 +203,11 @@
 						DevelopmentTeam = 4NX3RJE9MB;
 						LastSwiftMigration = 1020;
 						ProvisioningStyle = Automatic;
+					};
+					07E729C3241EEACE0098917E = {
+						CreatedOnToolsVersion = 11.3.1;
+						ProvisioningStyle = Automatic;
+						TestTargetID = 079596631BF1CFFE00F7078B;
 					};
 				};
 			};
@@ -170,6 +225,7 @@
 			projectRoot = "";
 			targets = (
 				079596631BF1CFFE00F7078B /* Tabless */,
+				07E729C3241EEACE0098917E /* TablessTests */,
 			);
 		};
 /* End PBXProject section */
@@ -181,6 +237,13 @@
 			files = (
 				079596721BF1CFFE00F7078B /* LaunchScreen.storyboard in Resources */,
 				0795966F1BF1CFFE00F7078B /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		07E729C2241EEACE0098917E /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -207,7 +270,23 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		07E729C0241EEACE0098917E /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				07E729C7241EEACF0098917E /* URLBuilderTestCase.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		07E729CA241EEACF0098917E /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 079596631BF1CFFE00F7078B /* Tabless */;
+			targetProxy = 07E729C9241EEACF0098917E /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
 		079596701BF1CFFE00F7078B /* LaunchScreen.storyboard */ = {
@@ -365,6 +444,56 @@
 			};
 			name = Release;
 		};
+		07E729CB241EEACF0098917E /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_STYLE = Automatic;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				INFOPLIST_FILE = TablessTests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.2;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = com.ericbomgardner.TablessTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Tabless.app/Tabless";
+			};
+			name = Debug;
+		};
+		07E729CC241EEACF0098917E /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_STYLE = Automatic;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				INFOPLIST_FILE = TablessTests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.2;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = com.ericbomgardner.TablessTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Tabless.app/Tabless";
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -382,6 +511,15 @@
 			buildConfigurations = (
 				079596771BF1CFFE00F7078B /* Debug */,
 				079596781BF1CFFE00F7078B /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		07E729CD241EEACF0098917E /* Build configuration list for PBXNativeTarget "TablessTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				07E729CB241EEACF0098917E /* Debug */,
+				07E729CC241EEACF0098917E /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
