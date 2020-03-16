@@ -13,9 +13,6 @@ class RootViewController: UIViewController, SearchViewDelegate {
 
     private var webController: WebController? = nil
 
-    private let maxPauseInterval: TimeInterval = 20
-    private var pauseTime: Date?
-
     private let stateClearer: StateClearer
 
     init(stateClearer: StateClearer) {
@@ -25,6 +22,9 @@ class RootViewController: UIViewController, SearchViewDelegate {
                                                selector: #selector(makeSearchViewFirstResponder),
                                                name: UIApplication.didBecomeActiveNotification,
                                                object: nil)
+
+        stateClearer.addStateClearRequest(for: self,
+                                          after: Constants.maxPauseInterval)
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -90,13 +90,18 @@ class RootViewController: UIViewController, SearchViewDelegate {
         self.webController = webController
         webController.delegate = self
         webController.loadQuery(text)
-        self.rootView.searchView.text = ""
+        clearSearchViewText()
     }
 
     func searchCleared() {
         UIView.animate(withDuration: 0.35, animations: {
             self.rootView.searchView.becomeFirstResponder()
         })
+    }
+
+    private func clearSearchViewText() {
+        rootView.searchView.text = ""
+        rootView.tView.state = .showingT
     }
 
     // MARK: Sizing
@@ -114,5 +119,11 @@ extension RootViewController: WebControllerStateResetDelegate {
         webView?.removeFromSuperview()
         self.webController = nil
         rootView.searchView.becomeFirstResponder()
+    }
+}
+
+extension RootViewController: StateResettable {
+    func reset() {
+        clearSearchViewText()
     }
 }
