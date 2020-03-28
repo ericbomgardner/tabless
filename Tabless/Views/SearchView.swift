@@ -22,7 +22,6 @@ class SearchView: UITextField {
         placeholder = "Let's go."
         autocapitalizationType = .none
         clearButtonMode = .always
-        keyboardType = .webSearch
         delegate = self
     }
 
