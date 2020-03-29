@@ -15,6 +15,11 @@ class RootViewController: UIViewController, SearchViewDelegate {
 
     private let stateClearer: StateClearer
 
+    // Track whether the view has appeared
+    //
+    // (Between `viewDidAppear` and `viewDidDisappear`)
+    private var hasViewAppeared = false
+
     init(stateClearer: StateClearer) {
         self.stateClearer = stateClearer
         super.init(nibName: nil, bundle: nil)
@@ -41,11 +46,36 @@ class RootViewController: UIViewController, SearchViewDelegate {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         makeSearchViewFirstResponder()
+
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(keyboardWillShow(notification:)),
+                                               name: UIResponder.keyboardWillShowNotification,
+                                               object: nil)
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(keyboardWillHide(notification:)),
+                                               name: UIResponder.keyboardWillHideNotification,
+                                               object: nil)
     }
 
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
+        hasViewAppeared = true
         makeSearchViewFirstResponder()
+    }
+
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        NotificationCenter.default.removeObserver(self,
+                                                  name: UIResponder.keyboardWillShowNotification,
+                                                  object: nil)
+        NotificationCenter.default.removeObserver(self,
+                                                  name: UIResponder.keyboardWillHideNotification,
+                                                  object: nil)
+    }
+
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        hasViewAppeared = false
     }
 
     @objc private func makeSearchViewFirstResponder() {
@@ -99,6 +129,65 @@ class RootViewController: UIViewController, SearchViewDelegate {
         super.viewWillTransition(to: size, with: coordinator)
         coordinator.animate(alongsideTransition: { _ in
             // TODO: Resize views
+        }, completion: nil)
+    }
+
+    // MARK: Keyboard handling
+
+    @objc private func keyboardWillShow(notification: Notification) {
+        guard let userInfo = notification.userInfo,
+            let keyboardFrame = (userInfo[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue,
+            let keyboardAnimationDuration = (userInfo[UIResponder.keyboardAnimationDurationUserInfoKey] as? NSNumber)?.doubleValue else
+        {
+            return
+        }
+
+        // Ensure that the search view is not obscured by the keyboard
+        let keyboardHeight = keyboardFrame.height
+        rootView.searchViewBottomConstraint.constant = -keyboardHeight
+
+        // Don't animate if the view hasn't appeared yet -- trying to
+        // animating causes everything in the view to animate and
+        // look weird.
+        guard hasViewAppeared else {
+            return
+        }
+
+        // Animate the search view constraint change along with the keyboard
+        //
+        // Notes on handling device rotation:
+        // - If the device is rotated, the `keyboardWillShow` notification
+        // will be called with a duration of 0, and UIView animations will
+        // be disabled. We therefore have to set our own custom animation
+        // duration and manually enable animation.
+        // - Unfortunately, `keyboardFrameEndUserInfoKey` is not accurate
+        // prior to completion of the animation of `viewWillTransition(to size`,
+        // so we can't animate `searchViewBottomConstraint.constant` to its
+        // appropriate value until `keyboardWillShow` is called, even when
+        // trying to use `keyboardWillChangeFrame` notification. See
+        // https://stackoverflow.com/questions/49570423/uikeyboard-height-different-after-device-rotation
+        // for a question about a similar issue.
+        let animationDuration = (keyboardAnimationDuration > 0)
+            ? keyboardAnimationDuration
+            : 0.2
+        let wereAnimationsEnabled = UIView.areAnimationsEnabled
+        UIView.setAnimationsEnabled(true)
+        UIView.animate(withDuration: animationDuration, delay: 0, options: .curveEaseInOut, animations: {
+            self.rootView.layoutIfNeeded()
+        }, completion: nil)
+        UIView.setAnimationsEnabled(wereAnimationsEnabled)
+    }
+
+    @objc private func keyboardWillHide(notification: Notification) {
+        guard let userInfo = notification.userInfo,
+            let animationDuration = (userInfo[UIResponder.keyboardAnimationDurationUserInfoKey] as? NSNumber)?.doubleValue else
+        {
+            return
+        }
+
+        self.rootView.searchViewBottomConstraint.constant = 0
+        UIView.animate(withDuration: animationDuration, delay: 0, options: .curveEaseInOut, animations: {
+            self.rootView.layoutIfNeeded()
         }, completion: nil)
     }
 }

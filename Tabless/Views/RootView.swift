@@ -7,6 +7,7 @@ class RootView: UIView {
     let tView = UILabel()
 
     private var tViewTopConstraint: NSLayoutConstraint!
+    private(set) var searchViewBottomConstraint: NSLayoutConstraint!
 
     init() {
         super.init(frame: .zero)
@@ -29,7 +30,11 @@ class RootView: UIView {
         searchView.translatesAutoresizingMaskIntoConstraints = false
         searchView.leadingAnchor.constraint(equalTo: readableContentGuide.leadingAnchor).isActive = true
         searchView.trailingAnchor.constraint(equalTo: readableContentGuide.trailingAnchor).isActive = true
-        searchView.centerYAnchor.constraint(equalTo: centerYAnchor).isActive = true
+        searchViewBottomConstraint = searchView.bottomAnchor.constraint(lessThanOrEqualTo: bottomAnchor)
+        searchViewBottomConstraint.isActive = true
+        let searchViewCenterConstraint = searchView.centerYAnchor.constraint(equalTo: centerYAnchor)
+        searchViewCenterConstraint.priority = .defaultHigh
+        searchViewCenterConstraint.isActive = true
         searchView.heightAnchor.constraint(equalToConstant: searchView.height(for: .search)).isActive = true
 
         searchView.configure(for: .search)
