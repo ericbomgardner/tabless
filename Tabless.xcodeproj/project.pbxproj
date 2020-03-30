@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		0711BCB720B5248900D34255 /* URLBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0711BCB620B5248900D34255 /* URLBuilder.swift */; };
 		0763D70A1CA4FCFC001AD8E6 /* ProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0763D7091CA4FCFC001AD8E6 /* ProgressView.swift */; };
+		0772C1F5221400BF00901613 /* DebugLogger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0772C1F4221400BF00901613 /* DebugLogger.swift */; };
+		0772C1F7221404F800901613 /* DebugLogViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0772C1F6221404F800901613 /* DebugLogViewController.swift */; };
 		0772C1F922228A1900901613 /* WebController+ForwardSwipe.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0772C1F822228A1900901613 /* WebController+ForwardSwipe.swift */; };
 		07735EFA1D546F870061E8D9 /* SearchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07735EF71D546F870061E8D9 /* SearchView.swift */; };
 		0779F91520D4B1E800FC90DE /* WebController+BackSwipe.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0779F91420D4B1E800FC90DE /* WebController+BackSwipe.swift */; };
@@ -38,6 +40,8 @@
 /* Begin PBXFileReference section */
 		0711BCB620B5248900D34255 /* URLBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLBuilder.swift; sourceTree = "<group>"; };
 		0763D7091CA4FCFC001AD8E6 /* ProgressView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProgressView.swift; sourceTree = "<group>"; };
+		0772C1F4221400BF00901613 /* DebugLogger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DebugLogger.swift; sourceTree = "<group>"; };
+		0772C1F6221404F800901613 /* DebugLogViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DebugLogViewController.swift; sourceTree = "<group>"; };
 		0772C1F822228A1900901613 /* WebController+ForwardSwipe.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "WebController+ForwardSwipe.swift"; sourceTree = "<group>"; };
 		07735EF71D546F870061E8D9 /* SearchView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchView.swift; sourceTree = "<group>"; };
 		0779F91420D4B1E800FC90DE /* WebController+BackSwipe.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "WebController+BackSwipe.swift"; sourceTree = "<group>"; };
@@ -112,6 +116,15 @@
 			path = Tabless;
 			sourceTree = "<group>";
 		};
+		07C4B1502431ADFA00B29474 /* Debug Logging */ = {
+			isa = PBXGroup;
+			children = (
+				0772C1F4221400BF00901613 /* DebugLogger.swift */,
+				0772C1F6221404F800901613 /* DebugLogViewController.swift */,
+			);
+			path = "Debug Logging";
+			sourceTree = "<group>";
+		};
 		07E559CF21266F440066110C /* Views */ = {
 			isa = PBXGroup;
 			children = (
@@ -126,6 +139,7 @@
 		07E559D0212672F30066110C /* Utilities */ = {
 			isa = PBXGroup;
 			children = (
+				07C4B1502431ADFA00B29474 /* Debug Logging */,
 				07E559D1212673080066110C /* Extensions */,
 				07EC81CF20B289A70086E24C /* StateClearer.swift */,
 				0711BCB620B5248900D34255 /* URLBuilder.swift */,
@@ -260,10 +274,12 @@
 				0772C1F922228A1900901613 /* WebController+ForwardSwipe.swift in Sources */,
 				07E559CD21102B650066110C /* WebContainerView.swift in Sources */,
 				07EC81D020B289A70086E24C /* StateClearer.swift in Sources */,
+				0772C1F7221404F800901613 /* DebugLogViewController.swift in Sources */,
 				079596681BF1CFFE00F7078B /* AppDelegate.swift in Sources */,
 				0779F91520D4B1E800FC90DE /* WebController+BackSwipe.swift in Sources */,
 				07E559D32128BE150066110C /* WebController.swift in Sources */,
 				0711BCB720B5248900D34255 /* URLBuilder.swift in Sources */,
+				0772C1F5221400BF00901613 /* DebugLogger.swift in Sources */,
 				077B16E5210D954A00FF5079 /* UITraitCollection+Size.swift in Sources */,
 				0763D70A1CA4FCFC001AD8E6 /* ProgressView.swift in Sources */,
 				077B16E1210D3E8C00FF5079 /* RootViewController+LongPress.swift in Sources */,
@@ -421,6 +437,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.ericbomgardner.Tabless;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};

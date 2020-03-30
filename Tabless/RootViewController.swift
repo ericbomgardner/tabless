@@ -42,6 +42,14 @@ class RootViewController: UIViewController, SearchViewDelegate {
         view = rootView
     }
 
+    override func viewDidLoad() {
+        super.viewDidLoad()
+
+        #if DEBUG
+        addTTapDetection()
+        #endif
+    }
+
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         makeSearchViewFirstResponder()
@@ -120,6 +128,23 @@ class RootViewController: UIViewController, SearchViewDelegate {
 
     private func clearSearchViewText() {
         rootView.searchView.text = ""
+    }
+
+    // MARK: T view taps
+
+    private func addTTapDetection() {
+        let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(didTapT))
+        rootView.tView.addGestureRecognizer(tapGestureRecognizer)
+        rootView.tView.isUserInteractionEnabled = true
+    }
+
+    @objc private func didTapT() {
+        showAppDebugLogs()
+    }
+
+    private func showAppDebugLogs() {
+        let navigationController = UINavigationController(rootViewController: DebugLogViewController())
+        present(navigationController, animated: true)
     }
 
     // MARK: Sizing
