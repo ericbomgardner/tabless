@@ -28,8 +28,7 @@ class RootViewController: UIViewController, SearchViewDelegate {
                                                name: UIApplication.didBecomeActiveNotification,
                                                object: nil)
 
-        stateClearer.addStateClearRequest(for: self,
-                                          after: Constants.maxPauseInterval)
+        stateClearer.addStateClearRequest(for: self)
     }
 
     required init?(coder aDecoder: NSCoder) {

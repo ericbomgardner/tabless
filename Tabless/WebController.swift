@@ -33,8 +33,7 @@ class WebController: NSObject, SearchViewDelegate, StateResettable {
 
         super.init()
 
-        stateClearer.addStateClearRequest(for: self,
-                                          after: Constants.maxPauseInterval)
+        stateClearer.addStateClearRequest(for: self)
         setUpView()
     }
 

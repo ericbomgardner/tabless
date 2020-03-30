@@ -5,82 +5,52 @@ protocol StateResettable: class {
 }
 
 private class StateClearingRequest {
-    weak var stateResettable: StateResettable? = nil
-    let retentionLength: TimeInterval
+    weak var stateResettable: StateResettable?
 
-    init(stateResettable: StateResettable?,
-         retentionLength: TimeInterval) {
+    init(stateResettable: StateResettable?) {
         self.stateResettable = stateResettable
-        self.retentionLength = retentionLength
     }
 }
 
-private struct StateClearingOperation {
-    let id: String
-    let backgroundTaskIdentifier: UIBackgroundTaskIdentifier
-    let timer: Timer
-}
-
+/// Clears state of each requested StateResettable upon resuming the app if the
+/// app was in the background for over `maxBackgroundInterval`
 class StateClearer {
-    private weak var application: UIApplication?
+    /// Time interval the application is in the background after which state should be cleared
+    private static let maxBackgroundInterval: TimeInterval = 60
 
     private var requests = [StateClearingRequest]()
-    private var operations = [StateClearingOperation]()
 
-    init(application: UIApplication) {
-        self.application = application
+    private var didEnterBackgroundTime: Date? = nil
+
+    init() {
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(applicationDidBecomeActive(notification:)),
+                                               name: UIApplication.didBecomeActiveNotification,
+                                               object: nil)
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(applicationDidEnterBackground(notification:)),
+                                               name: UIApplication.didEnterBackgroundNotification,
+                                               object: nil)
     }
 
-    func addStateClearRequest(for stateResettable: StateResettable,
-                              after retentionLength: TimeInterval) {
-        let request = StateClearingRequest(stateResettable: stateResettable,
-                                           retentionLength: retentionLength)
+    func addStateClearRequest(for stateResettable: StateResettable) {
+        let request = StateClearingRequest(stateResettable: stateResettable)
         requests.append(request)
     }
 
-    func beginClearTimer() {
-        for request in requests {
-            guard let application = self.application else {
-                return
-            }
-
-            let operationId = UUID().uuidString
-            let operationIdMatches: (StateClearingOperation) -> Bool = { operation -> Bool in
-                operation.id == operationId
-            }
-            let completeOperation = { [weak self] in
-                guard let operations = self?.operations,
-                    let operationIndex = operations.firstIndex(where: operationIdMatches) else
-                {
-                    return
-                }
-                application.endBackgroundTask(operations[operationIndex].backgroundTaskIdentifier)
-                self?.operations.remove(at: operationIndex)
-            }
-
-            let cleanupBackgroundTask = application.beginBackgroundTask(withName: "clear_data_after_timer_expires",
-                                                                        expirationHandler: completeOperation)
-
-            let timer = Timer.scheduledTimer(withTimeInterval: request.retentionLength,
-                                             repeats: false) { timer in
-                if timer.isValid {
+    @objc private func applicationDidBecomeActive(notification: Notification) {
+        if let didEnterBackgroundTime = didEnterBackgroundTime {
+            let timeIntervalAppWasInBackground = Date().timeIntervalSince(didEnterBackgroundTime)
+            if timeIntervalAppWasInBackground > StateClearer.maxBackgroundInterval {
+                requests.forEach { request in
                     request.stateResettable?.reset()
                 }
-                completeOperation()
             }
-
-            let operation = StateClearingOperation(id: operationId,
-                                                   backgroundTaskIdentifier: cleanupBackgroundTask,
-                                                   timer: timer)
-            operations.append(operation)
         }
+        didEnterBackgroundTime = nil
     }
 
-    func cancelPendingStateClears() {
-        for operation in operations {
-            operation.timer.invalidate()
-            application?.endBackgroundTask(operation.backgroundTaskIdentifier)
-        }
-        operations.removeAll()
+    @objc private func applicationDidEnterBackground(notification: Notification) {
+        didEnterBackgroundTime = Date()
     }
 }

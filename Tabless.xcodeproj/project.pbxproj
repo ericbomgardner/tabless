@@ -21,7 +21,6 @@
 		07E559CD21102B650066110C /* WebContainerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07E559CC21102B650066110C /* WebContainerView.swift */; };
 		07E559D32128BE150066110C /* WebController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07E559D22128BE150066110C /* WebController.swift */; };
 		07E729C7241EEACF0098917E /* URLBuilderTestCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07E729C6241EEACF0098917E /* URLBuilderTestCase.swift */; };
-		07E729D1241F0C810098917E /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07E729D0241F0C810098917E /* Constants.swift */; };
 		07EC81D020B289A70086E24C /* StateClearer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07EC81CF20B289A70086E24C /* StateClearer.swift */; };
 		07FA0E391CA3DD5300B9AF8F /* RootViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07FA0E381CA3DD5300B9AF8F /* RootViewController.swift */; };
 /* End PBXBuildFile section */
@@ -55,7 +54,6 @@
 		07E729C4241EEACE0098917E /* TablessTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TablessTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		07E729C6241EEACF0098917E /* URLBuilderTestCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLBuilderTestCase.swift; sourceTree = "<group>"; };
 		07E729C8241EEACF0098917E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		07E729D0241F0C810098917E /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		07EC81CF20B289A70086E24C /* StateClearer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StateClearer.swift; sourceTree = "<group>"; };
 		07FA0E381CA3DD5300B9AF8F /* RootViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RootViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -100,7 +98,6 @@
 			isa = PBXGroup;
 			children = (
 				079596671BF1CFFE00F7078B /* AppDelegate.swift */,
-				07E729D0241F0C810098917E /* Constants.swift */,
 				0795966E1BF1CFFE00F7078B /* Assets.xcassets */,
 				079596701BF1CFFE00F7078B /* LaunchScreen.storyboard */,
 				079596731BF1CFFE00F7078B /* Info.plist */,
@@ -262,7 +259,6 @@
 				07FA0E391CA3DD5300B9AF8F /* RootViewController.swift in Sources */,
 				0772C1F922228A1900901613 /* WebController+ForwardSwipe.swift in Sources */,
 				07E559CD21102B650066110C /* WebContainerView.swift in Sources */,
-				07E729D1241F0C810098917E /* Constants.swift in Sources */,
 				07EC81D020B289A70086E24C /* StateClearer.swift in Sources */,
 				079596681BF1CFFE00F7078B /* AppDelegate.swift in Sources */,
 				0779F91520D4B1E800FC90DE /* WebController+BackSwipe.swift in Sources */,
