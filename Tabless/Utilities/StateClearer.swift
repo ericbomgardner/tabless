@@ -76,6 +76,7 @@ class StateClearer {
         {
             let timeIntervalAppWasInBackground = Date().timeIntervalSince(didEnterBackgroundTime)
             if timeIntervalAppWasInBackground > StateClearer.desiredClearInterval {
+                DebugLogger.log("Foreground cleared after \(timeIntervalAppWasInBackground) seconds")
                 performStateClearRequests()
             }
         }
@@ -139,6 +140,7 @@ class StateClearer {
                                 if backgroundTimeRemaining < timerTickInterval
                                     || elapsedBackgroundTime > StateClearer.desiredClearInterval
                                 {
+                                    DebugLogger.log("Background cleared after \(elapsedBackgroundTime) seconds")
                                     self?.performStateClearRequests()
                                     cleanUpBackgroundTask()
                                 }
