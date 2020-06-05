@@ -3,11 +3,6 @@ import Foundation
 struct URLBuilder {
     private static let searchURLBase = "https://www.google.com/search?q="
 
-    /// Whether input text should be treated as a web URL
-    static func shouldTreatAsWebURL(_ text: String) -> Bool {
-        return canTreatAsWebURL(text) && text.contains(".")
-    }
-
     /// If text looks like a URL, creates that URL
     /// Otherwise, treats it like a search query and returns a search URL
     static func createURL(_ text: String) -> URL? {
@@ -19,6 +14,11 @@ struct URLBuilder {
     }
 
     // MARK: Private
+
+    /// Whether input text should be treated as a web URL
+    private static func shouldTreatAsWebURL(_ text: String) -> Bool {
+        return canTreatAsWebURL(text) && text.contains(".")
+    }
 
     private static func createWebURL(_ text: String) -> URL? {
         return asWebURL(text)
