@@ -42,7 +42,7 @@ class WebController: NSObject, SearchViewDelegate, StateResettable {
     }
 
     func loadQuery(_ query: String) {
-        let urlBuilder = URLBuilder(searchEngine: SearchEngine.default)
+        let urlBuilder = URLBuilder(searchEngine: UserDefaults.standard.preferredSearchEngine)
         guard let url = urlBuilder.createURL(query) else {
             return
         }
