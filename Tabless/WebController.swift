@@ -42,7 +42,8 @@ class WebController: NSObject, SearchViewDelegate, StateResettable {
     }
 
     func loadQuery(_ query: String) {
-        guard let url = URLBuilder.createURL(query) else {
+        let urlBuilder = URLBuilder(searchEngine: SearchEngine.default)
+        guard let url = urlBuilder.createURL(query) else {
             return
         }
         webContainerView.searchView.text = query
