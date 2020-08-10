@@ -17,7 +17,6 @@
 		0772C1F922228A1900901613 /* WebController+ForwardSwipe.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0772C1F822228A1900901613 /* WebController+ForwardSwipe.swift */; };
 		07735EFA1D546F870061E8D9 /* SearchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07735EF71D546F870061E8D9 /* SearchView.swift */; };
 		0779F91520D4B1E800FC90DE /* WebController+BackSwipe.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0779F91420D4B1E800FC90DE /* WebController+BackSwipe.swift */; };
-		077B16E1210D3E8C00FF5079 /* RootViewController+LongPress.swift in Sources */ = {isa = PBXBuildFile; fileRef = 077B16E0210D3E8C00FF5079 /* RootViewController+LongPress.swift */; };
 		077B16E5210D954A00FF5079 /* UITraitCollection+Size.swift in Sources */ = {isa = PBXBuildFile; fileRef = 077B16E4210D954A00FF5079 /* UITraitCollection+Size.swift */; };
 		077B16E7210DA99500FF5079 /* RootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 077B16E6210DA99500FF5079 /* RootView.swift */; };
 		079596681BF1CFFE00F7078B /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 079596671BF1CFFE00F7078B /* AppDelegate.swift */; };
@@ -51,7 +50,6 @@
 		0772C1F822228A1900901613 /* WebController+ForwardSwipe.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "WebController+ForwardSwipe.swift"; sourceTree = "<group>"; };
 		07735EF71D546F870061E8D9 /* SearchView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchView.swift; sourceTree = "<group>"; };
 		0779F91420D4B1E800FC90DE /* WebController+BackSwipe.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "WebController+BackSwipe.swift"; sourceTree = "<group>"; };
-		077B16E0210D3E8C00FF5079 /* RootViewController+LongPress.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "RootViewController+LongPress.swift"; sourceTree = "<group>"; };
 		077B16E4210D954A00FF5079 /* UITraitCollection+Size.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITraitCollection+Size.swift"; sourceTree = "<group>"; };
 		077B16E6210DA99500FF5079 /* RootView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootView.swift; sourceTree = "<group>"; };
 		079596641BF1CFFE00F7078B /* Tabless.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Tabless.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -118,7 +116,6 @@
 				07E559D22128BE150066110C /* WebController.swift */,
 				0779F91420D4B1E800FC90DE /* WebController+BackSwipe.swift */,
 				0772C1F822228A1900901613 /* WebController+ForwardSwipe.swift */,
-				077B16E0210D3E8C00FF5079 /* RootViewController+LongPress.swift */,
 			);
 			path = Tabless;
 			sourceTree = "<group>";
@@ -294,7 +291,6 @@
 				0772C1F5221400BF00901613 /* DebugLogger.swift in Sources */,
 				077B16E5210D954A00FF5079 /* UITraitCollection+Size.swift in Sources */,
 				0763D70A1CA4FCFC001AD8E6 /* ProgressView.swift in Sources */,
-				077B16E1210D3E8C00FF5079 /* RootViewController+LongPress.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
