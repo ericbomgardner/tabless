@@ -154,9 +154,10 @@ class WebController: NSObject, SearchViewDelegate, StateResettable {
 
     private func clearWebViewData(completion: @escaping () -> Void) {
         let aLongTimeAgo = Date(timeIntervalSinceReferenceDate: 0)
-        WKWebsiteDataStore.default().removeData(ofTypes: WKWebsiteDataStore.allWebsiteDataTypes(),
-                                                modifiedSince: aLongTimeAgo) {
-                                                    completion()
+        let dataStore = webContainerView.webView.configuration.websiteDataStore
+        dataStore.removeData(ofTypes: WKWebsiteDataStore.allWebsiteDataTypes(),
+                             modifiedSince: aLongTimeAgo) {
+                                completion()
         }
     }
 }

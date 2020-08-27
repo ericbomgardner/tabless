@@ -8,6 +8,7 @@ class WebContainerView: UIView {
     let progressView = ProgressView()
     let webView: WKWebView = {
         let configuration = WKWebViewConfiguration()
+        configuration.websiteDataStore = .nonPersistent()
         let webView = WKWebView(frame: CGRect.zero, configuration: configuration)
         webView.scrollView.decelerationRate = .normal
         webView.allowsBackForwardNavigationGestures = true
