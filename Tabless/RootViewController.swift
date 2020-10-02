@@ -85,6 +85,17 @@ class RootViewController: UIViewController, SearchViewDelegate {
         hasViewAppeared = false
     }
 
+    func openURL(_ url: URL) {
+        // Clean up web view, if it's open
+        webView?.removeFromSuperview()
+        self.webController = nil
+
+        // Dismiss keyboard, if it's up
+        rootView.searchView.resignFirstResponder()
+
+        loadSearch(url.absoluteString)
+    }
+
     @objc private func makeSearchViewFirstResponder() {
         guard webView == nil else {
             // Don't become first responder if web view is up
@@ -103,9 +114,7 @@ class RootViewController: UIViewController, SearchViewDelegate {
         }
     }
 
-    // MARK: SearchViewDelegate
-
-    func searchSubmitted(_ text: String) {
+    private func loadSearch(_ text: String) {
         let webController = WebController(stateClearer: stateClearer)
         let webView = webController.view
         webView.translatesAutoresizingMaskIntoConstraints = false
@@ -118,6 +127,12 @@ class RootViewController: UIViewController, SearchViewDelegate {
         webController.delegate = self
         webController.loadQuery(text)
         clearSearchViewText()
+    }
+
+    // MARK: SearchViewDelegate
+
+    func searchSubmitted(_ text: String) {
+        loadSearch(text)
     }
 
     func searchCleared() {
