@@ -27,6 +27,7 @@
 		07E729C7241EEACF0098917E /* URLBuilderTestCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07E729C6241EEACF0098917E /* URLBuilderTestCase.swift */; };
 		07EC81D020B289A70086E24C /* StateClearer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07EC81CF20B289A70086E24C /* StateClearer.swift */; };
 		07FA0E391CA3DD5300B9AF8F /* RootViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07FA0E381CA3DD5300B9AF8F /* RootViewController.swift */; };
+		07FE8E1D25325A8500E1EADF /* Entitlements.entitlements in Resources */ = {isa = PBXBuildFile; fileRef = 07FE8E1C25325A8500E1EADF /* Entitlements.entitlements */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -64,6 +65,7 @@
 		07E729C8241EEACF0098917E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		07EC81CF20B289A70086E24C /* StateClearer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StateClearer.swift; sourceTree = "<group>"; };
 		07FA0E381CA3DD5300B9AF8F /* RootViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RootViewController.swift; sourceTree = "<group>"; };
+		07FE8E1C25325A8500E1EADF /* Entitlements.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Entitlements.entitlements; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -108,6 +110,7 @@
 			children = (
 				079596671BF1CFFE00F7078B /* AppDelegate.swift */,
 				0795966E1BF1CFFE00F7078B /* Assets.xcassets */,
+				07FE8E1C25325A8500E1EADF /* Entitlements.entitlements */,
 				079596701BF1CFFE00F7078B /* LaunchScreen.storyboard */,
 				079596731BF1CFFE00F7078B /* Info.plist */,
 				07FA0E381CA3DD5300B9AF8F /* RootViewController.swift */,
@@ -222,7 +225,7 @@
 						CreatedOnToolsVersion = 7.1;
 						DevelopmentTeam = 4NX3RJE9MB;
 						LastSwiftMigration = 1020;
-						ProvisioningStyle = Automatic;
+						ProvisioningStyle = Manual;
 					};
 					07E729C3241EEACE0098917E = {
 						CreatedOnToolsVersion = 11.3.1;
@@ -256,6 +259,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				079596721BF1CFFE00F7078B /* LaunchScreen.storyboard in Resources */,
+				07FE8E1D25325A8500E1EADF /* Entitlements.entitlements in Resources */,
 				071FCFB024D7587A00443B6A /* Settings.bundle in Resources */,
 				0795966F1BF1CFFE00F7078B /* Assets.xcassets in Resources */,
 			);
@@ -434,8 +438,10 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = Tabless/Entitlements.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 4NX3RJE9MB;
 				INFOPLIST_FILE = Tabless/Info.plist;
@@ -445,6 +451,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.ericbomgardner.Tabless;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE_SPECIFIER = "Tabless Development";
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -455,8 +462,10 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = Tabless/Entitlements.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 4NX3RJE9MB;
 				INFOPLIST_FILE = Tabless/Info.plist;
@@ -466,6 +475,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.ericbomgardner.Tabless;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE_SPECIFIER = "Tabless Development";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
