@@ -27,7 +27,6 @@
 		07E729C7241EEACF0098917E /* URLBuilderTestCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07E729C6241EEACF0098917E /* URLBuilderTestCase.swift */; };
 		07EC81D020B289A70086E24C /* StateClearer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07EC81CF20B289A70086E24C /* StateClearer.swift */; };
 		07FA0E391CA3DD5300B9AF8F /* RootViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07FA0E381CA3DD5300B9AF8F /* RootViewController.swift */; };
-		07FE8E1D25325A8500E1EADF /* Entitlements.entitlements in Resources */ = {isa = PBXBuildFile; fileRef = 07FE8E1C25325A8500E1EADF /* Entitlements.entitlements */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -259,7 +258,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				079596721BF1CFFE00F7078B /* LaunchScreen.storyboard in Resources */,
-				07FE8E1D25325A8500E1EADF /* Entitlements.entitlements in Resources */,
 				071FCFB024D7587A00443B6A /* Settings.bundle in Resources */,
 				0795966F1BF1CFFE00F7078B /* Assets.xcassets in Resources */,
 			);
