@@ -1,6 +1,6 @@
 import UIKit
 
-protocol StateResettable: class {
+protocol StateResettable: AnyObject {
     func reset()
 }
 
