@@ -33,7 +33,9 @@ struct DebugLogWriter: TextOutputStream {
 struct DebugLogger {
     /// Log `string`
     static func log(_ string: String) {
+        #if DEBUG
         print(string, to: &DebugLogWriter.shared)
+        #endif
         print(string)
     }
 
