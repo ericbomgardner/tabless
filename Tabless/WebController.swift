@@ -12,8 +12,6 @@ class WebController: NSObject, SearchViewDelegate, StateResettable {
     var webContainerView: WebContainerView!
 
     var opacityView = UIView()
-    var openInSafariLabel = UILabel()
-    var openInSafariView = UIView()
 
     var webContainerViewLeadingConstraint: NSLayoutConstraint?
 
@@ -74,11 +72,6 @@ class WebController: NSObject, SearchViewDelegate, StateResettable {
                                              action: #selector(handleBackSwipe))
         backSwipeGestureRecognizer.edges = .left
         webContainerView.addGestureRecognizer(backSwipeGestureRecognizer)
-        let forwardSwipeGestureRecognizer =
-            UIScreenEdgePanGestureRecognizer(target: self,
-                                             action: #selector(handleForwardSwipe))
-        forwardSwipeGestureRecognizer.edges = .right
-        webContainerView.addGestureRecognizer(forwardSwipeGestureRecognizer)
         webContainerView.webView.navigationDelegate = self
         webContainerView.webView.uiDelegate = self
         webContainerView.searchView.searchDelegate = self
@@ -90,26 +83,6 @@ class WebController: NSObject, SearchViewDelegate, StateResettable {
         webContainerView.widthAnchor.constraint(equalTo: view.widthAnchor).isActive = true
         webContainerView.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
         webContainerView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
-
-        view.addSubview(openInSafariView)
-        openInSafariView.layer.masksToBounds = true
-        openInSafariView.backgroundColor = UIColor(red: 30/255.0, green: 152/255.0, blue: 247/255.0, alpha: 1.0) // TODO: make this grey
-        openInSafariView.translatesAutoresizingMaskIntoConstraints = false
-        openInSafariView.leadingAnchor.constraint(equalTo: webContainerView.trailingAnchor).isActive = true
-        openInSafariView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
-        openInSafariView.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
-        openInSafariView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
-
-        openInSafariView.addSubview(openInSafariLabel)
-        openInSafariLabel.text = "Open in Safari"
-        openInSafariLabel.textAlignment = .center
-        openInSafariLabel.textColor = .white
-        openInSafariLabel.numberOfLines = 2
-        openInSafariLabel.translatesAutoresizingMaskIntoConstraints = false
-        openInSafariLabel.centerXAnchor.constraint(equalTo: openInSafariView.centerXAnchor).isActive = true
-        openInSafariLabel.centerYAnchor.constraint(equalTo: openInSafariView.centerYAnchor).isActive = true
-        openInSafariLabel.widthAnchor.constraint(equalToConstant: 100).isActive = true
-        openInSafariLabel.alpha = 0
 
         setUpLoadingKVO()
     }

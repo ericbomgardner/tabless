@@ -14,7 +14,6 @@
 		0763D70A1CA4FCFC001AD8E6 /* ProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0763D7091CA4FCFC001AD8E6 /* ProgressView.swift */; };
 		0772C1F5221400BF00901613 /* DebugLogger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0772C1F4221400BF00901613 /* DebugLogger.swift */; };
 		0772C1F7221404F800901613 /* DebugLogViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0772C1F6221404F800901613 /* DebugLogViewController.swift */; };
-		0772C1F922228A1900901613 /* WebController+ForwardSwipe.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0772C1F822228A1900901613 /* WebController+ForwardSwipe.swift */; };
 		07735EFA1D546F870061E8D9 /* SearchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07735EF71D546F870061E8D9 /* SearchView.swift */; };
 		0779F91520D4B1E800FC90DE /* WebController+BackSwipe.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0779F91420D4B1E800FC90DE /* WebController+BackSwipe.swift */; };
 		077B16E5210D954A00FF5079 /* UITraitCollection+Size.swift in Sources */ = {isa = PBXBuildFile; fileRef = 077B16E4210D954A00FF5079 /* UITraitCollection+Size.swift */; };
@@ -47,7 +46,6 @@
 		0763D7091CA4FCFC001AD8E6 /* ProgressView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProgressView.swift; sourceTree = "<group>"; };
 		0772C1F4221400BF00901613 /* DebugLogger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DebugLogger.swift; sourceTree = "<group>"; };
 		0772C1F6221404F800901613 /* DebugLogViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DebugLogViewController.swift; sourceTree = "<group>"; };
-		0772C1F822228A1900901613 /* WebController+ForwardSwipe.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "WebController+ForwardSwipe.swift"; sourceTree = "<group>"; };
 		07735EF71D546F870061E8D9 /* SearchView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchView.swift; sourceTree = "<group>"; };
 		0779F91420D4B1E800FC90DE /* WebController+BackSwipe.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "WebController+BackSwipe.swift"; sourceTree = "<group>"; };
 		077B16E4210D954A00FF5079 /* UITraitCollection+Size.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITraitCollection+Size.swift"; sourceTree = "<group>"; };
@@ -117,7 +115,6 @@
 				07E559CF21266F440066110C /* Views */,
 				07E559D22128BE150066110C /* WebController.swift */,
 				0779F91420D4B1E800FC90DE /* WebController+BackSwipe.swift */,
-				0772C1F822228A1900901613 /* WebController+ForwardSwipe.swift */,
 			);
 			path = Tabless;
 			sourceTree = "<group>";
@@ -281,7 +278,6 @@
 				07735EFA1D546F870061E8D9 /* SearchView.swift in Sources */,
 				077B16E7210DA99500FF5079 /* RootView.swift in Sources */,
 				07FA0E391CA3DD5300B9AF8F /* RootViewController.swift in Sources */,
-				0772C1F922228A1900901613 /* WebController+ForwardSwipe.swift in Sources */,
 				07E559CD21102B650066110C /* WebContainerView.swift in Sources */,
 				07EC81D020B289A70086E24C /* StateClearer.swift in Sources */,
 				0772C1F7221404F800901613 /* DebugLogViewController.swift in Sources */,
