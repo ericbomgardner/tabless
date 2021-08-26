@@ -73,6 +73,15 @@ class WebContainerView: UIView {
         progressView.topAnchor.constraint(equalTo: topAnchor).isActive = true
         progressView.bottomAnchor.constraint(equalTo: searchView.bottomAnchor).isActive = true
 
+        let searchDivider = UIView()
+        searchDivider.translatesAutoresizingMaskIntoConstraints = false
+        addSubview(searchDivider)
+        searchDivider.backgroundColor = .lightGray.withAlphaComponent(0.4)
+        searchDivider.leadingAnchor.constraint(equalTo: leadingAnchor).isActive = true
+        searchDivider.trailingAnchor.constraint(equalTo: trailingAnchor).isActive = true
+        searchDivider.bottomAnchor.constraint(equalTo: searchView.bottomAnchor).isActive = true
+        searchDivider.heightAnchor.constraint(equalToConstant: 1.0 / UIScreen.main.scale).isActive = true
+
         webView.translatesAutoresizingMaskIntoConstraints = false
         webView.leadingAnchor.constraint(equalTo: leadingAnchor).isActive = true
         webView.trailingAnchor.constraint(equalTo: trailingAnchor).isActive = true
