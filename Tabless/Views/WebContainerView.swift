@@ -1,7 +1,7 @@
 import UIKit
 import WebKit
 
-/// Container for search, progress, and web views
+/// Container for search, progress, and web views (and toolbar)
 class WebContainerView: UIView {
 
     let searchView = SearchView()
@@ -14,6 +14,7 @@ class WebContainerView: UIView {
         webView.allowsBackForwardNavigationGestures = true
         return webView
     }()
+    let bottomToolbar = WebToolbar()
 
     struct SearchViewTextInset {
         static let inset = 12
@@ -76,7 +77,27 @@ class WebContainerView: UIView {
         webView.leadingAnchor.constraint(equalTo: leadingAnchor).isActive = true
         webView.trailingAnchor.constraint(equalTo: trailingAnchor).isActive = true
         webView.topAnchor.constraint(equalTo: progressView.bottomAnchor).isActive = true
-        webView.bottomAnchor.constraint(equalTo: bottomAnchor).isActive = true
+
+        addSubview(bottomToolbar)
+        bottomToolbar.layer.masksToBounds = false
+        bottomToolbar.layer.shadowColor = UIColor.black.cgColor
+        bottomToolbar.layer.shadowOpacity = 1
+        bottomToolbar.layer.shadowOffset = .zero
+        bottomToolbar.layer.shadowRadius = 10
+        bottomToolbar.layer.shadowPath = UIBezierPath(rect: bottomToolbar.bounds).cgPath
+        bottomToolbar.leadingAnchor.constraint(equalTo: leadingAnchor).isActive = true
+        bottomToolbar.trailingAnchor.constraint(equalTo: trailingAnchor).isActive = true
+        bottomToolbar.topAnchor.constraint(equalTo: webView.bottomAnchor).isActive = true
+        bottomToolbar.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor).isActive = true
+
+        let toolbarDivider = UIView()
+        toolbarDivider.translatesAutoresizingMaskIntoConstraints = false
+        addSubview(toolbarDivider)
+        toolbarDivider.backgroundColor = .lightGray.withAlphaComponent(0.4)
+        toolbarDivider.leadingAnchor.constraint(equalTo: leadingAnchor).isActive = true
+        toolbarDivider.trailingAnchor.constraint(equalTo: trailingAnchor).isActive = true
+        toolbarDivider.topAnchor.constraint(equalTo: bottomToolbar.topAnchor).isActive = true
+        toolbarDivider.heightAnchor.constraint(equalToConstant: 1.0 / UIScreen.main.scale).isActive = true
     }
 
     required init?(coder aDecoder: NSCoder) {

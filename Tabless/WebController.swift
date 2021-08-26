@@ -22,7 +22,7 @@ class WebController: NSObject, SearchViewDelegate, StateResettable {
 
     private var pauseTime: Date?
 
-    private var webViewProgressObservationToken: NSKeyValueObservation?
+    private var disposeBag = [NSKeyValueObservation]()
 
     private let stateClearer: StateClearer
 
@@ -75,6 +75,14 @@ class WebController: NSObject, SearchViewDelegate, StateResettable {
         webContainerView.webView.navigationDelegate = self
         webContainerView.webView.uiDelegate = self
         webContainerView.searchView.searchDelegate = self
+        webContainerView.bottomToolbar.backButton.isEnabled = false
+        webContainerView.bottomToolbar.forwardButton.isEnabled = false
+        webContainerView.bottomToolbar.backButton.addTarget(self,
+                                                            action: #selector(didTapBackButtonZZZ),
+                                                            for: .touchUpInside)
+        webContainerView.bottomToolbar.forwardButton.addTarget(self,
+                                                               action: #selector(didTapForwardButton),
+                                                               for: .touchUpInside)
         view.addSubview(webContainerView)
 
         let webContainerViewLeadingConstraint = webContainerView.leadingAnchor.constraint(equalTo: view.leadingAnchor)
@@ -90,19 +98,31 @@ class WebController: NSObject, SearchViewDelegate, StateResettable {
     // MARK: KVO
 
     private func setUpLoadingKVO() {
-        webViewProgressObservationToken = webContainerView.webView.observe(\.estimatedProgress,
-                                                                           options: [.new])
+        disposeBag.append(webContainerView.webView.observe(\.estimatedProgress,
+                                                            options: [.new])
         { [weak self] _, change in
             if let newValue = change.newValue {
                 self?.webContainerView.progressView.setProgress(
                     WebController.initialProgress + newValue * (1 - WebController.initialProgress)
                 )
             }
-        }
-    }
+        })
 
-    private func removeLoadingKVO() {
-        webViewProgressObservationToken = nil
+        disposeBag.append(webContainerView.webView.observe(\.canGoBack,
+                                                            options: [.new])
+        { [weak self] _, change in
+            if let newValue = change.newValue {
+                self?.webContainerView.bottomToolbar.backButton.isEnabled = newValue
+            }
+        })
+
+        disposeBag.append(webContainerView.webView.observe(\.canGoForward,
+                                                            options: [.new])
+        { [weak self] _, change in
+            if let newValue = change.newValue {
+                self?.webContainerView.bottomToolbar.forwardButton.isEnabled = newValue
+            }
+        })
     }
 
     // MARK: SearchViewDelegate
@@ -113,6 +133,22 @@ class WebController: NSObject, SearchViewDelegate, StateResettable {
 
     func searchCleared() {
         reset()
+    }
+
+    // MARK: Navigation
+
+    @objc private func didTapBackButtonZZZ() {
+        if webContainerView.webView.canGoBack {
+            webContainerView.webView.goBack()
+        } else {
+            reset()
+        }
+    }
+
+    @objc private func didTapForwardButton() {
+        if webContainerView.webView.canGoForward {
+            webContainerView.webView.goForward()
+        }
     }
 
     // MARK: StateResettable
