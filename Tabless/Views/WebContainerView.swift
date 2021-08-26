@@ -4,6 +4,7 @@ import WebKit
 /// Container for search, progress, and web views (and toolbar)
 class WebContainerView: UIView {
 
+    let searchViewContainer = UIView()
     let searchView = SearchView()
     let progressView = ProgressView()
     let webView: WKWebView = {
@@ -14,6 +15,7 @@ class WebContainerView: UIView {
         webView.allowsBackForwardNavigationGestures = true
         return webView
     }()
+    let bottomToolbarContainer = UIView()
     let bottomToolbar = WebToolbar()
 
     struct SearchViewTextInset {
@@ -25,11 +27,18 @@ class WebContainerView: UIView {
 
         backgroundColor = UIColor(named: "Background")
 
-        addSubview(searchView)
         addSubview(progressView)
-        progressView.alpha = 0.3
         addSubview(webView)
-        sendSubviewToBack(progressView)
+
+        searchViewContainer.translatesAutoresizingMaskIntoConstraints = false
+        searchViewContainer.backgroundColor = .white
+        searchViewContainer.addSubtleShadow()
+        addSubview(searchViewContainer)
+        searchViewContainer.leadingAnchor.constraint(equalTo: leadingAnchor).isActive = true
+        searchViewContainer.trailingAnchor.constraint(equalTo: trailingAnchor).isActive = true
+        searchViewContainer.topAnchor.constraint(equalTo: topAnchor).isActive = true
+        searchViewContainer.addSubview(searchView)
+        progressView.alpha = 0.3
 
         searchView.translatesAutoresizingMaskIntoConstraints = false
 
@@ -37,34 +46,35 @@ class WebContainerView: UIView {
         // is never wider than the readable content guide says it should be, but otherwise
         // uses all of the space available
         let minimumPaddingBetweenSearchViewAndViewEdge: CGFloat = 16
-        let leadingPaddingConstraint = searchView.leadingAnchor.constraint(greaterThanOrEqualTo: leadingAnchor)
+        let leadingPaddingConstraint = searchView.leadingAnchor.constraint(greaterThanOrEqualTo: searchViewContainer.leadingAnchor)
         leadingPaddingConstraint.constant = minimumPaddingBetweenSearchViewAndViewEdge
         leadingPaddingConstraint.isActive = true
-        let trailingPaddingConstraint = searchView.trailingAnchor.constraint(lessThanOrEqualTo: trailingAnchor)
+        let trailingPaddingConstraint = searchView.trailingAnchor.constraint(lessThanOrEqualTo: searchViewContainer.trailingAnchor)
         trailingPaddingConstraint.constant = -minimumPaddingBetweenSearchViewAndViewEdge
         trailingPaddingConstraint.isActive = true
 
-        let leadingOptionalConstraint = searchView.leadingAnchor.constraint(equalTo: leadingAnchor)
+        let leadingOptionalConstraint = searchView.leadingAnchor.constraint(equalTo: searchViewContainer.leadingAnchor)
         leadingOptionalConstraint.constant = minimumPaddingBetweenSearchViewAndViewEdge
         leadingOptionalConstraint.priority = UILayoutPriority.defaultHigh
         leadingOptionalConstraint.isActive = true
-        let trailingOptionalConstraint = searchView.trailingAnchor.constraint(equalTo: trailingAnchor)
+        let trailingOptionalConstraint = searchView.trailingAnchor.constraint(equalTo: searchViewContainer.trailingAnchor)
         trailingOptionalConstraint.constant = minimumPaddingBetweenSearchViewAndViewEdge
         trailingOptionalConstraint.priority = UILayoutPriority.defaultHigh
         trailingOptionalConstraint.isActive = true
 
-        let leadingContentGuideConstraint = searchView.leadingAnchor.constraint(equalTo: leadingAnchor)
+        let leadingContentGuideConstraint = searchView.leadingAnchor.constraint(equalTo: searchViewContainer.leadingAnchor)
         leadingContentGuideConstraint.priority = UILayoutPriority.defaultLow
         leadingContentGuideConstraint.isActive = true
-        let trailingContentGuideConstraint = searchView.trailingAnchor.constraint(lessThanOrEqualTo: trailingAnchor)
+        let trailingContentGuideConstraint = searchView.trailingAnchor.constraint(lessThanOrEqualTo: searchViewContainer.trailingAnchor)
         trailingContentGuideConstraint.priority = UILayoutPriority.defaultLow
         trailingContentGuideConstraint.isActive = true
 
-        searchView.leadingAnchor.constraint(greaterThanOrEqualTo: readableContentGuide.leadingAnchor).isActive = true
-        searchView.trailingAnchor.constraint(lessThanOrEqualTo: readableContentGuide.trailingAnchor).isActive = true
+        searchView.leadingAnchor.constraint(greaterThanOrEqualTo: searchViewContainer.readableContentGuide.leadingAnchor).isActive = true
+        searchView.trailingAnchor.constraint(lessThanOrEqualTo: searchViewContainer.readableContentGuide.trailingAnchor).isActive = true
 
-        searchView.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor).isActive = true
+        searchView.topAnchor.constraint(equalTo: searchViewContainer.safeAreaLayoutGuide.topAnchor).isActive = true
         searchView.heightAnchor.constraint(equalToConstant: searchView.height(for: .web)).isActive = true
+        searchView.bottomAnchor.constraint(equalTo: searchViewContainer.bottomAnchor).isActive = true
         searchView.configure(for: .web)
 
         progressView.translatesAutoresizingMaskIntoConstraints = false
@@ -73,49 +83,50 @@ class WebContainerView: UIView {
         progressView.topAnchor.constraint(equalTo: topAnchor).isActive = true
         progressView.bottomAnchor.constraint(equalTo: searchView.bottomAnchor).isActive = true
 
-        let searchDivider = UIView()
-        searchDivider.translatesAutoresizingMaskIntoConstraints = false
-        addSubview(searchDivider)
-        searchDivider.backgroundColor = .lightGray.withAlphaComponent(0.4)
-        searchDivider.leadingAnchor.constraint(equalTo: leadingAnchor).isActive = true
-        searchDivider.trailingAnchor.constraint(equalTo: trailingAnchor).isActive = true
-        searchDivider.bottomAnchor.constraint(equalTo: searchView.bottomAnchor).isActive = true
-        searchDivider.heightAnchor.constraint(equalToConstant: 1.0 / UIScreen.main.scale).isActive = true
-
         webView.translatesAutoresizingMaskIntoConstraints = false
         webView.leadingAnchor.constraint(equalTo: leadingAnchor).isActive = true
         webView.trailingAnchor.constraint(equalTo: trailingAnchor).isActive = true
         webView.topAnchor.constraint(equalTo: progressView.bottomAnchor).isActive = true
 
-        addSubview(bottomToolbar)
-        bottomToolbar.layer.masksToBounds = false
-        bottomToolbar.layer.shadowColor = UIColor.black.cgColor
-        bottomToolbar.layer.shadowOpacity = 1
-        bottomToolbar.layer.shadowOffset = .zero
-        bottomToolbar.layer.shadowRadius = 10
-        bottomToolbar.layer.shadowPath = UIBezierPath(rect: bottomToolbar.bounds).cgPath
-        bottomToolbar.leadingAnchor.constraint(equalTo: leadingAnchor).isActive = true
-        bottomToolbar.trailingAnchor.constraint(equalTo: trailingAnchor).isActive = true
-        bottomToolbar.topAnchor.constraint(equalTo: webView.bottomAnchor).isActive = true
-        bottomToolbar.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor).isActive = true
-
-        let toolbarDivider = UIView()
-        toolbarDivider.translatesAutoresizingMaskIntoConstraints = false
-        addSubview(toolbarDivider)
-        toolbarDivider.backgroundColor = .lightGray.withAlphaComponent(0.4)
-        toolbarDivider.leadingAnchor.constraint(equalTo: leadingAnchor).isActive = true
-        toolbarDivider.trailingAnchor.constraint(equalTo: trailingAnchor).isActive = true
-        toolbarDivider.topAnchor.constraint(equalTo: bottomToolbar.topAnchor).isActive = true
-        toolbarDivider.heightAnchor.constraint(equalToConstant: 1.0 / UIScreen.main.scale).isActive = true
+        bottomToolbarContainer.backgroundColor = .white
+        bottomToolbarContainer.translatesAutoresizingMaskIntoConstraints = false
+        addSubview(bottomToolbarContainer)
+        bottomToolbarContainer.leadingAnchor.constraint(equalTo: leadingAnchor).isActive = true
+        bottomToolbarContainer.trailingAnchor.constraint(equalTo: trailingAnchor).isActive = true
+        bottomToolbarContainer.topAnchor.constraint(equalTo: webView.bottomAnchor).isActive = true
+        bottomToolbarContainer.bottomAnchor.constraint(equalTo: bottomAnchor).isActive = true
+        bottomToolbarContainer.addSubtleShadow()
+        bottomToolbarContainer.addSubview(bottomToolbar)
+        bottomToolbar.leadingAnchor.constraint(equalTo: bottomToolbarContainer.leadingAnchor).isActive = true
+        bottomToolbar.trailingAnchor.constraint(equalTo: bottomToolbarContainer.trailingAnchor).isActive = true
+        bottomToolbar.topAnchor.constraint(equalTo: bottomToolbarContainer.topAnchor).isActive = true
+        bottomToolbar.bottomAnchor.constraint(equalTo: bottomToolbarContainer.safeAreaLayoutGuide.bottomAnchor).isActive = true
     }
 
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
 
+    override func layoutSubviews() {
+        super.layoutSubviews()
+
+        searchViewContainer.layer.shadowPath = UIBezierPath(rect: searchViewContainer.bounds).cgPath
+        bottomToolbarContainer.layer.shadowPath = UIBezierPath(rect: bottomToolbarContainer.bounds).cgPath
+    }
+
     // MARK: Sizing
 
     override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
         // TODO: Resize search/progress views
+    }
+}
+
+private extension UIView {
+    func addSubtleShadow() {
+        layer.masksToBounds = false
+        layer.shadowColor = UIColor.lightGray.cgColor
+        layer.shadowOpacity = 0.22
+        layer.shadowOffset = .zero
+        layer.shadowRadius = 6
     }
 }

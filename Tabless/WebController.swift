@@ -78,7 +78,7 @@ class WebController: NSObject, SearchViewDelegate, StateResettable {
         webContainerView.bottomToolbar.backButton.isEnabled = false
         webContainerView.bottomToolbar.forwardButton.isEnabled = false
         webContainerView.bottomToolbar.backButton.addTarget(self,
-                                                            action: #selector(didTapBackButtonZZZ),
+                                                            action: #selector(didTapBackButton),
                                                             for: .touchUpInside)
         webContainerView.bottomToolbar.forwardButton.addTarget(self,
                                                                action: #selector(didTapForwardButton),
@@ -137,7 +137,7 @@ class WebController: NSObject, SearchViewDelegate, StateResettable {
 
     // MARK: Navigation
 
-    @objc private func didTapBackButtonZZZ() {
+    @objc private func didTapBackButton() {
         if webContainerView.webView.canGoBack {
             webContainerView.webView.goBack()
         } else {
