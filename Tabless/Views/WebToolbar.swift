@@ -3,6 +3,8 @@ import UIKit
 class WebToolbar: UIView {
     let backButton = UIButton()
     let forwardButton = UIButton()
+    let refreshButton = UIButton()
+    let copyLinkButton = UIButton()
 
     init() {
         super.init(frame: .zero)
@@ -12,6 +14,8 @@ class WebToolbar: UIView {
         let buttonsByImageName = [
             backButton: "chevron.left",
             forwardButton: "chevron.right",
+            refreshButton: "arrow.clockwise",
+            copyLinkButton: "link"
         ]
         for (button, systemImageName) in buttonsByImageName {
             button.tintColor = .lightGray
@@ -22,7 +26,7 @@ class WebToolbar: UIView {
                             for: .normal)
         }
 
-        let stackView = UIStackView(arrangedSubviews: [backButton, forwardButton])
+        let stackView = UIStackView(arrangedSubviews: [backButton, forwardButton, refreshButton, copyLinkButton])
         stackView.translatesAutoresizingMaskIntoConstraints = false
         addSubview(stackView)
         stackView.distribution = .fillEqually

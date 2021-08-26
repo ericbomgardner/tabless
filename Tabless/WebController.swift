@@ -83,6 +83,12 @@ class WebController: NSObject, SearchViewDelegate, StateResettable {
         webContainerView.bottomToolbar.forwardButton.addTarget(self,
                                                                action: #selector(didTapForwardButton),
                                                                for: .touchUpInside)
+        webContainerView.bottomToolbar.refreshButton.addTarget(self,
+                                                               action: #selector(didTapRefreshButton),
+                                                               for: .touchUpInside)
+        webContainerView.bottomToolbar.copyLinkButton.addTarget(self,
+                                                                action: #selector(didTapCopyLinkButton),
+                                                                for: .touchUpInside)
         view.addSubview(webContainerView)
 
         let webContainerViewLeadingConstraint = webContainerView.leadingAnchor.constraint(equalTo: view.leadingAnchor)
@@ -148,6 +154,16 @@ class WebController: NSObject, SearchViewDelegate, StateResettable {
     @objc private func didTapForwardButton() {
         if webContainerView.webView.canGoForward {
             webContainerView.webView.goForward()
+        }
+    }
+
+    @objc private func didTapRefreshButton() {
+        webContainerView.webView.reload()
+    }
+
+    @objc private func didTapCopyLinkButton() {
+        if let urlString = webContainerView.webView.url?.absoluteString {
+            UIPasteboard.general.addItems([["public.plain-text" : urlString]])
         }
     }
 
