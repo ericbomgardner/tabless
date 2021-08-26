@@ -27,7 +27,6 @@ class WebContainerView: UIView {
 
         backgroundColor = UIColor(named: "Background")
 
-        addSubview(progressView)
         addSubview(webView)
 
         searchViewContainer.translatesAutoresizingMaskIntoConstraints = false
@@ -37,10 +36,16 @@ class WebContainerView: UIView {
         searchViewContainer.leadingAnchor.constraint(equalTo: leadingAnchor).isActive = true
         searchViewContainer.trailingAnchor.constraint(equalTo: trailingAnchor).isActive = true
         searchViewContainer.topAnchor.constraint(equalTo: topAnchor).isActive = true
-        searchViewContainer.addSubview(searchView)
-        progressView.alpha = 0.3
+
+        searchViewContainer.addSubview(progressView)
+        progressView.translatesAutoresizingMaskIntoConstraints = false
+        progressView.leadingAnchor.constraint(equalTo: searchViewContainer.leadingAnchor).isActive = true
+        progressView.trailingAnchor.constraint(equalTo: searchViewContainer.trailingAnchor).isActive = true
+        progressView.topAnchor.constraint(equalTo: searchViewContainer.topAnchor).isActive = true
+        progressView.bottomAnchor.constraint(equalTo: searchViewContainer.bottomAnchor).isActive = true
 
         searchView.translatesAutoresizingMaskIntoConstraints = false
+        searchViewContainer.addSubview(searchView)
 
         // Ensure that search view has enough leading and trailing padding (minimum of 16),
         // is never wider than the readable content guide says it should be, but otherwise
@@ -76,12 +81,6 @@ class WebContainerView: UIView {
         searchView.heightAnchor.constraint(equalToConstant: searchView.height(for: .web)).isActive = true
         searchView.bottomAnchor.constraint(equalTo: searchViewContainer.bottomAnchor).isActive = true
         searchView.configure(for: .web)
-
-        progressView.translatesAutoresizingMaskIntoConstraints = false
-        progressView.leadingAnchor.constraint(equalTo: leadingAnchor).isActive = true
-        progressView.trailingAnchor.constraint(equalTo: trailingAnchor).isActive = true
-        progressView.topAnchor.constraint(equalTo: topAnchor).isActive = true
-        progressView.bottomAnchor.constraint(equalTo: searchView.bottomAnchor).isActive = true
 
         webView.translatesAutoresizingMaskIntoConstraints = false
         webView.leadingAnchor.constraint(equalTo: leadingAnchor).isActive = true
