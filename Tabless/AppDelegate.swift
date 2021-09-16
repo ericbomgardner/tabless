@@ -13,6 +13,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
         window.makeKeyAndVisible()
 
+        #if DEBUG
+        #else
+        // Clear any accidentally-existing debug logs in non-debug app builds
+        //
+        // This logging could have occurred in releases containing 128b2cb and not 025e419,
+        // which was releases 1.0.1, 1.1, and 1.2.
+        DispatchQueue.global(qos: .background).async {
+            DebugLogger.clearAllLogs()
+        }
+        #endif
+
         return true
     }
 
