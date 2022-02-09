@@ -145,19 +145,31 @@ class WebController: NSObject, SearchViewDelegate, StateResettable {
     // MARK: StateResettable
 
     func reset() {
-        clearWebViewData {
-            DebugLogger.log("Web view data cleared")
-            // TODO: Handle asynchronicity of this?
-        }
+        clearWebViewData()
+        DebugLogger.log("Web view data cleared")
         delegate?.didRequestResetInWebController(self)
     }
 
-    private func clearWebViewData(completion: @escaping () -> Void) {
+    private func clearWebViewData() {
+        // Clear all cookies/caches/local storage for the web view
         let aLongTimeAgo = Date(timeIntervalSinceReferenceDate: 0)
-        let dataStore = webContainerView.webView.configuration.websiteDataStore
-        dataStore.removeData(ofTypes: WKWebsiteDataStore.allWebsiteDataTypes(),
-                             modifiedSince: aLongTimeAgo) {
-                                completion()
+        let dataStores = [
+            webContainerView.webView.configuration.websiteDataStore,
+            WKWebsiteDataStore.default()
+        ]
+        dataStores.forEach { dataStore in
+            dataStore.removeData(ofTypes: WKWebsiteDataStore.allWebsiteDataTypes(),
+                                 modifiedSince: aLongTimeAgo,
+                                 completionHandler: {})
+        }
+
+        // Also fully clear the `/Library/Caches` directory -- WebKit likes to
+        // keep caches (mostly `com.apple.Metal`) there, which we can clear for
+        // the freshest start
+        DispatchQueue.global(qos: .background).async {
+            let cachesDirectory = FileManager.default.urls(for: .cachesDirectory,
+                                                              in: .userDomainMask)[0]
+            try? FileManager.default.removeContents(of: cachesDirectory)
         }
     }
 }
