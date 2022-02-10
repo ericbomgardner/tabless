@@ -1,6 +1,6 @@
 import UIKit
 
-protocol SearchViewDelegate: class {
+protocol SearchViewDelegate: AnyObject {
     func searchSubmitted(_ text: String)
     func searchCleared()
 }
