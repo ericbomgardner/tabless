@@ -9,6 +9,11 @@ class WebContainerView: UIView {
     let webView: WKWebView = {
         let configuration = WKWebViewConfiguration()
         configuration.websiteDataStore = .nonPersistent()
+
+        // Allow inline media playback to prevent auto-playing video (like ads) from
+        // taking over the screen
+        configuration.allowsInlineMediaPlayback = true
+
         let webView = WKWebView(frame: CGRect.zero, configuration: configuration)
         webView.scrollView.decelerationRate = .normal
         webView.allowsBackForwardNavigationGestures = true
