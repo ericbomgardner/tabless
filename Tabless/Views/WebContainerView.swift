@@ -6,19 +6,7 @@ class WebContainerView: UIView {
 
     let searchView = SearchView()
     let progressView = ProgressView()
-    let webView: WKWebView = {
-        let configuration = WKWebViewConfiguration()
-        configuration.websiteDataStore = .nonPersistent()
-
-        // Allow inline media playback to prevent auto-playing video (like ads) from
-        // taking over the screen
-        configuration.allowsInlineMediaPlayback = true
-
-        let webView = WKWebView(frame: CGRect.zero, configuration: configuration)
-        webView.scrollView.decelerationRate = .normal
-        webView.allowsBackForwardNavigationGestures = true
-        return webView
-    }()
+    let webView: WKWebView = WebView()
 
     struct SearchViewTextInset {
         static let inset = 12
