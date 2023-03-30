@@ -13,10 +13,6 @@ class WebView: WKWebView {
         let configuration = WKWebViewConfiguration()
         configuration.websiteDataStore = .nonPersistent()
 
-        // Allow inline media playback to prevent auto-playing video (like ads) from
-        // taking over the screen
-        configuration.allowsInlineMediaPlayback = true
-
         super.init(frame: .zero, configuration: configuration)
 
         scrollView.decelerationRate = .normal
