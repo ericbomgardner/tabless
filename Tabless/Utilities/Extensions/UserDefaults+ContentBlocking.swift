@@ -1,17 +1,8 @@
 import Foundation
 
 extension UserDefaults {
-    private var contentBlockingKey: String {
-        // Matches key specified in Settings/Root.plist
-        return "content_blocking"
-    }
-
-    var isContentBlockingEnabled: Bool {
-        get {
-            return bool(forKey: contentBlockingKey)
-        }
-        set {
-            setValue(newValue, forKey: contentBlockingKey)
-        }
+    // Matches key specified in Settings/Root.plist
+    @objc dynamic var contentBlocking: Bool {
+        return object(forKey: #function) as? Bool ?? true
     }
 }

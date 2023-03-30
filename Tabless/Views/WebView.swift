@@ -9,30 +9,23 @@
 import WebKit
 
 class WebView: WKWebView {
+    private let contentBlocker: ContentBlocker
+
     init() {
         let configuration = WKWebViewConfiguration()
         configuration.websiteDataStore = .nonPersistent()
+
+        contentBlocker = ContentBlocker(userContentController: configuration.userContentController)
 
         super.init(frame: .zero, configuration: configuration)
 
         scrollView.decelerationRate = .normal
         allowsBackForwardNavigationGestures = true
 
-        setUpBlocklist()
+        contentBlocker.setUpBlocklist()
     }
 
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
-    }
-
-    func setUpBlocklist() {
-        guard UserDefaults.standard.isContentBlockingEnabled else {
-            return
-        }
-
-        Task {
-            let blocklist = await BlocklistProvider.getBlocklist()
-            configuration.userContentController.add(blocklist)
-        }
     }
 }

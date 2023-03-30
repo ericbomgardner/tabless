@@ -30,7 +30,7 @@
 			<key>Type</key>
 			<string>PSGroupSpecifier</string>
 			<key>Title</key>
-			<string>Content Blocking (Lists from Mozilla's shavar-prod-lists; CC BY-NC-SA 4.0)</string>
+			<string>Content Blocking (Lists from Mozilla&apos;s shavar-prod-lists; CC BY-NC-SA 4.0)</string>
 		</dict>
 		<dict>
 			<key>Type</key>
@@ -38,7 +38,7 @@
 			<key>Title</key>
 			<string>Content Blocking</string>
 			<key>Key</key>
-			<string>content_blocking</string>
+			<string>contentBlocking</string>
 			<key>DefaultValue</key>
 			<true/>
 		</dict>
