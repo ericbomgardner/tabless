@@ -21,9 +21,22 @@ class WebView: WKWebView {
 
         scrollView.decelerationRate = .normal
         allowsBackForwardNavigationGestures = true
+
+        setUpBlocklist()
     }
 
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+
+    func setUpBlocklist() {
+        guard UserDefaults.standard.isContentBlockingEnabled else {
+            return
+        }
+
+        Task {
+            let blocklist = await BlocklistProvider.getBlocklist()
+            configuration.userContentController.add(blocklist)
+        }
     }
 }

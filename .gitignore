@@ -4,6 +4,9 @@
 build/
 DerivedData
 
+## Downloaded blocklists
+Blocklists/
+
 ## Various settings
 *.pbxuser
 !default.pbxuser
