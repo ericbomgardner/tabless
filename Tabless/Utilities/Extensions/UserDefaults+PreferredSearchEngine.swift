@@ -2,6 +2,7 @@ import Foundation
 
 extension UserDefaults {
     private var preferredSearchEngineKey: String {
+        // Matches key specified in Settings/Root.plist
         return "search_engine"
     }
 
