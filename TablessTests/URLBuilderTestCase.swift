@@ -38,12 +38,19 @@ class URLBuilderTestCase: XCTestCase {
         )
     }
 
-    func testCreatingURLsWithAlternativeSearchEngine() {
-        let urlBuilder = URLBuilder(searchEngine: .duckDuckGo)
+    func testCreatingURLsWithAlternativeSearchEngines() {
+        var urlBuilder = URLBuilder(searchEngine: .duckDuckGo)
 
         XCTAssertEqual(
             urlBuilder.createURL("privacy")?.absoluteString,
             "https://duckduckgo.com/?q=privacy"
+        )
+
+        urlBuilder = URLBuilder(searchEngine: .kagi(token: "example_token"))
+
+        XCTAssertEqual(
+            urlBuilder.createURL("no ads")?.absoluteString,
+            "https://kagi.com/search?token=example_token&q=no%20ads"
         )
     }
 }

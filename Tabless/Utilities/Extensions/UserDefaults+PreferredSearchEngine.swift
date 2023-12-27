@@ -6,17 +6,16 @@ extension UserDefaults {
         return "search_engine"
     }
 
+    private var kagiTokenKey: String {
+        // Matches key specified in Settings/Root.plist
+        return "kagi_token"
+    }
+
     var preferredSearchEngine: SearchEngine {
-        get {
-            if let preferenceValue = string(forKey: preferredSearchEngineKey),
-                let searchEnginePreference = SearchEngine(rawValue: preferenceValue)
-            {
-                return searchEnginePreference
-            }
-            return SearchEngine.default
+        if let preferenceValue = string(forKey: preferredSearchEngineKey) {
+            let kagiToken = string(forKey: kagiTokenKey)
+            return SearchEngine.fromPreferenceValue(preferenceValue, kagiToken: kagiToken)
         }
-        set {
-            setValue(newValue.rawValue, forKey: preferredSearchEngineKey)
-        }
+        return SearchEngine.default
     }
 }

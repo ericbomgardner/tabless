@@ -8,6 +8,14 @@
 	<array>
 		<dict>
 			<key>Type</key>
+			<string>PSGroupSpecifier</string>
+			<key>Title</key>
+			<string></string>
+			<key>FooterText</key>
+			<string>Lists from Mozilla&apos;s shavar-prod-lists; CC BY-NC-SA 4.0</string>
+		</dict>
+		<dict>
+			<key>Type</key>
 			<string>PSMultiValueSpecifier</string>
 			<key>Title</key>
 			<string>Search Engine</string>
@@ -19,18 +27,22 @@
 			<array>
 				<string>Google</string>
 				<string>DuckDuckGo</string>
+				<string>Kagi</string>
 			</array>
 			<key>Values</key>
 			<array>
 				<string>google</string>
 				<string>duckDuckGo</string>
+				<string>kagi</string>
 			</array>
 		</dict>
 		<dict>
 			<key>Type</key>
-			<string>PSGroupSpecifier</string>
+			<string>PSTextFieldSpecifier</string>
 			<key>Title</key>
-			<string>Content Blocking (Lists from Mozilla&apos;s shavar-prod-lists; CC BY-NC-SA 4.0)</string>
+			<string>Kagi Token</string>
+			<key>Key</key>
+			<string>kagi_token</string>
 		</dict>
 		<dict>
 			<key>Type</key>

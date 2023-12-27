@@ -48,6 +48,6 @@ struct URLBuilder {
         guard let searchQuery = text.addingPercentEncoding(withAllowedCharacters: CharacterSet.urlQueryAllowed) else {
             return nil
         }
-        return URL(string: "\(searchEngine.baseURL)\(searchQuery)")
+        return searchEngine.url(query: searchQuery)
     }
 }
