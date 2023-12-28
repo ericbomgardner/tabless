@@ -12,7 +12,6 @@
 		071FCFB024D7587A00443B6A /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 071FCFAF24D7587A00443B6A /* Settings.bundle */; };
 		071FCFB224D75BF100443B6A /* UserDefaults+PreferredSearchEngine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 071FCFB124D75BF100443B6A /* UserDefaults+PreferredSearchEngine.swift */; };
 		07619B6A29D00C9800988E41 /* WebView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07619B6929D00C9800988E41 /* WebView.swift */; };
-		07619B8829D0267C00988E41 /* blocklist.json in Resources */ = {isa = PBXBuildFile; fileRef = 07619B8029D0267B00988E41 /* blocklist.json */; };
 		07619B8E29D5499C00988E41 /* ContentBlocker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07619B8D29D5499C00988E41 /* ContentBlocker.swift */; };
 		07619B9029D54A9400988E41 /* UserDefaults+ContentBlocking.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07619B8F29D54A9400988E41 /* UserDefaults+ContentBlocking.swift */; };
 		0763D70A1CA4FCFC001AD8E6 /* ProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0763D7091CA4FCFC001AD8E6 /* ProgressView.swift */; };
@@ -32,6 +31,7 @@
 		07E729C7241EEACF0098917E /* URLBuilderTestCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07E729C6241EEACF0098917E /* URLBuilderTestCase.swift */; };
 		07EC81D020B289A70086E24C /* StateClearer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07EC81CF20B289A70086E24C /* StateClearer.swift */; };
 		07FA0E391CA3DD5300B9AF8F /* RootViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07FA0E381CA3DD5300B9AF8F /* RootViewController.swift */; };
+		60A75D482B3D2B6300780177 /* Blocklists in Resources */ = {isa = PBXBuildFile; fileRef = 60A75D472B3D2B6300780177 /* Blocklists */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -50,7 +50,6 @@
 		071FCFAF24D7587A00443B6A /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
 		071FCFB124D75BF100443B6A /* UserDefaults+PreferredSearchEngine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UserDefaults+PreferredSearchEngine.swift"; sourceTree = "<group>"; };
 		07619B6929D00C9800988E41 /* WebView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebView.swift; sourceTree = "<group>"; };
-		07619B8029D0267B00988E41 /* blocklist.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = blocklist.json; sourceTree = "<group>"; };
 		07619B8D29D5499C00988E41 /* ContentBlocker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentBlocker.swift; sourceTree = "<group>"; };
 		07619B8F29D54A9400988E41 /* UserDefaults+ContentBlocking.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UserDefaults+ContentBlocking.swift"; sourceTree = "<group>"; };
 		0763D7091CA4FCFC001AD8E6 /* ProgressView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProgressView.swift; sourceTree = "<group>"; };
@@ -75,6 +74,7 @@
 		07EC81CF20B289A70086E24C /* StateClearer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StateClearer.swift; sourceTree = "<group>"; };
 		07FA0E381CA3DD5300B9AF8F /* RootViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RootViewController.swift; sourceTree = "<group>"; };
 		07FE8E1C25325A8500E1EADF /* Entitlements.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Entitlements.entitlements; sourceTree = "<group>"; };
+		60A75D472B3D2B6300780177 /* Blocklists */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Blocklists; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -95,18 +95,10 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		07619B7C29D0267B00988E41 /* Blocklists */ = {
-			isa = PBXGroup;
-			children = (
-				07619B8029D0267B00988E41 /* blocklist.json */,
-			);
-			path = Blocklists;
-			sourceTree = "<group>";
-		};
 		0795965B1BF1CFFE00F7078B = {
 			isa = PBXGroup;
 			children = (
-				07619B7C29D0267B00988E41 /* Blocklists */,
+				60A75D472B3D2B6300780177 /* Blocklists */,
 				079596661BF1CFFE00F7078B /* Tabless */,
 				071FCFAF24D7587A00443B6A /* Settings.bundle */,
 				07E729C5241EEACF0098917E /* TablessTests */,
@@ -280,10 +272,10 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				60A75D482B3D2B6300780177 /* Blocklists in Resources */,
 				079596721BF1CFFE00F7078B /* LaunchScreen.storyboard in Resources */,
 				071FCFB024D7587A00443B6A /* Settings.bundle in Resources */,
 				0795966F1BF1CFFE00F7078B /* Assets.xcassets in Resources */,
-				07619B8829D0267C00988E41 /* blocklist.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

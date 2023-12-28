@@ -22,7 +22,7 @@ class WebView: WKWebView {
         scrollView.decelerationRate = .normal
         allowsBackForwardNavigationGestures = true
 
-        contentBlocker.setUpBlocklist()
+        contentBlocker.setUpBlocklists()
     }
 
     required init?(coder: NSCoder) {
