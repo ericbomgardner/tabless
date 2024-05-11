@@ -1,5 +1,6 @@
 import UIKit
 
+#if !os(visionOS)
 extension WebController {
 
     @objc func handleBackSwipe(gestureRecognizer: UIScreenEdgePanGestureRecognizer) {
@@ -47,3 +48,4 @@ extension WebController {
         }
     }
 }
+#endif

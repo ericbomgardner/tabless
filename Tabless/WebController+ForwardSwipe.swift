@@ -1,5 +1,6 @@
 import UIKit
 
+#if !os(visionOS)
 extension WebController {
 
     private var commitCutoff: CGFloat {
@@ -66,3 +67,4 @@ extension WebController {
         }
     }
 }
+#endif

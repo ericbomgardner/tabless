@@ -68,6 +68,7 @@ class WebController: NSObject, SearchViewDelegate, StateResettable {
 
         self.webContainerView = WebContainerView()
         webContainerView.translatesAutoresizingMaskIntoConstraints = false
+#if !os(visionOS)
         webContainerView.preservesSuperviewLayoutMargins = true
         let backSwipeGestureRecognizer =
             UIScreenEdgePanGestureRecognizer(target: self,
@@ -79,6 +80,7 @@ class WebController: NSObject, SearchViewDelegate, StateResettable {
                                              action: #selector(handleForwardSwipe))
         forwardSwipeGestureRecognizer.edges = .right
         webContainerView.addGestureRecognizer(forwardSwipeGestureRecognizer)
+#endif
         webContainerView.webView.navigationDelegate = self
         webContainerView.webView.uiDelegate = self
         webContainerView.searchView.searchDelegate = self

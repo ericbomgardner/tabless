@@ -7,7 +7,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     let stateClearer = StateClearer()
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
+        #if os(visionOS)
+        let window = UIWindow(frame: .init(x: 0, y: 0, width: 1920, height: 1080))
+        #else
         let window = UIWindow(frame: UIScreen.main.bounds)
+        #endif
         window.rootViewController = rootViewController
         self.window = window
 
