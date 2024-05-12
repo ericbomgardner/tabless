@@ -469,7 +469,7 @@
 				CODE_SIGN_ENTITLEMENTS = Tabless/Entitlements.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 6;
+				CURRENT_PROJECT_VERSION = 7;
 				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = Tabless/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
@@ -496,7 +496,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 6;
+				CURRENT_PROJECT_VERSION = 7;
 				DEVELOPMENT_TEAM = "";
 				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = 4NX3RJE9MB;
 				INFOPLIST_FILE = Tabless/Info.plist;
