@@ -17,6 +17,13 @@ class WebView: WKWebView {
 
         contentBlocker = ContentBlocker(userContentController: configuration.userContentController)
 
+        if UserDefaults.standard.inlineMediaPlayback {
+            // Prefer inline media playback, if user has enabled it in settings
+            //
+            // Prevents auto-playing video (like ads) from taking over the screen
+            configuration.allowsInlineMediaPlayback = true
+        }
+
         super.init(frame: .zero, configuration: configuration)
 
         scrollView.decelerationRate = .normal
