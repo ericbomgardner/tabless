@@ -178,6 +178,17 @@ extension WebController: WKNavigationDelegate {
     func webView(_ webView: WKWebView,
                  decidePolicyFor navigationAction: WKNavigationAction,
                  decisionHandler: @escaping (WKNavigationActionPolicy) -> Void) {
+        // Redirect x.com to xcancel.com, if setting is enabled
+        if let url = navigationAction.request.url,
+            UserDefaults.standard.xCancelRedirect,
+            url.host == "x.com"
+        {
+            decisionHandler(.cancel)
+            let redirectURL = URL(string: "https://xcancel.com\(url.path)")!
+            webView.load(URLRequest(url: redirectURL))
+            return
+        }
+
         // Prevent universal links from opening in apps -- Tabless is meant to
         // be a quick-in, quick-out, historyless experience. Having a video or
         // shopping app that preserves history open when a link is tapped doesn't
