@@ -18,8 +18,8 @@ class URLBuilderTestCase: XCTestCase {
         )
 
         XCTAssertEqual(
-             urlBuilder.createURL("tabless.app")?.absoluteString,
-             "https://tabless.app"
+            urlBuilder.createURL("tabless.app")?.absoluteString,
+            "https://tabless.app"
         )
 
         XCTAssertEqual(

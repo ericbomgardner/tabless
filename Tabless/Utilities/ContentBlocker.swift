@@ -16,11 +16,13 @@ class ContentBlocker {
     init(userContentController: WKUserContentController) {
         self.userContentController = userContentController
 
-        observer = UserDefaults.standard.observe(\.contentBlocking, options: [.new], changeHandler: { [weak self] (defaults, change) in
-            if let newValue = change.newValue {
-                self?.isContentBlockingEnabled = newValue
-            }
-        })
+        observer = UserDefaults.standard.observe(
+            \.contentBlocking, options: [.new],
+            changeHandler: { [weak self] (defaults, change) in
+                if let newValue = change.newValue {
+                    self?.isContentBlockingEnabled = newValue
+                }
+            })
     }
 
     deinit {
@@ -65,13 +67,16 @@ class ContentBlocker {
     private func getBlocklists() async -> [WKContentRuleList] {
         var contentRuleLists = [WKContentRuleList]()
 
-        let blocklistDirectory = Bundle.main.resourceURL!.appendingPathComponent("Blocklists", isDirectory: true)
+        let blocklistDirectory = Bundle.main.resourceURL!.appendingPathComponent(
+            "Blocklists", isDirectory: true)
 
         let blocklistNames: [String]
         if let cachedBlocklistNames {
             blocklistNames = cachedBlocklistNames
         } else {
-            if let filenames = try? FileManager.default.contentsOfDirectory(atPath: blocklistDirectory.relativePath) {
+            if let filenames = try? FileManager.default.contentsOfDirectory(
+                atPath: blocklistDirectory.relativePath)
+            {
                 if filenames.isEmpty {
                     assertionFailure("Could not find blocklists in blocklist directory")
                 }
@@ -84,15 +89,20 @@ class ContentBlocker {
         }
 
         for blocklist in blocklistNames {
-            if let existingList = try? await WKContentRuleListStore.default().contentRuleList(forIdentifier: blocklist) {
+            if let existingList = try? await WKContentRuleListStore.default().contentRuleList(
+                forIdentifier: blocklist)
+            {
                 contentRuleLists.append(existingList)
                 continue
             }
 
             do {
                 let blocklistPath = blocklistDirectory.appendingPathComponent(blocklist)
-                let blocklistJson = try String(contentsOfFile: blocklistPath.relativePath, encoding: String.Encoding.utf8)
-                let contentRuleList = try await WKContentRuleListStore.default().compileContentRuleList(forIdentifier: blocklist, encodedContentRuleList: blocklistJson)!
+                let blocklistJson = try String(
+                    contentsOfFile: blocklistPath.relativePath, encoding: String.Encoding.utf8)
+                let contentRuleList = try await WKContentRuleListStore.default()
+                    .compileContentRuleList(
+                        forIdentifier: blocklist, encodedContentRuleList: blocklistJson)!
                 contentRuleLists.append(contentRuleList)
             } catch {
                 DebugLogger.log("Failed to load blocklist: \(blocklist)")

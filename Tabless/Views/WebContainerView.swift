@@ -29,10 +29,12 @@ class WebContainerView: UIView {
         // is never wider than the readable content guide says it should be, but otherwise
         // uses all of the space available
         let minimumPaddingBetweenSearchViewAndViewEdge: CGFloat = 16
-        let leadingPaddingConstraint = searchView.leadingAnchor.constraint(greaterThanOrEqualTo: leadingAnchor)
+        let leadingPaddingConstraint = searchView.leadingAnchor.constraint(
+            greaterThanOrEqualTo: leadingAnchor)
         leadingPaddingConstraint.constant = minimumPaddingBetweenSearchViewAndViewEdge
         leadingPaddingConstraint.isActive = true
-        let trailingPaddingConstraint = searchView.trailingAnchor.constraint(lessThanOrEqualTo: trailingAnchor)
+        let trailingPaddingConstraint = searchView.trailingAnchor.constraint(
+            lessThanOrEqualTo: trailingAnchor)
         trailingPaddingConstraint.constant = -minimumPaddingBetweenSearchViewAndViewEdge
         trailingPaddingConstraint.isActive = true
 
@@ -40,23 +42,30 @@ class WebContainerView: UIView {
         leadingOptionalConstraint.constant = minimumPaddingBetweenSearchViewAndViewEdge
         leadingOptionalConstraint.priority = UILayoutPriority.defaultHigh
         leadingOptionalConstraint.isActive = true
-        let trailingOptionalConstraint = searchView.trailingAnchor.constraint(equalTo: trailingAnchor)
+        let trailingOptionalConstraint = searchView.trailingAnchor.constraint(
+            equalTo: trailingAnchor)
         trailingOptionalConstraint.constant = minimumPaddingBetweenSearchViewAndViewEdge
         trailingOptionalConstraint.priority = UILayoutPriority.defaultHigh
         trailingOptionalConstraint.isActive = true
 
-        let leadingContentGuideConstraint = searchView.leadingAnchor.constraint(equalTo: leadingAnchor)
+        let leadingContentGuideConstraint = searchView.leadingAnchor.constraint(
+            equalTo: leadingAnchor)
         leadingContentGuideConstraint.priority = UILayoutPriority.defaultLow
         leadingContentGuideConstraint.isActive = true
-        let trailingContentGuideConstraint = searchView.trailingAnchor.constraint(lessThanOrEqualTo: trailingAnchor)
+        let trailingContentGuideConstraint = searchView.trailingAnchor.constraint(
+            lessThanOrEqualTo: trailingAnchor)
         trailingContentGuideConstraint.priority = UILayoutPriority.defaultLow
         trailingContentGuideConstraint.isActive = true
 
-        searchView.leadingAnchor.constraint(greaterThanOrEqualTo: readableContentGuide.leadingAnchor).isActive = true
-        searchView.trailingAnchor.constraint(lessThanOrEqualTo: readableContentGuide.trailingAnchor).isActive = true
+        searchView.leadingAnchor.constraint(
+            greaterThanOrEqualTo: readableContentGuide.leadingAnchor
+        ).isActive = true
+        searchView.trailingAnchor.constraint(lessThanOrEqualTo: readableContentGuide.trailingAnchor)
+            .isActive = true
 
         searchView.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor).isActive = true
-        searchView.heightAnchor.constraint(equalToConstant: searchView.height(for: .web)).isActive = true
+        searchView.heightAnchor.constraint(equalToConstant: searchView.height(for: .web)).isActive =
+            true
         searchView.configure(for: .web)
 
         progressView.translatesAutoresizingMaskIntoConstraints = false

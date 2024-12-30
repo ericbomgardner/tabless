@@ -45,7 +45,10 @@ struct URLBuilder {
     }
 
     private func createSearchURL(_ text: String) -> URL? {
-        guard let searchQuery = text.addingPercentEncoding(withAllowedCharacters: CharacterSet.urlQueryAllowed) else {
+        guard
+            let searchQuery = text.addingPercentEncoding(
+                withAllowedCharacters: CharacterSet.urlQueryAllowed)
+        else {
             return nil
         }
         return searchEngine.url(query: searchQuery)

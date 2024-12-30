@@ -23,10 +23,11 @@ class RootViewController: UIViewController, SearchViewDelegate {
     init(stateClearer: StateClearer) {
         self.stateClearer = stateClearer
         super.init(nibName: nil, bundle: nil)
-        NotificationCenter.default.addObserver(self,
-                                               selector: #selector(makeSearchViewFirstResponder),
-                                               name: UIApplication.didBecomeActiveNotification,
-                                               object: nil)
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(makeSearchViewFirstResponder),
+            name: UIApplication.didBecomeActiveNotification,
+            object: nil)
 
         stateClearer.addStateClearRequest(for: self)
     }
@@ -46,7 +47,7 @@ class RootViewController: UIViewController, SearchViewDelegate {
         super.viewDidLoad()
 
         #if DEBUG
-        addTTapDetection()
+            addTTapDetection()
         #endif
     }
 
@@ -54,14 +55,16 @@ class RootViewController: UIViewController, SearchViewDelegate {
         super.viewWillAppear(animated)
         makeSearchViewFirstResponder()
 
-        NotificationCenter.default.addObserver(self,
-                                               selector: #selector(keyboardWillShow(notification:)),
-                                               name: UIResponder.keyboardWillShowNotification,
-                                               object: nil)
-        NotificationCenter.default.addObserver(self,
-                                               selector: #selector(keyboardWillHide(notification:)),
-                                               name: UIResponder.keyboardWillHideNotification,
-                                               object: nil)
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(keyboardWillShow(notification:)),
+            name: UIResponder.keyboardWillShowNotification,
+            object: nil)
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(keyboardWillHide(notification:)),
+            name: UIResponder.keyboardWillHideNotification,
+            object: nil)
     }
 
     override func viewDidAppear(_ animated: Bool) {
@@ -72,12 +75,14 @@ class RootViewController: UIViewController, SearchViewDelegate {
 
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-        NotificationCenter.default.removeObserver(self,
-                                                  name: UIResponder.keyboardWillShowNotification,
-                                                  object: nil)
-        NotificationCenter.default.removeObserver(self,
-                                                  name: UIResponder.keyboardWillHideNotification,
-                                                  object: nil)
+        NotificationCenter.default.removeObserver(
+            self,
+            name: UIResponder.keyboardWillShowNotification,
+            object: nil)
+        NotificationCenter.default.removeObserver(
+            self,
+            name: UIResponder.keyboardWillHideNotification,
+            object: nil)
     }
 
     override func viewDidDisappear(_ animated: Bool) {
@@ -136,9 +141,11 @@ class RootViewController: UIViewController, SearchViewDelegate {
     }
 
     func searchCleared() {
-        UIView.animate(withDuration: 0.35, animations: {
-            self.rootView.searchView.becomeFirstResponder()
-        })
+        UIView.animate(
+            withDuration: 0.35,
+            animations: {
+                self.rootView.searchView.becomeFirstResponder()
+            })
     }
 
     private func clearSearchViewText() {
@@ -158,26 +165,33 @@ class RootViewController: UIViewController, SearchViewDelegate {
     }
 
     private func showAppDebugLogs() {
-        let navigationController = UINavigationController(rootViewController: DebugLogViewController())
+        let navigationController = UINavigationController(
+            rootViewController: DebugLogViewController())
         present(navigationController, animated: true)
     }
 
     // MARK: Sizing
 
-    override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
+    override func viewWillTransition(
+        to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator
+    ) {
         super.viewWillTransition(to: size, with: coordinator)
-        coordinator.animate(alongsideTransition: { _ in
-            // TODO: Resize views
-        }, completion: nil)
+        coordinator.animate(
+            alongsideTransition: { _ in
+                // TODO: Resize views
+            }, completion: nil)
     }
 
     // MARK: Keyboard handling
 
     @objc private func keyboardWillShow(notification: Notification) {
         guard let userInfo = notification.userInfo,
-            let keyboardFrame = (userInfo[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue,
-            let keyboardAnimationDuration = (userInfo[UIResponder.keyboardAnimationDurationUserInfoKey] as? NSNumber)?.doubleValue else
-        {
+            let keyboardFrame = (userInfo[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?
+                .cgRectValue,
+            let keyboardAnimationDuration =
+                (userInfo[UIResponder.keyboardAnimationDurationUserInfoKey] as? NSNumber)?
+                .doubleValue
+        else {
             return
         }
 
@@ -206,28 +220,35 @@ class RootViewController: UIViewController, SearchViewDelegate {
         // trying to use `keyboardWillChangeFrame` notification. See
         // https://stackoverflow.com/questions/49570423/uikeyboard-height-different-after-device-rotation
         // for a question about a similar issue.
-        let animationDuration = (keyboardAnimationDuration > 0)
+        let animationDuration =
+            (keyboardAnimationDuration > 0)
             ? keyboardAnimationDuration
             : 0.2
         let wereAnimationsEnabled = UIView.areAnimationsEnabled
         UIView.setAnimationsEnabled(true)
-        UIView.animate(withDuration: animationDuration, delay: 0, options: .curveEaseInOut, animations: {
-            self.rootView.layoutIfNeeded()
-        }, completion: nil)
+        UIView.animate(
+            withDuration: animationDuration, delay: 0, options: .curveEaseInOut,
+            animations: {
+                self.rootView.layoutIfNeeded()
+            }, completion: nil)
         UIView.setAnimationsEnabled(wereAnimationsEnabled)
     }
 
     @objc private func keyboardWillHide(notification: Notification) {
         guard let userInfo = notification.userInfo,
-            let animationDuration = (userInfo[UIResponder.keyboardAnimationDurationUserInfoKey] as? NSNumber)?.doubleValue else
-        {
+            let animationDuration =
+                (userInfo[UIResponder.keyboardAnimationDurationUserInfoKey] as? NSNumber)?
+                .doubleValue
+        else {
             return
         }
 
         self.rootView.searchViewBottomConstraint.constant = 0
-        UIView.animate(withDuration: animationDuration, delay: 0, options: .curveEaseInOut, animations: {
-            self.rootView.layoutIfNeeded()
-        }, completion: nil)
+        UIView.animate(
+            withDuration: animationDuration, delay: 0, options: .curveEaseInOut,
+            animations: {
+                self.rootView.layoutIfNeeded()
+            }, completion: nil)
     }
 }
 

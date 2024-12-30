@@ -4,7 +4,8 @@ struct DebugLogFile {
     static let filename = "tabless_debug_log.txt"
 
     static var fileUrl: URL {
-        let userHomeDirectory = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
+        let userHomeDirectory = FileManager.default.urls(
+            for: .documentDirectory, in: .userDomainMask)[0]
         return userHomeDirectory.appendingPathComponent(filename)
     }
 }
@@ -34,7 +35,7 @@ struct DebugLogger {
     /// Log `string`
     static func log(_ string: String) {
         #if DEBUG
-        print(string, to: &DebugLogWriter.shared)
+            print(string, to: &DebugLogWriter.shared)
         #endif
         print(string)
     }

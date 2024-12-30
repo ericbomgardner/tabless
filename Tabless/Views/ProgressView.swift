@@ -34,7 +34,7 @@ class ProgressView: UIView {
         alpha = 1
 
         if animated {
-           if progress < oldValue {
+            if progress < oldValue {
                 animate(from: 0.0, to: progress)
             } else if progress != 1 {
                 animate(from: oldValue, to: progress)
@@ -64,7 +64,9 @@ class ProgressView: UIView {
         CATransaction.setDisableActions(false)
     }
 
-    private func animate(from oldValue: Double, to progress: Double, completion: (() -> Void)? = nil) {
+    private func animate(
+        from oldValue: Double, to progress: Double, completion: (() -> Void)? = nil
+    ) {
         let animation = CABasicAnimation(keyPath: "strokeEnd")
         animation.fromValue = oldValue
         animation.toValue = progress
@@ -81,12 +83,15 @@ class ProgressView: UIView {
     }
 
     private func fadeAndReset() {
-        UIView.animate(withDuration: 0.5, animations: {
-            self.alpha = 0
-        }, completion: { completed in
-            if completed && self.progress == 1.0 {
-                self.setProgress(0, animated: false)
-            }
-        })
+        UIView.animate(
+            withDuration: 0.5,
+            animations: {
+                self.alpha = 0
+            },
+            completion: { completed in
+                if completed && self.progress == 1.0 {
+                    self.setProgress(0, animated: false)
+                }
+            })
     }
 }

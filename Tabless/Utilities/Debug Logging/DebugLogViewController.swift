@@ -7,20 +7,23 @@ class DebugLogViewController: UIViewController {
     override func viewDidLoad() {
         view.backgroundColor = UIColor.white
 
-        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .done,
-                                                            target: self,
-                                                            action: #selector(doneTapped))
+        navigationItem.rightBarButtonItem = UIBarButtonItem(
+            barButtonSystemItem: .done,
+            target: self,
+            action: #selector(doneTapped))
 
         navigationItem.leftBarButtonItems = [
-            UIBarButtonItem(title: "Clear log",
-                            style: .plain,
-                            target: self,
-                            action: #selector(clearTapped)),
+            UIBarButtonItem(
+                title: "Clear log",
+                style: .plain,
+                target: self,
+                action: #selector(clearTapped)),
             UIBarButtonItem(barButtonSystemItem: .fixedSpace, target: nil, action: nil),
-            UIBarButtonItem(title: "Copy to clipboard",
-                            style: .plain,
-                            target: self,
-                            action: #selector(copyTapped))
+            UIBarButtonItem(
+                title: "Copy to clipboard",
+                style: .plain,
+                target: self,
+                action: #selector(copyTapped)),
         ]
 
         logTextView.isEditable = false
@@ -39,22 +42,27 @@ class DebugLogViewController: UIViewController {
     }
 
     @objc private func clearTapped() {
-        let alert = UIAlertController(title: "Clear log?",
-                                      message: nil,
-                                      preferredStyle: .alert)
-        alert.addAction(.init(title: "Clear", style: .destructive, handler: { _ in
-            DebugLogger.clearAllLogs()
-            self.logTextView.text = DebugLogger.allLogs()
-        }))
+        let alert = UIAlertController(
+            title: "Clear log?",
+            message: nil,
+            preferredStyle: .alert)
+        alert.addAction(
+            .init(
+                title: "Clear", style: .destructive,
+                handler: { _ in
+                    DebugLogger.clearAllLogs()
+                    self.logTextView.text = DebugLogger.allLogs()
+                }))
         alert.addAction(.init(title: "Cancel", style: .cancel, handler: nil))
         present(alert, animated: true)
     }
 
     @objc private func copyTapped() {
         UIPasteboard.general.string = logTextView.text
-        let alert = UIAlertController(title: "Log copied to clipboard!",
-                                      message: nil,
-                                      preferredStyle: .alert)
+        let alert = UIAlertController(
+            title: "Log copied to clipboard!",
+            message: nil,
+            preferredStyle: .alert)
         alert.addAction(.init(title: "OK", style: .default, handler: nil))
         present(alert, animated: true)
     }

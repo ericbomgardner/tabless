@@ -70,13 +70,15 @@ class WebController: NSObject, SearchViewDelegate, StateResettable {
         webContainerView.translatesAutoresizingMaskIntoConstraints = false
         webContainerView.preservesSuperviewLayoutMargins = true
         let backSwipeGestureRecognizer =
-            UIScreenEdgePanGestureRecognizer(target: self,
-                                             action: #selector(handleBackSwipe))
+            UIScreenEdgePanGestureRecognizer(
+                target: self,
+                action: #selector(handleBackSwipe))
         backSwipeGestureRecognizer.edges = .left
         webContainerView.addGestureRecognizer(backSwipeGestureRecognizer)
         let forwardSwipeGestureRecognizer =
-            UIScreenEdgePanGestureRecognizer(target: self,
-                                             action: #selector(handleForwardSwipe))
+            UIScreenEdgePanGestureRecognizer(
+                target: self,
+                action: #selector(handleForwardSwipe))
         forwardSwipeGestureRecognizer.edges = .right
         webContainerView.addGestureRecognizer(forwardSwipeGestureRecognizer)
         webContainerView.webView.navigationDelegate = self
@@ -84,7 +86,8 @@ class WebController: NSObject, SearchViewDelegate, StateResettable {
         webContainerView.searchView.searchDelegate = self
         view.addSubview(webContainerView)
 
-        let webContainerViewLeadingConstraint = webContainerView.leadingAnchor.constraint(equalTo: view.leadingAnchor)
+        let webContainerViewLeadingConstraint = webContainerView.leadingAnchor.constraint(
+            equalTo: view.leadingAnchor)
         webContainerViewLeadingConstraint.isActive = true
         self.webContainerViewLeadingConstraint = webContainerViewLeadingConstraint
         webContainerView.widthAnchor.constraint(equalTo: view.widthAnchor).isActive = true
@@ -93,9 +96,11 @@ class WebController: NSObject, SearchViewDelegate, StateResettable {
 
         view.addSubview(openInSafariView)
         openInSafariView.layer.masksToBounds = true
-        openInSafariView.backgroundColor = UIColor(red: 30/255.0, green: 152/255.0, blue: 247/255.0, alpha: 1.0) // TODO: make this grey
+        openInSafariView.backgroundColor = UIColor(
+            red: 30 / 255.0, green: 152 / 255.0, blue: 247 / 255.0, alpha: 1.0)  // TODO: make this grey
         openInSafariView.translatesAutoresizingMaskIntoConstraints = false
-        openInSafariView.leadingAnchor.constraint(equalTo: webContainerView.trailingAnchor).isActive = true
+        openInSafariView.leadingAnchor.constraint(equalTo: webContainerView.trailingAnchor)
+            .isActive = true
         openInSafariView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
         openInSafariView.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
         openInSafariView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
@@ -106,8 +111,10 @@ class WebController: NSObject, SearchViewDelegate, StateResettable {
         openInSafariLabel.textColor = .white
         openInSafariLabel.numberOfLines = 2
         openInSafariLabel.translatesAutoresizingMaskIntoConstraints = false
-        openInSafariLabel.centerXAnchor.constraint(equalTo: openInSafariView.centerXAnchor).isActive = true
-        openInSafariLabel.centerYAnchor.constraint(equalTo: openInSafariView.centerYAnchor).isActive = true
+        openInSafariLabel.centerXAnchor.constraint(equalTo: openInSafariView.centerXAnchor)
+            .isActive = true
+        openInSafariLabel.centerYAnchor.constraint(equalTo: openInSafariView.centerYAnchor)
+            .isActive = true
         openInSafariLabel.widthAnchor.constraint(equalToConstant: 100).isActive = true
         openInSafariLabel.alpha = 0
 
@@ -117,9 +124,10 @@ class WebController: NSObject, SearchViewDelegate, StateResettable {
     // MARK: KVO
 
     private func setUpLoadingKVO() {
-        webViewProgressObservationToken = webContainerView.webView.observe(\.estimatedProgress,
-                                                                           options: [.new])
-        { [weak self] _, change in
+        webViewProgressObservationToken = webContainerView.webView.observe(
+            \.estimatedProgress,
+            options: [.new]
+        ) { [weak self] _, change in
             if let newValue = change.newValue {
                 self?.webContainerView.progressView.setProgress(
                     WebController.initialProgress + newValue * (1 - WebController.initialProgress)
@@ -155,29 +163,33 @@ class WebController: NSObject, SearchViewDelegate, StateResettable {
         let aLongTimeAgo = Date(timeIntervalSinceReferenceDate: 0)
         let dataStores = [
             webContainerView.webView.configuration.websiteDataStore,
-            WKWebsiteDataStore.default()
+            WKWebsiteDataStore.default(),
         ]
         dataStores.forEach { dataStore in
-            dataStore.removeData(ofTypes: WKWebsiteDataStore.allWebsiteDataTypes(),
-                                 modifiedSince: aLongTimeAgo,
-                                 completionHandler: {})
+            dataStore.removeData(
+                ofTypes: WKWebsiteDataStore.allWebsiteDataTypes(),
+                modifiedSince: aLongTimeAgo,
+                completionHandler: {})
         }
 
         // Also fully clear the `/Library/Caches` directory -- WebKit likes to
         // keep caches (mostly `com.apple.Metal`) there, which we can clear for
         // the freshest start
         DispatchQueue.global(qos: .background).async {
-            let cachesDirectory = FileManager.default.urls(for: .cachesDirectory,
-                                                              in: .userDomainMask)[0]
+            let cachesDirectory = FileManager.default.urls(
+                for: .cachesDirectory,
+                in: .userDomainMask)[0]
             try? FileManager.default.removeContents(of: cachesDirectory)
         }
     }
 }
 
 extension WebController: WKNavigationDelegate {
-    func webView(_ webView: WKWebView,
-                 decidePolicyFor navigationAction: WKNavigationAction,
-                 decisionHandler: @escaping (WKNavigationActionPolicy) -> Void) {
+    func webView(
+        _ webView: WKWebView,
+        decidePolicyFor navigationAction: WKNavigationAction,
+        decisionHandler: @escaping (WKNavigationActionPolicy) -> Void
+    ) {
         // Redirect x.com to xcancel.com, if setting is enabled
         if let url = navigationAction.request.url,
             UserDefaults.standard.xCancelRedirect,
@@ -200,10 +212,12 @@ extension WebController: WKNavigationDelegate {
 }
 
 extension WebController: WKUIDelegate {
-    func webView(_ webView: WKWebView,
-                 createWebViewWith configuration: WKWebViewConfiguration,
-                 for navigationAction: WKNavigationAction,
-                 windowFeatures: WKWindowFeatures) -> WKWebView? {
+    func webView(
+        _ webView: WKWebView,
+        createWebViewWith configuration: WKWebViewConfiguration,
+        for navigationAction: WKNavigationAction,
+        windowFeatures: WKWindowFeatures
+    ) -> WKWebView? {
         if navigationAction.targetFrame == nil {
             webView.load(navigationAction.request)
         }

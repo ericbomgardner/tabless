@@ -28,14 +28,18 @@ class RootView: UIView {
         updateTextSize()
 
         searchView.translatesAutoresizingMaskIntoConstraints = false
-        searchView.leadingAnchor.constraint(equalTo: readableContentGuide.leadingAnchor).isActive = true
-        searchView.trailingAnchor.constraint(equalTo: readableContentGuide.trailingAnchor).isActive = true
-        searchViewBottomConstraint = searchView.bottomAnchor.constraint(lessThanOrEqualTo: bottomAnchor)
+        searchView.leadingAnchor.constraint(equalTo: readableContentGuide.leadingAnchor).isActive =
+            true
+        searchView.trailingAnchor.constraint(equalTo: readableContentGuide.trailingAnchor)
+            .isActive = true
+        searchViewBottomConstraint = searchView.bottomAnchor.constraint(
+            lessThanOrEqualTo: bottomAnchor)
         searchViewBottomConstraint.isActive = true
         let searchViewCenterConstraint = searchView.centerYAnchor.constraint(equalTo: centerYAnchor)
         searchViewCenterConstraint.priority = .defaultHigh
         searchViewCenterConstraint.isActive = true
-        searchView.heightAnchor.constraint(equalToConstant: searchView.height(for: .search)).isActive = true
+        searchView.heightAnchor.constraint(equalToConstant: searchView.height(for: .search))
+            .isActive = true
 
         searchView.configure(for: .search)
     }

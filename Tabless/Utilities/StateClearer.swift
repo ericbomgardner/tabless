@@ -38,18 +38,21 @@ class StateClearer {
     private var didPerformStateClearRequests = false
 
     init() {
-        NotificationCenter.default.addObserver(self,
-                                               selector: #selector(applicationDidBecomeActive(notification:)),
-                                               name: UIApplication.didBecomeActiveNotification,
-                                               object: nil)
-        NotificationCenter.default.addObserver(self,
-                                               selector: #selector(applicationWillResignActive(notification:)),
-                                               name: UIApplication.willResignActiveNotification,
-                                               object: nil)
-        NotificationCenter.default.addObserver(self,
-                                               selector: #selector(applicationDidEnterBackground(notification:)),
-                                               name: UIApplication.didEnterBackgroundNotification,
-                                               object: nil)
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(applicationDidBecomeActive(notification:)),
+            name: UIApplication.didBecomeActiveNotification,
+            object: nil)
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(applicationWillResignActive(notification:)),
+            name: UIApplication.willResignActiveNotification,
+            object: nil)
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(applicationDidEnterBackground(notification:)),
+            name: UIApplication.didEnterBackgroundNotification,
+            object: nil)
     }
 
     func addStateClearRequest(for stateResettable: StateResettable) {
@@ -76,7 +79,8 @@ class StateClearer {
         {
             let timeIntervalAppWasInBackground = Date().timeIntervalSince(didEnterBackgroundTime)
             if timeIntervalAppWasInBackground > StateClearer.desiredClearInterval {
-                DebugLogger.log("Foreground cleared after \(timeIntervalAppWasInBackground) seconds")
+                DebugLogger.log(
+                    "Foreground cleared after \(timeIntervalAppWasInBackground) seconds")
                 performStateClearRequests()
             }
         }
@@ -104,46 +108,50 @@ class StateClearer {
 
         let taskExpirationHandler = endBackgroundTask
         backgroundTask =
-            UIApplication.shared.beginBackgroundTask(withName: "clear_application_state_after_interval",
-                                                     expirationHandler: taskExpirationHandler)
+            UIApplication.shared.beginBackgroundTask(
+                withName: "clear_application_state_after_interval",
+                expirationHandler: taskExpirationHandler)
 
         let timerTickInterval = 0.5
-        Timer.scheduledTimer(withTimeInterval: timerTickInterval,
-                             repeats: true) { [weak self] timer in
-                                let cleanUpBackgroundTask = {
-                                    timer.invalidate()
-                                    endBackgroundTask()
-                                }
+        Timer.scheduledTimer(
+            withTimeInterval: timerTickInterval,
+            repeats: true
+        ) { [weak self] timer in
+            let cleanUpBackgroundTask = {
+                timer.invalidate()
+                endBackgroundTask()
+            }
 
-                                guard let didEnterBackgroundTime = self?.didEnterBackgroundTime,
-                                    timer.isValid else
-                                {
-                                    // Cannot perform clear without `didEnterBackgroundTime or
-                                    // with an invalid timer
-                                    cleanUpBackgroundTask()
-                                    return
-                                }
-                                let backgroundTimeRemaining = UIApplication.shared.backgroundTimeRemaining
-                                let elapsedBackgroundTime = Date().timeIntervalSince(didEnterBackgroundTime)
-                                let totalAllottedBackgroundTime = backgroundTimeRemaining + elapsedBackgroundTime
-                                let minimumBackgroundClearInterval = StateClearer.minimumAcceptableBackgroundClearInterval
-                                guard totalAllottedBackgroundTime >= minimumBackgroundClearInterval else {
-                                    // We aren't going to be able to wait in the background long enough
-                                    // to perform the clear, so clean up the background task
-                                    cleanUpBackgroundTask()
-                                    return
-                                }
+            guard let didEnterBackgroundTime = self?.didEnterBackgroundTime,
+                timer.isValid
+            else {
+                // Cannot perform clear without `didEnterBackgroundTime or
+                // with an invalid timer
+                cleanUpBackgroundTask()
+                return
+            }
+            let backgroundTimeRemaining = UIApplication.shared.backgroundTimeRemaining
+            let elapsedBackgroundTime = Date().timeIntervalSince(didEnterBackgroundTime)
+            let totalAllottedBackgroundTime = backgroundTimeRemaining + elapsedBackgroundTime
+            let minimumBackgroundClearInterval = StateClearer
+                .minimumAcceptableBackgroundClearInterval
+            guard totalAllottedBackgroundTime >= minimumBackgroundClearInterval else {
+                // We aren't going to be able to wait in the background long enough
+                // to perform the clear, so clean up the background task
+                cleanUpBackgroundTask()
+                return
+            }
 
-                                // Perform the clear if:
-                                // - we're about to run out of background time, or
-                                // - we've reached the `desiredClearInterval`
-                                if backgroundTimeRemaining < timerTickInterval
-                                    || elapsedBackgroundTime > StateClearer.desiredClearInterval
-                                {
-                                    DebugLogger.log("Background cleared after \(elapsedBackgroundTime) seconds")
-                                    self?.performStateClearRequests()
-                                    cleanUpBackgroundTask()
-                                }
+            // Perform the clear if:
+            // - we're about to run out of background time, or
+            // - we've reached the `desiredClearInterval`
+            if backgroundTimeRemaining < timerTickInterval
+                || elapsedBackgroundTime > StateClearer.desiredClearInterval
+            {
+                DebugLogger.log("Background cleared after \(elapsedBackgroundTime) seconds")
+                self?.performStateClearRequests()
+                cleanUpBackgroundTask()
+            }
         }
     }
 }

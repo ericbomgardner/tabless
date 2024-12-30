@@ -4,7 +4,7 @@ enum SearchEngine {
     case google
     case duckDuckGo
     case kagi(token: String)
-    
+
     func url(query: String) -> URL {
         let urlString: String
         switch self {

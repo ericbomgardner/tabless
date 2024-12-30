@@ -8,7 +8,8 @@ extension WebController {
 
     // TODO: Make this have spring resistance and add background "Open in Safari" thing
     @objc func handleForwardSwipe(gestureRecognizer: UIScreenEdgePanGestureRecognizer) {
-        let viewXTranslation = gestureRecognizer.translation(in: gestureRecognizer.view?.superview).x
+        let viewXTranslation = gestureRecognizer.translation(in: gestureRecognizer.view?.superview)
+            .x
         let progress = abs(viewXTranslation) / view.bounds.width
 
         switch gestureRecognizer.state {
@@ -28,15 +29,16 @@ extension WebController {
                 webContainerViewLeadingConstraint?.constant = 0
                 openInSafariLabel.alpha = 0
                 webContainerView?.isUserInteractionEnabled = true
-                UIView.animate(withDuration: 0.2,
-                               delay: 0,
-                               usingSpringWithDamping: 3,
-                               initialSpringVelocity: 0.2,
-                               options: .beginFromCurrentState,
-                               animations: {
-                                self.webContainerView.superview?.layoutIfNeeded()
-                               },
-                           completion: nil)
+                UIView.animate(
+                    withDuration: 0.2,
+                    delay: 0,
+                    usingSpringWithDamping: 3,
+                    initialSpringVelocity: 0.2,
+                    options: .beginFromCurrentState,
+                    animations: {
+                        self.webContainerView.superview?.layoutIfNeeded()
+                    },
+                    completion: nil)
             }
         default:
             return
@@ -51,18 +53,22 @@ extension WebController {
     }
 
     private func updateLabelAlpha(viewXTranslation: CGFloat) {
-        let alpha = max(0, min((-viewXTranslation - 50) / (webContainerView.frame.width * commitCutoff - 50), 1))
+        let alpha = max(
+            0, min((-viewXTranslation - 50) / (webContainerView.frame.width * commitCutoff - 50), 1)
+        )
         openInSafariLabel.alpha = alpha
     }
 
     private func gestureCompleted() {
         if let url = webContainerView.webView.url {
-            UIApplication.shared.open(url, options: [:], completionHandler: { [weak self] _ in
-                self?.openInSafariLabel.alpha = 0
-                self?.webContainerViewLeadingConstraint?.constant = 0
-                self?.webContainerView?.isUserInteractionEnabled = true
-                self?.webContainerView.superview?.layoutIfNeeded()
-            })
+            UIApplication.shared.open(
+                url, options: [:],
+                completionHandler: { [weak self] _ in
+                    self?.openInSafariLabel.alpha = 0
+                    self?.webContainerViewLeadingConstraint?.constant = 0
+                    self?.webContainerView?.isUserInteractionEnabled = true
+                    self?.webContainerView.superview?.layoutIfNeeded()
+                })
         }
     }
 }
