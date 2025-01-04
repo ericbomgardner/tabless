@@ -80,7 +80,10 @@ class ContentBlocker {
                 if filenames.isEmpty {
                     assertionFailure("Could not find blocklists in blocklist directory")
                 }
-                blocklistNames = filenames
+                blocklistNames = filenames.filter { name in
+                    // Disconnect's "content" list is their unblocked trackers
+                    !name.contains("content")
+                }
             } else {
                 assertionFailure("Could not find blocklist directory")
                 blocklistNames = []
