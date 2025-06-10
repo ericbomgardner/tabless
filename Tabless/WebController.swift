@@ -201,6 +201,20 @@ extension WebController: WKNavigationDelegate {
             return
         }
 
+        // Force "Hot" sorting and compact UI by customizing reddit URL, if setting is enabled
+        if let url = navigationAction.request.url,
+           UserDefaults.standard.redditCustomizations,
+            (url.host == "reddit.com" || url.host == "www.reddit.com")
+        {
+            let pathComponents = url.pathComponents.filter { $0 != "/" }
+            if pathComponents.count == 2 && pathComponents[0] == "r" {
+                decisionHandler(.cancel)
+                let redirectURL = URL(string: "https://reddit.com/r/\(pathComponents[1])/hot/?feedViewType=compactView")!
+                webView.load(URLRequest(url: redirectURL))
+                return
+            }
+        }
+
         // Prevent universal links from opening in apps -- Tabless is meant to
         // be a quick-in, quick-out, historyless experience. Having a video or
         // shopping app that preserves history open when a link is tapped doesn't
