@@ -1,1 +1,1 @@
-You can contact us at support@tabless.app or [@tablessapp](https://twitter.com/tablessapp) on Twitter.
+You can contact us at support@tabless.app.
