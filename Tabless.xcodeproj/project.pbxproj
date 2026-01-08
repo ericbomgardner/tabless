@@ -25,6 +25,7 @@
 		079596681BF1CFFE00F7078B /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 079596671BF1CFFE00F7078B /* AppDelegate.swift */; };
 		0795966F1BF1CFFE00F7078B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0795966E1BF1CFFE00F7078B /* Assets.xcassets */; };
 		079596721BF1CFFE00F7078B /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 079596701BF1CFFE00F7078B /* LaunchScreen.storyboard */; };
+		07B48D352F102530007FFBFF /* LiquidGlassSearchContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07B48D342F102530007FFBFF /* LiquidGlassSearchContainer.swift */; };
 		07CAA5662DF8A914009D6187 /* UserDefaults+Reddit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07CAA5652DF8A90B009D6187 /* UserDefaults+Reddit.swift */; };
 		07CE37A427B4653C0024A508 /* FileManager+EmptyDirectory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07CE37A327B4653C0024A508 /* FileManager+EmptyDirectory.swift */; };
 		07D7B24E2BF03B8B0045F1D0 /* UserDefaults+InlineMediaPlayback.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07D7B24D2BF03B8B0045F1D0 /* UserDefaults+InlineMediaPlayback.swift */; };
@@ -68,6 +69,7 @@
 		0795966E1BF1CFFE00F7078B /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		079596711BF1CFFE00F7078B /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		079596731BF1CFFE00F7078B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		07B48D342F102530007FFBFF /* LiquidGlassSearchContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LiquidGlassSearchContainer.swift; sourceTree = "<group>"; };
 		07CAA5652DF8A90B009D6187 /* UserDefaults+Reddit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UserDefaults+Reddit.swift"; sourceTree = "<group>"; };
 		07CE37A327B4653C0024A508 /* FileManager+EmptyDirectory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "FileManager+EmptyDirectory.swift"; sourceTree = "<group>"; };
 		07D7B24D2BF03B8B0045F1D0 /* UserDefaults+InlineMediaPlayback.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UserDefaults+InlineMediaPlayback.swift"; sourceTree = "<group>"; };
@@ -154,6 +156,7 @@
 				077B16E6210DA99500FF5079 /* RootView.swift */,
 				0763D7091CA4FCFC001AD8E6 /* ProgressView.swift */,
 				07735EF71D546F870061E8D9 /* SearchView.swift */,
+				07B48D342F102530007FFBFF /* LiquidGlassSearchContainer.swift */,
 				07E559CC21102B650066110C /* WebContainerView.swift */,
 				07619B6929D00C9800988E41 /* WebView.swift */,
 			);
@@ -313,6 +316,7 @@
 				07CE37A427B4653C0024A508 /* FileManager+EmptyDirectory.swift in Sources */,
 				079596681BF1CFFE00F7078B /* AppDelegate.swift in Sources */,
 				0779F91520D4B1E800FC90DE /* WebController+BackSwipe.swift in Sources */,
+				07B48D352F102530007FFBFF /* LiquidGlassSearchContainer.swift in Sources */,
 				07619B9029D54A9400988E41 /* UserDefaults+ContentBlocking.swift in Sources */,
 				071FCFAE24D7559900443B6A /* SearchEngine.swift in Sources */,
 				07E559D32128BE150066110C /* WebController.swift in Sources */,
@@ -482,7 +486,7 @@
 				DEVELOPMENT_TEAM = "";
 				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = 4NX3RJE9MB;
 				INFOPLIST_FILE = Tabless/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -511,7 +515,7 @@
 				DEVELOPMENT_TEAM = "";
 				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = 4NX3RJE9MB;
 				INFOPLIST_FILE = Tabless/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
