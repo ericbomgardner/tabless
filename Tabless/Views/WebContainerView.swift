@@ -31,6 +31,7 @@ class WebContainerView: UIView {
 
         // Add webView first so it's behind everything
         addSubview(webView)
+        updateObscuredContentInsets()
 
         // Add Safari-style gradient at top for safe area visibility
         addSubview(safeAreaGradientView)
@@ -186,6 +187,12 @@ class WebContainerView: UIView {
         progressContainer.layer.mask = maskLayer
     }
 
+    private func updateObscuredContentInsets() {
+        if #available(iOS 26.0, *), let window {
+            webView.obscuredContentInsets = .init(top: window.safeAreaInsets.top, left: 0, bottom: window.safeAreaInsets.bottom + 50 /* Approximate height of toolbar */, right: 0)
+        }
+    }
+
     override func layoutSubviews() {
         super.layoutSubviews()
 
@@ -203,6 +210,6 @@ class WebContainerView: UIView {
     // MARK: Sizing
 
     override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
-        // TODO: Resize search/progress views
+        updateObscuredContentInsets()
     }
 }
