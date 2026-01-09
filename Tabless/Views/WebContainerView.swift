@@ -13,6 +13,10 @@ class WebContainerView: UIView {
     private let safeAreaGradientView = UIView()
     private let gradientLayer = CAGradientLayer()
 
+    // Bottom content fade overlay (matches page background color)
+    private let bottomFadeView = UIView()
+    private let bottomFadeGradient = CAGradientLayer()
+
     // Progress container that matches the bubble shape
     private let progressContainer = UIView()
     private var progressContainerLeadingConstraint: NSLayoutConstraint!
@@ -37,7 +41,12 @@ class WebContainerView: UIView {
         addSubview(safeAreaGradientView)
         setUpSafeAreaGradient()
 
+        // Add bottom fade overlay (color-matched to page background)
+        // Must be added after glassSearchContainer since we constrain to it,
+        // but inserted behind it in the view hierarchy
         addSubview(glassSearchContainer)
+        insertSubview(bottomFadeView, belowSubview: glassSearchContainer)
+        setUpBottomFade()
 
         // Add progress container to toolbar (matches bubble shape)
         glassSearchContainer.toolbar.addSubview(progressContainer)
@@ -93,13 +102,13 @@ class WebContainerView: UIView {
         glassSearchContainer.translatesAutoresizingMaskIntoConstraints = false
 
         NSLayoutConstraint.activate([
-            glassSearchContainer.leadingAnchor.constraint(equalTo: leadingAnchor),
-            glassSearchContainer.trailingAnchor.constraint(equalTo: trailingAnchor),
+            glassSearchContainer.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 16),
+            glassSearchContainer.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -16),
         ])
 
         // Bottom constraint that we can animate with keyboard
         searchContainerBottomConstraint = glassSearchContainer.bottomAnchor.constraint(
-            equalTo: safeAreaLayoutGuide.bottomAnchor
+            equalTo: safeAreaLayoutGuide.bottomAnchor, constant: -8
         )
         searchContainerBottomConstraint.isActive = true
     }
@@ -120,16 +129,55 @@ class WebContainerView: UIView {
             safeAreaGradientView.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor)
         ])
 
-        // Configure gradient: white from 0 opacity (bottom) to ~0.5 opacity (top)
-        gradientLayer.colors = [
-            UIColor.white.withAlphaComponent(0.5).cgColor,  // Top
-            UIColor.white.withAlphaComponent(0.0).cgColor   // Bottom
-        ]
+        // Configure gradient layer (colors set by updateFadeColor)
         gradientLayer.locations = [0, 1]
         gradientLayer.startPoint = CGPoint(x: 0.5, y: 0)
         gradientLayer.endPoint = CGPoint(x: 0.5, y: 1)
 
         safeAreaGradientView.layer.addSublayer(gradientLayer)
+
+        // Default to white, will be updated when page loads
+        gradientLayer.colors = [
+            UIColor.white.withAlphaComponent(0.5).cgColor,
+            UIColor.white.withAlphaComponent(0.0).cgColor
+        ]
+    }
+
+    private func setUpBottomFade() {
+        bottomFadeView.translatesAutoresizingMaskIntoConstraints = false
+        bottomFadeView.isUserInteractionEnabled = false
+
+        // Position from top of search container down through bottom safe area
+        NSLayoutConstraint.activate([
+            bottomFadeView.leadingAnchor.constraint(equalTo: leadingAnchor),
+            bottomFadeView.trailingAnchor.constraint(equalTo: trailingAnchor),
+            bottomFadeView.topAnchor.constraint(equalTo: glassSearchContainer.topAnchor),
+            bottomFadeView.bottomAnchor.constraint(equalTo: bottomAnchor)
+        ])
+
+        // Configure gradient: transparent at top, page color at bottom
+        // Default to white, will be updated when page loads
+        updateFadeColors(top: .white, bottom: .white)
+
+        bottomFadeView.layer.addSublayer(bottomFadeGradient)
+    }
+
+    /// Updates top and bottom fade gradients to match sampled page colors
+    func updateFadeColors(top topColor: UIColor, bottom bottomColor: UIColor) {
+        // Update top fade: solid at top, transparent at bottom
+        gradientLayer.colors = [
+            topColor.withAlphaComponent(0.5).cgColor,  // Top (semi-transparent)
+            topColor.withAlphaComponent(0.0).cgColor   // Bottom (transparent)
+        ]
+
+        // Update bottom fade: transparent at top, solid at bottom
+        bottomFadeGradient.colors = [
+            bottomColor.withAlphaComponent(0.0).cgColor,  // Top (transparent)
+            bottomColor.withAlphaComponent(0.5).cgColor   // Bottom (semi-transparent)
+        ]
+        bottomFadeGradient.locations = [0, 1]
+        bottomFadeGradient.startPoint = CGPoint(x: 0.5, y: 0)
+        bottomFadeGradient.endPoint = CGPoint(x: 0.5, y: 1)
     }
 
     private func setUpDisplayLink() {
@@ -198,6 +246,9 @@ class WebContainerView: UIView {
 
         // Update gradient frame to match the view
         gradientLayer.frame = safeAreaGradientView.bounds
+
+        // Update bottom fade gradient frame
+        bottomFadeGradient.frame = bottomFadeView.bounds
 
         // Update progress container to match bubble
         updateProgressContainerForBubble()

@@ -91,29 +91,13 @@ class LiquidGlassSearchContainer: UIView {
     }
 
     private func layoutToolbarItems() {
-        // Set search bar width before wrapping in bar button item
-        searchBar.translatesAutoresizingMaskIntoConstraints = false
+        searchBar.heightAnchor.constraint(equalToConstant: 36).isActive = true
 
-        // Make search bar take most of the space, leaving room for the menu button
-        let searchBarWidth = UIScreen.main.bounds.width - 100
-
-        NSLayoutConstraint.activate([
-            searchBar.widthAnchor.constraint(equalToConstant: searchBarWidth)
-        ])
-
-        // Wrap search bar in a bar button item
         let searchBarItem = UIBarButtonItem(customView: searchBar)
+        let fixedSpace = UIBarButtonItem(barButtonSystemItem: .fixedSpace, target: nil, action: nil)
+        fixedSpace.width = 2
 
-        // Create flexible space to separate items
-        let flexibleSpace = UIBarButtonItem(
-            barButtonSystemItem: .flexibleSpace,
-            target: nil,
-            action: nil
-        )
-
-        // Layout: [searchBar] [flexible space] [menuButton]
-        // This creates distinct, separated buttons like Safari
-        toolbar.items = [searchBarItem, flexibleSpace, menuButton]
+        toolbar.items = [searchBarItem, fixedSpace, menuButton]
     }
 
     var text: String? {
