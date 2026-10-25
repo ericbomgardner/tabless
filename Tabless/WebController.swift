@@ -25,7 +25,6 @@ class WebController: NSObject, LiquidGlassSearchDelegate, StateResettable {
     private var pauseTime: Date?
 
     private var webViewProgressObservationToken: NSKeyValueObservation?
-    private var colorDetectionTimer: Timer?
 
     private let stateClearer: StateClearer
 
@@ -197,89 +196,6 @@ class WebController: NSObject, LiquidGlassSearchDelegate, StateResettable {
         }
     }
 
-    // MARK: Page background color detection
-
-    private func detectPageBackgroundColor() {
-        let bounds = webContainerView.webView.bounds
-        let sampleHeight: CGFloat = 20
-
-        // Sample top for top fade
-        let topConfig = WKSnapshotConfiguration()
-        topConfig.rect = CGRect(x: 0, y: 0, width: bounds.width, height: sampleHeight)
-
-        // Sample bottom for bottom fade
-        let bottomConfig = WKSnapshotConfiguration()
-        bottomConfig.rect = CGRect(x: 0, y: bounds.height - sampleHeight, width: bounds.width, height: sampleHeight)
-
-        let group = DispatchGroup()
-        var topColor: UIColor?
-        var bottomColor: UIColor?
-
-        group.enter()
-        webContainerView.webView.takeSnapshot(with: topConfig) { [weak self] image, _ in
-            if let image = image {
-                topColor = self?.findModeColor(from: image)
-            }
-            group.leave()
-        }
-
-        group.enter()
-        webContainerView.webView.takeSnapshot(with: bottomConfig) { [weak self] image, _ in
-            if let image = image {
-                bottomColor = self?.findModeColor(from: image)
-            }
-            group.leave()
-        }
-
-        group.notify(queue: .main) { [weak self] in
-            self?.webContainerView.updateFadeColors(top: topColor ?? .white, bottom: bottomColor ?? .white)
-        }
-    }
-
-    private func findModeColor(from image: UIImage) -> UIColor? {
-        guard let cgImage = image.cgImage else { return nil }
-
-        let width = cgImage.width
-        let height = cgImage.height
-        guard width > 0, height > 0 else { return nil }
-
-        let colorSpace = CGColorSpaceCreateDeviceRGB()
-        let bytesPerPixel = 4
-        let bytesPerRow = bytesPerPixel * width
-        var pixelData = [UInt8](repeating: 0, count: width * height * bytesPerPixel)
-
-        guard let context = CGContext(
-            data: &pixelData,
-            width: width,
-            height: height,
-            bitsPerComponent: 8,
-            bytesPerRow: bytesPerRow,
-            space: colorSpace,
-            bitmapInfo: CGImageAlphaInfo.premultipliedLast.rawValue
-        ) else { return nil }
-
-        context.draw(cgImage, in: CGRect(x: 0, y: 0, width: width, height: height))
-
-        // Count colors, bucketing to reduce noise (quantize to 8 levels per channel)
-        var colorCounts: [UInt32: Int] = [:]
-        for i in stride(from: 0, to: pixelData.count, by: bytesPerPixel) {
-            let r = pixelData[i] / 32
-            let g = pixelData[i + 1] / 32
-            let b = pixelData[i + 2] / 32
-            let key = UInt32(r) << 16 | UInt32(g) << 8 | UInt32(b)
-            colorCounts[key, default: 0] += 1
-        }
-
-        // Find most common color
-        guard let (modeKey, _) = colorCounts.max(by: { $0.value < $1.value }) else { return nil }
-
-        let r = CGFloat((modeKey >> 16) & 0xFF) * 32 / 255.0
-        let g = CGFloat((modeKey >> 8) & 0xFF) * 32 / 255.0
-        let b = CGFloat(modeKey & 0xFF) * 32 / 255.0
-
-        return UIColor(red: r, green: g, blue: b, alpha: 1.0)
-    }
-
     // MARK: Keyboard handling
 
     private func setUpKeyboardNotifications() {
@@ -329,7 +245,7 @@ class WebController: NSObject, LiquidGlassSearchDelegate, StateResettable {
         }
 
         // Return search toolbar to bottom position
-        webContainerView.searchContainerBottomConstraint.constant = -8
+        webContainerView.searchContainerBottomConstraint.constant = 0
 
         UIView.animate(
             withDuration: animationDuration, delay: 0, options: .curveEaseInOut,
@@ -344,27 +260,6 @@ class WebController: NSObject, LiquidGlassSearchDelegate, StateResettable {
 }
 
 extension WebController: WKNavigationDelegate {
-    func webView(_ webView: WKWebView, didCommit navigation: WKNavigation!) {
-        startColorDetectionTimer()
-    }
-
-    func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
-        stopColorDetectionTimer()
-        detectPageBackgroundColor()
-    }
-
-    private func startColorDetectionTimer() {
-        stopColorDetectionTimer()
-        colorDetectionTimer = Timer.scheduledTimer(withTimeInterval: 0.1, repeats: true) { [weak self] _ in
-            self?.detectPageBackgroundColor()
-        }
-    }
-
-    private func stopColorDetectionTimer() {
-        colorDetectionTimer?.invalidate()
-        colorDetectionTimer = nil
-    }
-
     func webView(
         _ webView: WKWebView,
         decidePolicyFor navigationAction: WKNavigationAction,

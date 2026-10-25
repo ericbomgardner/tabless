@@ -30,8 +30,8 @@ class ProgressView: UIView {
             return
         }
 
-        // Reset alpha (could have been fading/faded)
-        alpha = 0.5
+        // Reset alpha to 1 (could have been fading/faded)
+        alpha = 1
 
         if animated {
             if progress < oldValue {
