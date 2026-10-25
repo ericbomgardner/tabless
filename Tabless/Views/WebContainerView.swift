@@ -34,7 +34,7 @@ class WebContainerView: UIView {
 
         // Add Safari-style gradient at top for safe area visibility
         addSubview(safeAreaGradientView)
-        setUpSafeAreaGradient()
+        setupSafeAreaGradient()
 
         addSubview(glassSearchContainer)
 
@@ -86,7 +86,7 @@ class WebContainerView: UIView {
         ])
 
         // Set up display link for smooth progress bar updates during bubble animations
-        setUpDisplayLink()
+        setupDisplayLink()
 
         // Liquid glass search toolbar at bottom
         glassSearchContainer.translatesAutoresizingMaskIntoConstraints = false
@@ -107,7 +107,7 @@ class WebContainerView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
 
-    private func setUpSafeAreaGradient() {
+    private func setupSafeAreaGradient() {
         safeAreaGradientView.translatesAutoresizingMaskIntoConstraints = false
         safeAreaGradientView.isUserInteractionEnabled = false
 
@@ -131,7 +131,7 @@ class WebContainerView: UIView {
         safeAreaGradientView.layer.addSublayer(gradientLayer)
     }
 
-    private func setUpDisplayLink() {
+    private func setupDisplayLink() {
         displayLink = CADisplayLink(target: self, selector: #selector(updateProgressContainer))
         displayLink?.add(to: .main, forMode: .common)
     }

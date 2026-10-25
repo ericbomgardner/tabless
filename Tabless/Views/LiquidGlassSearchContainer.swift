@@ -20,9 +20,9 @@ class LiquidGlassSearchContainer: UIView {
     init() {
         super.init(frame: .zero)
 
-        setUpToolbar()
-        setUpSearchBar()
-        setUpMenuButton()
+        setupToolbar()
+        setupSearchBar()
+        setupMenuButton()
         layoutToolbarItems()
     }
 
@@ -30,7 +30,7 @@ class LiquidGlassSearchContainer: UIView {
         fatalError("init(coder:) has not been implemented")
     }
 
-    private func setUpToolbar() {
+    private func setupToolbar() {
         // UIToolbar automatically provides the frosted glass blur effect
         // Use default style for adaptive material that matches Safari
         toolbar.translatesAutoresizingMaskIntoConstraints = false
@@ -49,7 +49,7 @@ class LiquidGlassSearchContainer: UIView {
         ])
     }
 
-    private func setUpSearchBar() {
+    private func setupSearchBar() {
         // Configure search bar for minimal, modern appearance
         searchBar.placeholder = "Let's go."
         searchBar.returnKeyType = .go
@@ -62,7 +62,7 @@ class LiquidGlassSearchContainer: UIView {
         searchBar.backgroundColor = .clear
     }
 
-    private func setUpMenuButton() {
+    private func setupMenuButton() {
         // Create menu with actions
         let copyURLAction = UIAction(
             title: "Copy URL",
