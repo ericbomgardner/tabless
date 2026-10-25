@@ -18,4 +18,13 @@ extension UserDefaults {
         }
         return SearchEngine.default
     }
+
+    /// Installs from before DuckDuckGo became the default keep Google unless they chose otherwise
+    func pinInitialSearchEngine() {
+        guard string(forKey: preferredSearchEngineKey) == nil else { return }
+        let libraryURL = FileManager.default.urls(for: .libraryDirectory, in: .userDomainMask)[0]
+        let hasUsedWebKit = FileManager.default.fileExists(
+            atPath: libraryURL.appendingPathComponent("WebKit").path)
+        set(hasUsedWebKit ? "google" : "duckDuckGo", forKey: preferredSearchEngineKey)
+    }
 }

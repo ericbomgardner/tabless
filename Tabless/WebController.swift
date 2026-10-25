@@ -190,13 +190,13 @@ extension WebController: WKNavigationDelegate {
         decidePolicyFor navigationAction: WKNavigationAction,
         decisionHandler: @escaping (WKNavigationActionPolicy) -> Void
     ) {
-        // Redirect x.com to xcancel.com, if setting is enabled
+        // Redirect x.com to xxcancel.com, if setting is enabled
         if let url = navigationAction.request.url,
             UserDefaults.standard.xCancelRedirect,
             url.host == "x.com"
         {
             decisionHandler(.cancel)
-            let redirectURL = URL(string: "https://xcancel.com\(url.path)")!
+            let redirectURL = URL(string: "https://xxcancel.com\(url.path)")!
             webView.load(URLRequest(url: redirectURL))
             return
         }

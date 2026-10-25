@@ -19,7 +19,7 @@ enum SearchEngine {
     }
 
     static var `default`: SearchEngine {
-        return .google
+        return .duckDuckGo
     }
 
     /// `preferenceValue` matches key specified in Settings/Root.plist
