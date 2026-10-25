@@ -5,7 +5,7 @@ protocol WebControllerStateResetDelegate {
     func didRequestResetInWebController(_ webController: WebController)
 }
 
-class WebController: NSObject, LiquidGlassSearchDelegate, StateResettable {
+class WebController: NSObject, SearchViewDelegate, StateResettable {
 
     let view = UIView()
 
@@ -35,7 +35,6 @@ class WebController: NSObject, LiquidGlassSearchDelegate, StateResettable {
 
         stateClearer.addStateClearRequest(for: self)
         setUpView()
-        setUpKeyboardNotifications()
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -47,7 +46,7 @@ class WebController: NSObject, LiquidGlassSearchDelegate, StateResettable {
         guard let url = urlBuilder.createURL(query) else {
             return
         }
-        webContainerView.glassSearchContainer.text = query
+        webContainerView.searchView.text = query
 
         webContainerView.setNeedsLayout()
         webContainerView.layoutIfNeeded()
@@ -84,7 +83,7 @@ class WebController: NSObject, LiquidGlassSearchDelegate, StateResettable {
         webContainerView.addGestureRecognizer(forwardSwipeGestureRecognizer)
         webContainerView.webView.navigationDelegate = self
         webContainerView.webView.uiDelegate = self
-        webContainerView.glassSearchContainer.searchDelegate = self
+        webContainerView.searchView.searchDelegate = self
         view.addSubview(webContainerView)
 
         let webContainerViewLeadingConstraint = webContainerView.leadingAnchor.constraint(
@@ -141,7 +140,7 @@ class WebController: NSObject, LiquidGlassSearchDelegate, StateResettable {
         webViewProgressObservationToken = nil
     }
 
-    // MARK: LiquidGlassSearchDelegate
+    // MARK: SearchViewDelegate
 
     func searchSubmitted(_ text: String) {
         loadQuery(text)
@@ -149,18 +148,6 @@ class WebController: NSObject, LiquidGlassSearchDelegate, StateResettable {
 
     func searchCleared() {
         reset()
-    }
-
-    func copyURLRequested() {
-        if let url = webContainerView.webView.url {
-            UIPasteboard.general.string = url.absoluteString
-        }
-    }
-
-    func openInDefaultBrowserRequested() {
-        if let url = webContainerView.webView.url {
-            UIApplication.shared.open(url)
-        }
     }
 
     // MARK: StateResettable
@@ -194,68 +181,6 @@ class WebController: NSObject, LiquidGlassSearchDelegate, StateResettable {
                 in: .userDomainMask)[0]
             try? FileManager.default.removeContents(of: cachesDirectory)
         }
-    }
-
-    // MARK: Keyboard handling
-
-    private func setUpKeyboardNotifications() {
-        NotificationCenter.default.addObserver(
-            self,
-            selector: #selector(keyboardWillShow(notification:)),
-            name: UIResponder.keyboardWillShowNotification,
-            object: nil)
-        NotificationCenter.default.addObserver(
-            self,
-            selector: #selector(keyboardWillHide(notification:)),
-            name: UIResponder.keyboardWillHideNotification,
-            object: nil)
-    }
-
-    @objc private func keyboardWillShow(notification: Notification) {
-        guard let userInfo = notification.userInfo,
-            let keyboardFrame = (userInfo[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?
-                .cgRectValue,
-            let keyboardAnimationDuration =
-                (userInfo[UIResponder.keyboardAnimationDurationUserInfoKey] as? NSNumber)?
-                .doubleValue
-        else {
-            return
-        }
-
-        // Move the search toolbar above the keyboard
-        // Since we're constraining to safeAreaLayoutGuide.bottomAnchor, we need to subtract the safe area inset
-        let keyboardHeight = keyboardFrame.height
-        let safeAreaBottom = view.safeAreaInsets.bottom
-        webContainerView.searchContainerBottomConstraint.constant = -(keyboardHeight - safeAreaBottom + 8)
-
-        UIView.animate(
-            withDuration: keyboardAnimationDuration, delay: 0, options: .curveEaseInOut,
-            animations: {
-                self.webContainerView.layoutIfNeeded()
-            }, completion: nil)
-    }
-
-    @objc private func keyboardWillHide(notification: Notification) {
-        guard let userInfo = notification.userInfo,
-            let animationDuration =
-                (userInfo[UIResponder.keyboardAnimationDurationUserInfoKey] as? NSNumber)?
-                .doubleValue
-        else {
-            return
-        }
-
-        // Return search toolbar to bottom position
-        webContainerView.searchContainerBottomConstraint.constant = 0
-
-        UIView.animate(
-            withDuration: animationDuration, delay: 0, options: .curveEaseInOut,
-            animations: {
-                self.webContainerView.layoutIfNeeded()
-            }, completion: nil)
-    }
-
-    deinit {
-        NotificationCenter.default.removeObserver(self)
     }
 }
 
