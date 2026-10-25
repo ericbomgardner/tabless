@@ -26,8 +26,6 @@ class WebController: NSObject, LiquidGlassSearchDelegate, StateResettable {
 
     private var webViewProgressObservationToken: NSKeyValueObservation?
     private var colorDetectionTimer: Timer?
-    private var lastScrollColorDetectionTime: Date = .distantPast
-    private let scrollColorDetectionInterval: TimeInterval = 0.15
 
     private let stateClearer: StateClearer
 
@@ -87,7 +85,6 @@ class WebController: NSObject, LiquidGlassSearchDelegate, StateResettable {
         webContainerView.addGestureRecognizer(forwardSwipeGestureRecognizer)
         webContainerView.webView.navigationDelegate = self
         webContainerView.webView.uiDelegate = self
-        webContainerView.webView.scrollView.delegate = self
         webContainerView.glassSearchContainer.searchDelegate = self
         view.addSubview(webContainerView)
 
@@ -332,7 +329,7 @@ class WebController: NSObject, LiquidGlassSearchDelegate, StateResettable {
         }
 
         // Return search toolbar to bottom position
-        webContainerView.searchContainerBottomConstraint.constant = WebContainerView.defaultSearchContainerBottomConstraint
+        webContainerView.searchContainerBottomConstraint.constant = -8
 
         UIView.animate(
             withDuration: animationDuration, delay: 0, options: .curveEaseInOut,
@@ -419,15 +416,5 @@ extension WebController: WKUIDelegate {
             webView.load(navigationAction.request)
         }
         return nil
-    }
-}
-
-extension WebController: UIScrollViewDelegate {
-    func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        // Throttle color detection while scrolling to avoid performance issues
-        let now = Date()
-        guard now.timeIntervalSince(lastScrollColorDetectionTime) >= scrollColorDetectionInterval else { return }
-        lastScrollColorDetectionTime = now
-        detectPageBackgroundColor()
     }
 }
