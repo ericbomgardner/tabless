@@ -60,6 +60,14 @@ class ContentBlocker {
         }
     }
 
+    /// Compiled lists are cached by identifier, so tie them to the build that bundled the JSON
+    private static let appVersion: String = {
+        let info = Bundle.main.infoDictionary
+        let version = info?["CFBundleShortVersionString"] as? String ?? ""
+        let build = info?["CFBundleVersion"] as? String ?? ""
+        return "\(version)-\(build)"
+    }()
+
     private enum BlocklistError: Error {
         case blocklistMissing
     }
@@ -91,10 +99,11 @@ class ContentBlocker {
             cachedBlocklistNames = blocklistNames
         }
 
-        for blocklist in blocklistNames {
-            if let existingList = try? await WKContentRuleListStore.default().contentRuleList(
-                forIdentifier: blocklist)
-            {
+        let store = await WKContentRuleListStore.default()!
+        let identifiers = blocklistNames.map { "\($0)-\(Self.appVersion)" }
+
+        for (blocklist, identifier) in zip(blocklistNames, identifiers) {
+            if let existingList = try? await store.contentRuleList(forIdentifier: identifier) {
                 contentRuleLists.append(existingList)
                 continue
             }
@@ -103,14 +112,22 @@ class ContentBlocker {
                 let blocklistPath = blocklistDirectory.appendingPathComponent(blocklist)
                 let blocklistJson = try String(
                     contentsOfFile: blocklistPath.relativePath, encoding: String.Encoding.utf8)
-                let contentRuleList = try await WKContentRuleListStore.default()
-                    .compileContentRuleList(
-                        forIdentifier: blocklist, encodedContentRuleList: blocklistJson)!
+                let contentRuleList = try await store.compileContentRuleList(
+                    forIdentifier: identifier, encodedContentRuleList: blocklistJson)!
                 contentRuleLists.append(contentRuleList)
             } catch {
                 DebugLogger.log("Failed to load blocklist: \(blocklist)")
             }
         }
+
+        // WebKit keeps its own lists in this store, so only touch ones made from our JSON files
+        let staleIdentifiers = Set(await store.availableIdentifiers() ?? [])
+            .filter { $0.contains(".json") }
+            .subtracting(identifiers)
+        for identifier in staleIdentifiers {
+            try? await store.removeContentRuleList(forIdentifier: identifier)
+        }
+
         return contentRuleLists
     }
 }
