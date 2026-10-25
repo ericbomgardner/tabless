@@ -8,6 +8,8 @@ class WebContainerView: UIView {
     let progressView = ProgressView()
     let webView: WKWebView = WebView()
 
+    static let defaultSearchContainerBottomConstraint: CGFloat = -16
+    
     private(set) var searchContainerBottomConstraint: NSLayoutConstraint!
 
     private let safeAreaGradientView = UIView()
@@ -108,7 +110,7 @@ class WebContainerView: UIView {
 
         // Bottom constraint that we can animate with keyboard
         searchContainerBottomConstraint = glassSearchContainer.bottomAnchor.constraint(
-            equalTo: safeAreaLayoutGuide.bottomAnchor, constant: -8
+            equalTo: safeAreaLayoutGuide.bottomAnchor, constant: Self.defaultSearchContainerBottomConstraint
         )
         searchContainerBottomConstraint.isActive = true
     }
