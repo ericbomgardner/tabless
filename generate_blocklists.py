@@ -1,7 +1,9 @@
 import json
 import os
 import re
+import subprocess
 import sys
+import tempfile
 
 def convert_domain_to_regex(domain):
     """Convert domain to regex pattern for WebKit content blocker."""
@@ -85,8 +87,47 @@ def convert_disconnect_to_content_blocker(input_file):
             json.dump(rules, f)
         print(f"Created {output_file} with {len(rules)} rules")
 
+# Element hiding rules with no domain (or only ~excluded domains) apply to every site
+GENERIC_COSMETIC_RULE = re.compile(r'^(~[^#,]+(,~[^#,]+)*)?#[@?$]?#')
+# CSS injection ("site##selector {style}") gets merged into a hiding rule that WebKit then rejects whole
+CSS_INJECTION_RULE = re.compile(r'#[@?$]?#.*\{[^}]*\}\s*$')
+
+def convert_easylist_to_content_blocker(input_file, converter_path):
+    """
+    Convert EasyList to WebKit content blocker format using AdGuard's ConverterTool
+    (https://github.com/AdguardTeam/SafariConverterLib), skipping generic element hiding rules.
+
+    Args:
+        input_file: Path to easylist.txt
+        converter_path: Path to the built ConverterTool binary
+    """
+    with open(input_file, 'r') as f:
+        lines = [
+            line for line in f
+            if not line.startswith('[')
+            and not GENERIC_COSMETIC_RULE.match(line)
+            and not CSS_INJECTION_RULE.search(line)
+        ]
+
+    output_file = "Blocklists/easylist.json"
+    with tempfile.TemporaryDirectory() as temp_dir:
+        filtered_path = os.path.join(temp_dir, "easylist.txt")
+        with open(filtered_path, 'w') as f:
+            f.writelines(lines)
+        subprocess.run([
+            converter_path, "convert",
+            "--safari-version", "15",
+            "--input-path", filtered_path,
+            "--safari-rules-json-path", output_file,
+            "--advanced-blocking-rules-path", os.path.join(temp_dir, "advanced.txt"),
+        ], check=True, stdout=subprocess.DEVNULL)
+
+    with open(output_file, 'r') as f:
+        print(f"Created {output_file} with {len(json.load(f))} rules")
+
 if __name__ == "__main__":
-    if len(sys.argv) != 2:
-        print("Usage: python generate_blocklists.py <input_file>")
+    if len(sys.argv) != 4:
+        print("Usage: python generate_blocklists.py <disconnect_services.json> <easylist.txt> <ConverterTool>")
         sys.exit(1)
     convert_disconnect_to_content_blocker(sys.argv[1])
+    convert_easylist_to_content_blocker(sys.argv[2], sys.argv[3])
