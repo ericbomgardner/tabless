@@ -2,8 +2,7 @@ import UIKit
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
-    var window: UIWindow?
-    private lazy var rootViewController = RootViewController(stateClearer: stateClearer)
+    lazy var rootViewController = RootViewController(stateClearer: stateClearer)
     let stateClearer = StateClearer()
 
     func application(
@@ -11,12 +10,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?
     ) -> Bool {
         UserDefaults.standard.pinInitialSearchEngine()
-
-        let window = UIWindow(frame: UIScreen.main.bounds)
-        window.rootViewController = rootViewController
-        self.window = window
-
-        window.makeKeyAndVisible()
 
         #if DEBUG
         #else
@@ -31,16 +24,43 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
         return true
     }
+}
 
-    func application(
-        _ app: UIApplication,
-        open url: URL,
-        options: [UIApplication.OpenURLOptionsKey: Any] = [:]
-    ) -> Bool {
-        if url.scheme == "http" || url.scheme == "https" {
-            rootViewController.openURL(url)
-            return true
+class SceneDelegate: UIResponder, UIWindowSceneDelegate {
+    var window: UIWindow?
+
+    private var rootViewController: RootViewController {
+        (UIApplication.shared.delegate as! AppDelegate).rootViewController
+    }
+
+    func scene(
+        _ scene: UIScene,
+        willConnectTo session: UISceneSession,
+        options connectionOptions: UIScene.ConnectionOptions
+    ) {
+        guard let windowScene = scene as? UIWindowScene else {
+            return
         }
-        return false
+
+        let window = UIWindow(windowScene: windowScene)
+        window.rootViewController = rootViewController
+        self.window = window
+
+        window.makeKeyAndVisible()
+
+        openURL(from: connectionOptions.urlContexts)
+    }
+
+    func scene(_ scene: UIScene, openURLContexts URLContexts: Set<UIOpenURLContext>) {
+        openURL(from: URLContexts)
+    }
+
+    private func openURL(from urlContexts: Set<UIOpenURLContext>) {
+        guard let url = urlContexts.first?.url,
+            url.scheme == "http" || url.scheme == "https"
+        else {
+            return
+        }
+        rootViewController.openURL(url)
     }
 }
