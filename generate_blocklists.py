@@ -53,7 +53,19 @@ def process_category(entries, category_name):
                             rule["trigger"]["unless-domain"] = [f"*{parent_domain}"]
                         
                         rules.append(rule)
-    
+
+    # Otherwise following a link to a social site (x.com from substack.com) is blocked as a third-party load.
+    # Only Social: in Advertising and the rest, blocking top-frame popups is what stops ad popunders.
+    if category_name == "Social":
+        rules.append({
+            "action": {"type": "ignore-previous-rules"},
+            "trigger": {
+                "url-filter": ".*",
+                "resource-type": ["document", "popup"],
+                "load-context": ["top-frame"]
+            }
+        })
+
     return rules
 
 def convert_disconnect_to_content_blocker(input_file):
